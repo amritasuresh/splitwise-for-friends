@@ -25,7 +25,7 @@ SECRET_KEY = 'ss%h7tpu5=tskx*quy=6m+#x(cccte&yuqn_6s-iv%$d4)8m=g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["accounting-for-friends.herokuapp.com"]
 
 
 # Application definition

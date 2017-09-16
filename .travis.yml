@@ -1,10 +1,17 @@
 language: python
 branches:
-    only:
-        - master
+  only:
+  - master
 python:
-    - 3.6.1
+- 3.6.1
 install:
-    - pip install -r requirements.txt
+- pip install -r requirements.txt
 script:
-    - python3 manage.py test
+- python3 manage.py test
+deploy:
+  provider: heroku
+  api_key:
+    secure: S61alzbibeNMXTq/t5uNVzojuuR+C8VjP9daJ2iVhRLK772zhDV83FoYtWyraVGoGUgX+c8qwuDV8k53WYKcH1DRAq1QiGRKufHzDmGBZBU9cRheNvPDmfopUHRxv43+99Ta1/SA6ycU674NJ4k0OTaXh/H4483BacNtscP3le2C36ZrZD48poORxJP9EBUMjUqZEllDNFFmRO4yWwmpb1G2km899ztx/Hhd/vaMnrA940veAwEaPDwiUax22Fa233hvY1a2J1yV7VnbCPNx3h9nB0J2IMkQFGjFBoZrQTw7ZIQm913WcI0mm5oIlchg/8+GFkN1HFf3G9pSXVZiDxz+bctrQUNMeL6z7bsnI8lUCY6RVMyHG3v5KSSe29n0HyX8h+eE9HZsDlFqskzl/gojFh6+sSN9GhygaToHjHHj1KV/1y4WTjTFGMGCvDudQQeaKAIHBAfrjYORJ8Cu3EBrmicb4bH9ncqCNM0yhDim1Ys9up237TFHgAyAuyqKy+4w/mX2bfpqZH+oFbu194AxkP4ZCeUX7Tdv/QxKcTDsvNPDbW3QFSGvQkKbUMSqM/1yYK7vPqccuAGuxhzuXZzZoCQmYakmov3vbv9PBTMQ9sVW03V3VJPo+l/GDe4IykNrmM25QzBijizsHmiMlLfyt8R9YrX+eajqaCF7PpI=
+  app: accounting-for-friends
+  on:
+    repo: wiedzmac/accounting_for_friends
