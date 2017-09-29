@@ -3,7 +3,8 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "accounting_for_friends.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE",
+                          "accounting_for_friends.settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError:
