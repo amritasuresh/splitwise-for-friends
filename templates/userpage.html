@@ -11,9 +11,9 @@
 		<header class="navbar" id="header-navbar">
 			<div class="container">
 				<a href="index.html" id="logo" class="navbar-brand">
-					<img src="img/logo.png" alt="" class="normal-logo logo-white"/>
-					<img src="img/logo-black.png" alt="" class="normal-logo logo-black"/>
-					<img src="img/logo-small.png" alt="" class="small-logo hidden-xs hidden-sm hidden"/>
+					<img src="{% static 'img/logo.png' %}" alt="" class="normal-logo logo-white"/>
+					<img src="{% static 'img/logo-black.png' %}" alt="" class="normal-logo logo-black"/>
+					<img src="{% static 'img/logo-small.png' %}" alt="" class="small-logo hidden-xs hidden-sm hidden"/>
 				</a>
 
 				<div class="clearfix">
@@ -116,7 +116,7 @@
 								</li>
 								<li class="item first-item">
 									<a href="#">
-										<img src="img/samples/messages-photo-1.png" alt=""/>
+										<img src="{% static 'img/samples/messages-photo-1.png' %}" alt=""/>
 										<span class="content">
 											<span class="content-headline">
 												George Clooney
@@ -131,7 +131,7 @@
 								</li>
 								<li class="item">
 									<a href="#">
-										<img src="img/samples/messages-photo-2.png" alt=""/>
+										<img src="{% static 'img/samples/messages-photo-2.png' %}" alt=""/>
 										<span class="content">
 											<span class="content-headline">
 												Emma Watson
@@ -146,7 +146,7 @@
 								</li>
 								<li class="item">
 									<a href="#">
-										<img src="img/samples/messages-photo-3.png" alt=""/>
+										<img src="{% static 'img/samples/messages-photo-3.png' %}" alt=""/>
 										<span class="content">
 											<span class="content-headline">
 												Robert Downey Jr.
@@ -173,7 +173,7 @@
 						</li>
 						<li class="dropdown profile-dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<img src="img/samples/scarlet-159.png" alt=""/>
+								<img src="{% static 'img/samples/scarlet-159.png' %}" alt=""/>
 								<span class="hidden-xs">Scarlett Johansson</span> <b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
@@ -199,7 +199,7 @@
 					<section id="col-left" class="col-left-nano">
 						<div id="col-left-inner" class="col-left-nano-content">
 							<div id="user-left-box" class="clearfix hidden-sm hidden-xs">
-								<img alt="" src="img/samples/scarlet-159.png" />
+								<img alt="" src="{% static 'img/samples/scarlet-159.png' %}" />
 								<div class="user-box">
 									<span class="name">
 										Welcome<br/>
@@ -620,7 +620,7 @@
 												<i class="fa fa-circle"></i> Online
 											</div>
 
-											<img src="img/samples/scarlet-159.png" alt="" class="profile-img img-responsive center-block" />
+											<img src="{% static 'img/samples/scarlet-159.png' %}" alt="" class="profile-img img-responsive center-block" />
 
 											<div class="profile-label">
 												<span class="label label-danger">Admin</span>
@@ -675,7 +675,7 @@
 														<div class="story">
 															<div class="story-user">
 																<a href="#">
-																	<img src="img/samples/robert-300.jpg" alt=""/>
+																	<img src="{% static 'img/samples/robert-300.jpg' %}" alt=""/>
 																</a>
 															</div>
 
@@ -713,7 +713,7 @@
 														<div class="story">
 															<div class="story-user">
 																<a href="#">
-																	<img src="img/samples/angelina-300.jpg" alt=""/>
+																	<img src="{% static 'img/samples/angelina-300.jpg' %}" alt=""/>
 																</a>
 															</div>
 
@@ -746,7 +746,7 @@
 														<div class="story">
 															<div class="story-user">
 																<a href="#">
-																	<img src="img/samples/ryan-300.jpg" alt=""/>
+																	<img src="{% static 'img/samples/ryan-300.jpg' %}" alt=""/>
 																</a>
 															</div>
 
@@ -765,19 +765,19 @@
 																<div class="story-inner-content">
 																	<div class="story-images clearfix">
 																		<a href="img/samples/tahiti-1.jpg" class="story-image-link">
-																			<img src="img/samples/tahiti-1.jpg" alt="" class="img-responsive"/>
+																			<img src="{% static 'img/samples/tahiti-1.jpg' %}" alt="" class="img-responsive"/>
 																		</a>
 																		<a href="img/samples/tahiti-2.jpg" class="story-image-link story-image-link-small">
-																			<img src="img/samples/tahiti-2.jpg" alt="" class="img-responsive"/>
+																			<img src="{% static 'img/samples/tahiti-2.jpg' %}" alt="" class="img-responsive"/>
 																		</a>
 																		<a href="img/samples/tahiti-3.jpg" class="story-image-link story-image-link-small">
-																			<img src="img/samples/tahiti-3.jpg" alt="" class="img-responsive"/>
+																			<img src="{% static 'img/samples/tahiti-3.jpg' %}" alt="" class="img-responsive"/>
 																		</a>
 																		<a href="img/samples/tahiti-3.jpg" class="story-image-link story-image-link-small">
-																			<img src="img/samples/tahiti-3.jpg" alt="" class="img-responsive"/>
+																			<img src="{% static 'img/samples/tahiti-3.jpg' %}" alt="" class="img-responsive"/>
 																		</a>
 																		<a href="img/samples/tahiti-2.jpg" class="story-image-link story-image-link-small hidden-xs">
-																			<img src="img/samples/tahiti-2.jpg" alt="" class="img-responsive"/>
+																			<img src="{% static 'img/samples/tahiti-2.jpg' %}" alt="" class="img-responsive"/>
 																		</a>
 																	</div>
 																</div>
@@ -901,7 +901,7 @@
 													<ul class="widget-users row">
 														<li class="col-md-6">
 															<div class="img">
-																<img src="img/samples/scarlet.png" alt=""/>
+																<img src="{% static 'img/samples/scarlet.png' %}" alt=""/>
 															</div>
 															<div class="details">
 																<div class="name">
@@ -917,7 +917,7 @@
 														</li>
 														<li class="col-md-6">
 															<div class="img">
-																<img src="img/samples/kunis.png" alt=""/>
+																<img src="{% static 'img/samples/kunis.png' %}" alt=""/>
 															</div>
 															<div class="details">
 																<div class="name">
@@ -933,7 +933,7 @@
 														</li>
 														<li class="col-md-6">
 															<div class="img">
-																<img src="img/samples/ryan.png" alt=""/>
+																<img src="{% static 'img/samples/ryan.png' %}" alt=""/>
 															</div>
 															<div class="details">
 																<div class="name">
@@ -946,7 +946,7 @@
 														</li>
 														<li class="col-md-6">
 															<div class="img">
-																<img src="img/samples/robert.png" alt=""/>
+																<img src="{% static 'img/samples/robert.png' %}" alt=""/>
 															</div>
 															<div class="details">
 																<div class="name">
@@ -959,7 +959,7 @@
 														</li>
 														<li class="col-md-6">
 															<div class="img">
-																<img src="img/samples/emma.png" alt=""/>
+																<img src="{% static 'img/samples/emma.png' %}" alt=""/>
 															</div>
 															<div class="details">
 																<div class="name">
@@ -972,7 +972,7 @@
 														</li>
 														<li class="col-md-6">
 															<div class="img">
-																<img src="img/samples/george.png" alt=""/>
+																<img src="{% static 'img/samples/george.png' %}" alt=""/>
 															</div>
 															<div class="details">
 																<div class="name">
@@ -985,7 +985,7 @@
 														</li>
 														<li class="col-md-6">
 															<div class="img">
-																<img src="img/samples/kunis.png" alt=""/>
+																<img src="{% static 'img/samples/kunis.png' %}" alt=""/>
 															</div>
 															<div class="details">
 																<div class="name">
@@ -1001,7 +1001,7 @@
 														</li>
 														<li class="col-md-6">
 															<div class="img">
-																<img src="img/samples/ryan.png" alt=""/>
+																<img src="{% static 'img/samples/ryan.png' %}" alt=""/>
 															</div>
 															<div class="details">
 																<div class="name">
@@ -1024,7 +1024,7 @@
 
 																<div class="conversation-item item-left clearfix">
 																	<div class="conversation-user">
-																		<img src="img/samples/ryan.png" alt=""/>
+																		<img src="{% static 'img/samples/ryan.png' %}" alt=""/>
 																	</div>
 																	<div class="conversation-body">
 																		<div class="name">
@@ -1041,7 +1041,7 @@
 																</div>
 																<div class="conversation-item item-right clearfix">
 																	<div class="conversation-user">
-																		<img src="img/samples/kunis.png" alt=""/>
+																		<img src="{% static 'img/samples/kunis.png' %}" alt=""/>
 																	</div>
 																	<div class="conversation-body">
 																		<div class="name">
@@ -1059,7 +1059,7 @@
 																</div>
 																<div class="conversation-item item-right clearfix">
 																	<div class="conversation-user">
-																		<img src="img/samples/kunis.png" alt=""/>
+																		<img src="{% static 'img/samples/kunis.png' %}" alt=""/>
 																	</div>
 																	<div class="conversation-body">
 																		<div class="name">
@@ -1077,7 +1077,7 @@
 																</div>
 																<div class="conversation-item item-left clearfix">
 																	<div class="conversation-user">
-																		<img src="img/samples/ryan.png" alt=""/>
+																		<img src="{% static 'img/samples/ryan.png' %}" alt=""/>
 																	</div>
 																	<div class="conversation-body">
 																		<div class="name">
@@ -1094,7 +1094,7 @@
 																</div>
 																<div class="conversation-item item-right clearfix">
 																	<div class="conversation-user">
-																		<img src="img/samples/kunis.png" alt=""/>
+																		<img src="{% static 'img/samples/kunis.png' %}" alt=""/>
 																	</div>
 																	<div class="conversation-body">
 																		<div class="name">
@@ -1235,13 +1235,13 @@
 	</div>
 
 	<!-- this page specific scripts -->
-	<script src="js/jquery.slimscroll.min.js"></script>
+	<script src="{% static 'js/jquery.slimscroll.min.js' %}"></script>
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&sensor=false"></script>
-	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
 
 	<!-- theme scripts -->
-	<script src="js/scripts.js"></script>
-	<script src="js/pace.min.js"></script>
+	<script src="{% static 'js/scripts.js' %}"></script>
+	<script src="{% static 'js/pace.min.js' %}"></script>
 
 	<!-- this page specific inline scripts -->
 	<script type="text/javascript">
@@ -1294,6 +1294,5 @@
 	</script>
 
 </body>
-
 {% endblock %}
 
