@@ -12,12 +12,8 @@
     <link rel="stylesheet" type="text/css"
           href="{% static 'css/bootstrap/bootstrap.min.css' %}"/>
 
-    <!-- RTL support - for demo only -->
-    <script src="{% static 'js/demo-rtl.js' %}"></script>
-    <!--
-    If you need RTL support just include here RTL CSS file <link rel="stylesheet" type="text/css" href="css/libs/bootstrap-rtl.min.css" />
-    And add "rtl" class to <body> element - e.g. <body class="rtl">
-    -->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'css/libs/bootstrap-rtl.min.css' %}"/>
 
     <!-- libraries -->
     <link rel="stylesheet" type="text/css"
@@ -47,7 +43,7 @@
 </head>
 
 
-<body>
+<body class="rtl">
 
 {% block content %}{% endblock content %}
 
