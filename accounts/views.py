@@ -7,7 +7,10 @@ from .forms import UserRegistrationForm
 
 
 def home(request):
-    return render(request, 'home.html')
+    if request.user.is_authenticated():
+        return render(request, 'userpage.html')
+    else:
+        return render(request, 'login.html')
 
 
 def register(request):
