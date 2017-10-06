@@ -8,9 +8,9 @@ from .forms import UserRegistrationForm
 
 def home(request):
     if request.user.is_authenticated():
-        return render(request, 'userpage.html')
+        return render(request, 'sites/userpage.html')
     else:
-        return render(request, 'login.html')
+        return render(request, 'sites/login.html')
 
 
 def register(request):
@@ -39,4 +39,4 @@ def register(request):
     else:
         form = UserRegistrationForm()
 
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'sites/register.html', {'form': form})
