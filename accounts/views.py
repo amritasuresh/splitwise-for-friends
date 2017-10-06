@@ -10,7 +10,7 @@ def home(request):
     if request.user.is_authenticated():
         return render(request, 'sites/userpage.html')
     else:
-        return render(request, 'sites/login.html')
+        return HttpResponseRedirect('/login')
 
 
 def register(request):
