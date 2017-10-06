@@ -40,3 +40,8 @@ def register(request):
         form = UserRegistrationForm()
 
     return render(request, 'sites/register.html', {'form': form})
+
+
+def forgot_password(request):
+    # TODO FORGOT PASSWORD PAGE
+    return render(request, 'sites/forgotpassword.html')
