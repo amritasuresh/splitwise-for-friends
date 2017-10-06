@@ -14,9 +14,6 @@
     <link rel="stylesheet" type="text/css"
           href="{% static 'css/bootstrap/bootstrap.min.css' %}"/>
 
-    <link rel="stylesheet" type="text/css"
-          href="{% static 'css/libs/bootstrap-rtl.min.css' %}"/>
-
     <!-- libraries -->
     <link rel="stylesheet" type="text/css"
           href="{% static 'css/libs/font-awesome.css' %}"/>
@@ -45,27 +42,18 @@
 </head>
 
 
-<body class="rtl">
+<body>
 
 {% block content %}{% endblock content %}
 
 <!-- global scripts -->
-<script src="{% static 'js/demo-skin-changer.js' %}"></script>
-<!-- only for demo -->
 
 <script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/bootstrap.js' %}"></script>
 <script src="{% static 'js/jquery.nanoscroller.min.js' %}"></script>
 
-<script src="{% static 'js/demo.js' %}"></script> <!-- only for demo -->
-
-<!-- this page specific scripts -->
-
-
 <!-- theme scripts -->
 <script src="{% static 'js/scripts.js' %}"></script>
-
-<!-- this page specific inline scripts -->
 
 </body>
 </html>
