@@ -1,118 +1,93 @@
-{% extends "bases/base_project.html" %}
+{% extends "bases/base_login_register_forgotpassword.html" %}
 {% load static %}
 
 {% block title %}
     Login Page
 {% endblock %}
 
-{% block content %}
-    <div id="login-full-wrapper">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-xs-12">
-                    <div id="login-box">
-                        <div id="login-box-holder">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <header id="login-header">
-                                        <div id="login-logo">
-                                            <img src="{% static '/img/logo.png' %}"
-                                                 alt=""/>
-                                        </div>
-                                    </header>
-                                    <div id="login-box-inner">
-
-                                        <form action="#" class="account_form"
-                                              method="POST">
-                                            {% csrf_token %}
-                                            <div class="input-group">
+{% block login_block_inner %}
+    <div id="login-box-inner">
+        <form action="#" class="account_form"
+              method="POST">
+            {% csrf_token %}
+            <div class="input-group">
                                                 <span class="input-group-addon"><i
                                                         class="fa fa-user"></i></span>
-                                                <input class="form-control"
-                                                       type="text"
-                                                       placeholder="Username"
-                                                       name="username">
-                                            </div>
-                                            <div class="input-group">
+                <input class="form-control"
+                       type="text"
+                       placeholder="Username"
+                       name="username">
+            </div>
+            <div class="input-group">
                                                 <span class="input-group-addon"><i
                                                         class="fa fa-key"></i></span>
-                                                <input type="password"
-                                                       class="form-control"
-                                                       placeholder="Password"
-                                                       name="password">
-                                            </div>
-                                            <div id="remember-me-wrapper">
-                                                <div class="row">
-                                                    <div class="col-xs-6">
-                                                        <div class="checkbox-nice">
-                                                            <input type="checkbox"
-                                                                   id="remember-me"
-                                                                   checked="checked"/>
-                                                            <label for="remember-me">
-                                                                Remember me
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <a href="forgot-password-full.html"
-                                                       id="login-forget-link"
-                                                       class="col-xs-6">
-                                                        Forgot password?
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-12">
-                                                    <button type="submit"
-                                                            class="btn btn-success col-xs-12">
-                                                        Login
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-12">
-                                                    <p class="social-text">Or
-                                                        login with</p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-6">
-                                                    <button type="submit"
-                                                            class="btn btn-primary col-xs-12 btn-facebook">
-                                                        <i class="fa fa-facebook"></i>
-                                                        facebook
-                                                    </button>
-                                                </div>
-                                                <div class="col-xs-12 col-sm-6">
-                                                    <button type="submit"
-                                                            class="btn btn-primary col-xs-12 btn-twitter">
-                                                        <i class="fa fa-twitter"></i>
-                                                        Twitter
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="login-box-footer">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    Do not have an account?
-                                    <a href="/register">
-                                        Register now
-                                    </a>
-                                </div>
-                            </div>
+                <input type="password"
+                       class="form-control"
+                       placeholder="Password"
+                       name="password">
+            </div>
+            <div id="remember-me-wrapper">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="checkbox-nice">
+                            <input type="checkbox"
+                                   id="remember-me"
+                                   checked="checked"/>
+                            <label for="remember-me">
+                                Remember me
+                            </label>
                         </div>
                     </div>
+                    <a href="forgot-password-full.html"
+                       id="login-forget-link"
+                       class="col-xs-6">
+                        Forgot password?
+                    </a>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <button type="submit"
+                            class="btn btn-success col-xs-12">
+                        Login
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <p class="social-text">Or
+                        login with</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <button type="submit"
+                            class="btn btn-primary col-xs-12 btn-facebook">
+                        <i class="fa fa-facebook"></i>
+                        facebook
+                    </button>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <button type="submit"
+                            class="btn btn-primary col-xs-12 btn-twitter">
+                        <i class="fa fa-twitter"></i>
+                        Twitter
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div id="login-box-footer">
+        <div class="row">
+            <div class="col-xs-12">
+                Do not have an account?
+                <a href="/register">
+                    Register now
+                </a>
             </div>
         </div>
     </div>
 {% endblock %}
-
