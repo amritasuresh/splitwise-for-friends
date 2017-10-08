@@ -27,6 +27,10 @@ To run it:
         
 The link where the application is deployed is http://accounting-for-friends.herokuapp.com/
 
+## Documentation
+
+        pydoc -b
+
 ## Running the tests
 
 We are using the Django test library (**unittest** module) for testing.
