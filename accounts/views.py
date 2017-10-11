@@ -8,7 +8,7 @@ from .forms import UserRegistrationForm
 
 def home(request):
     if request.user.is_authenticated():
-        return render(request, 'sites/userpage.html')
+        return profile_page(request)
     else:
         return HttpResponseRedirect('/login')
 
@@ -45,3 +45,11 @@ def register(request):
 def forgot_password(request):
     # TODO FORGOT PASSWORD PAGE
     return render(request, 'sites/forgotpassword.html')
+
+
+def users(request):
+    return render(request, 'sites/users.html')
+
+
+def profile_page(request):
+    return render(request, 'sites/profilepage.html')
