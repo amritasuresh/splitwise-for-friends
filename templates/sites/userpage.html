@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    User Page
+    My profile
 {% endblock %}
 
 {% block mainpage_content %}
@@ -15,7 +15,7 @@
 									<ol class="breadcrumb">
 										<li><a href="#">Home</a></li>
 										<li><a href="#">Users</a></li>
-										<li class="active"><span>User Profile</span></li>
+										<li class="active"><span>My profile</span></li>
 									</ol>
 
 									<h1>User Profile</h1>
@@ -23,6 +23,9 @@
 							</div>
 
 							<div class="row" id="user-profile">
+
+{#                                Left hand side of profile page #}
+
 								<div class="col-lg-3 col-md-4 col-sm-4">
 									<div class="main-box clearfix">
 										<header class="main-box-header clearfix">
@@ -56,7 +59,6 @@
 											<div class="profile-details">
 												<ul class="fa-ul">
 													<li><i class="fa-li fa fa-truck"></i>Orders: <span>456</span></li>
-													<li><i class="fa-li fa fa-comment"></i>Posts: <span>828</span></li>
 													<li><i class="fa-li fa fa-tasks"></i>Tasks done: <span>1024</span></li>
 												</ul>
 											</div>
@@ -72,144 +74,22 @@
 									</div>
 								</div>
 
+{#                                Right hand side of profile page #}
+
+
 								<div class="col-lg-9 col-md-8 col-sm-8">
 									<div class="main-box clearfix">
 										<div class="tabs-wrapper profile-tabs">
 											<ul class="nav nav-tabs">
-												<li class="active"><a href="#tab-newsfeed" data-toggle="tab">Newsfeed</a></li>
-												<li><a href="#tab-activity" data-toggle="tab">Activity</a></li>
+												<li class="active"><a href="#tab-activity" data-toggle="tab">Activity</a></li>
 												<li><a href="#tab-friends" data-toggle="tab">Friends</a></li>
-												<li><a href="#tab-chat" data-toggle="tab">Chat</a></li>
 											</ul>
 
 											<div class="tab-content">
-												<div class="tab-pane fade in active" id="tab-newsfeed">
 
-													<div id="newsfeed">
-														<div class="story">
-															<div class="story-user">
-																<a href="#">
-																	<img src="{% static 'img/samples/robert-300.jpg' %}" alt=""/>
-																</a>
-															</div>
+{#                                                ACTIVITY #}
 
-															<div class="story-content">
-																<header class="story-header">
-																	<div class="story-author">
-																		<a href="#" class="story-author-link">
-																			Robert Downey Jr.
-																		</a>
-																		posted a status update
-																	</div>
-																	<div class="story-time">
-																		<i class="fa fa-clock-o"></i> just now
-																	</div>
-																</header>
-																<div class="story-inner-content">
-																	Now that we know who you are, I know who I am. I'm not a mistake!
-																	It all makes sense! In a comic, you know how you can tell who the
-																	arch-villain's going to be? He's the exact opposite of the hero.
-																	And most times they're friends, like you and me! I should've known
-																	way back when... You know why, David? Because of the kids.
-																	They called me Mr Glass.
-																</div>
-																<footer class="story-footer">
-																	<a href="#" class="story-comments-link">
-																		<i class="fa fa-comment fa-lg"></i> 8320 Comments
-																	</a>
-																	<a href="#" class="story-likes-link">
-																		<i class="fa fa-heart fa-lg"></i> 82k Likes
-																	</a>
-																</footer>
-															</div>
-														</div>
-
-														<div class="story">
-															<div class="story-user">
-																<a href="#">
-																	<img src="{% static 'img/samples/angelina-300.jpg' %}" alt=""/>
-																</a>
-															</div>
-
-															<div class="story-content">
-																<header class="story-header">
-																	<div class="story-author">
-																		<a href="#" class="story-author-link">
-																			Angelina Jolie
-																		</a>
-																		checked in at <a href="#">Place du Casino</a>
-																	</div>
-																	<div class="story-time">
-																		<i class="fa fa-clock-o"></i> 3 Minutes ago
-																	</div>
-																</header>
-																<div class="story-inner-content">
-																	<div id="map-apple" class="map-content"></div>
-																</div>
-																<footer class="story-footer">
-																	<a href="#" class="story-comments-link">
-																		<i class="fa fa-comment fa-lg"></i> 23k Comments
-																	</a>
-																	<a href="#" class="story-likes-link">
-																		<i class="fa fa-heart fa-lg"></i> 159k Likes
-																	</a>
-																</footer>
-															</div>
-														</div>
-
-														<div class="story">
-															<div class="story-user">
-																<a href="#">
-																	<img src="{% static 'img/samples/ryan-300.jpg' %}" alt=""/>
-																</a>
-															</div>
-
-															<div class="story-content">
-																<header class="story-header">
-																	<div class="story-author">
-																		<a href="#" class="story-author-link">
-																			Ryan Gossling
-																		</a>
-																		uploaded 5 new photos to album <a href="#">Bora Bora</a>
-																	</div>
-																	<div class="story-time">
-																		<i class="fa fa-clock-o"></i> 8 Hours ago
-																	</div>
-																</header>
-																<div class="story-inner-content">
-																	<div class="story-images clearfix">
-																		<a href="img/samples/tahiti-1.jpg" class="story-image-link">
-																			<img src="{% static 'img/samples/tahiti-1.jpg' %}" alt="" class="img-responsive"/>
-																		</a>
-																		<a href="img/samples/tahiti-2.jpg" class="story-image-link story-image-link-small">
-																			<img src="{% static 'img/samples/tahiti-2.jpg' %}" alt="" class="img-responsive"/>
-																		</a>
-																		<a href="img/samples/tahiti-3.jpg" class="story-image-link story-image-link-small">
-																			<img src="{% static 'img/samples/tahiti-3.jpg' %}" alt="" class="img-responsive"/>
-																		</a>
-																		<a href="img/samples/tahiti-3.jpg" class="story-image-link story-image-link-small">
-																			<img src="{% static 'img/samples/tahiti-3.jpg' %}" alt="" class="img-responsive"/>
-																		</a>
-																		<a href="img/samples/tahiti-2.jpg" class="story-image-link story-image-link-small hidden-xs">
-																			<img src="{% static 'img/samples/tahiti-2.jpg' %}" alt="" class="img-responsive"/>
-																		</a>
-																	</div>
-																</div>
-																<footer class="story-footer">
-																	<a href="#" class="story-comments-link">
-																		<i class="fa fa-comment fa-lg"></i> 46 Comments
-																	</a>
-																	<a href="#" class="story-likes-link">
-																		<i class="fa fa-heart fa-lg"></i> 823 Likes
-																	</a>
-																</footer>
-															</div>
-														</div>
-													</div>
-
-												</div>
-
-												<div class="tab-pane fade" id="tab-activity">
+												<div class="tab-pane fade in active" id="tab-activity">
 
 													<div class="table-responsive">
 														<table class="table">
@@ -310,6 +190,8 @@
 													</div>
 
 												</div>
+
+{#                                                FRIENDS #}
 
 												<div class="tab-pane clearfix fade" id="tab-friends">
 													<ul class="widget-users row">
@@ -431,115 +313,6 @@
 													<a href="#" class="btn btn-success pull-right">View all users</a>
 												</div>
 
-												<div class="tab-pane fade" id="tab-chat">
-													<div class="conversation-wrapper">
-														<div class="conversation-content">
-															<div class="conversation-inner">
-
-																<div class="conversation-item item-left clearfix">
-																	<div class="conversation-user">
-																		<img src="{% static 'img/samples/ryan.png' %}" alt=""/>
-																	</div>
-																	<div class="conversation-body">
-																		<div class="name">
-																			Ryan Gossling
-																		</div>
-																		<div class="time hidden-xs">
-																			September 21, 2013 18:28
-																		</div>
-																		<div class="text">
-																			I don't think they tried to market it to the billionaire, spelunking,
-																			base-jumping crowd.
-																		</div>
-																	</div>
-																</div>
-																<div class="conversation-item item-right clearfix">
-																	<div class="conversation-user">
-																		<img src="{% static 'img/samples/kunis.png' %}" alt=""/>
-																	</div>
-																	<div class="conversation-body">
-																		<div class="name">
-																			Mila Kunis
-																		</div>
-																		<div class="time hidden-xs">
-																			September 21, 2013 12:45
-																		</div>
-																		<div class="text">
-																			Normally, both your asses would be dead as fucking fried chicken, but you
-																			happen to pull this shit while I'm in a transitional period so I don't wanna
-																			kill you, I wanna help you.
-																		</div>
-																	</div>
-																</div>
-																<div class="conversation-item item-right clearfix">
-																	<div class="conversation-user">
-																		<img src="{% static 'img/samples/kunis.png' %}" alt=""/>
-																	</div>
-																	<div class="conversation-body">
-																		<div class="name">
-																			Mila Kunis
-																		</div>
-																		<div class="time hidden-xs">
-																			September 21, 2013 12:45
-																		</div>
-																		<div class="text">
-																			Normally, both your asses would be dead as fucking fried chicken, but you
-																			happen to pull this shit while I'm in a transitional period so I don't wanna
-																			kill you, I wanna help you.
-																		</div>
-																	</div>
-																</div>
-																<div class="conversation-item item-left clearfix">
-																	<div class="conversation-user">
-																		<img src="{% static 'img/samples/ryan.png' %}" alt=""/>
-																	</div>
-																	<div class="conversation-body">
-																		<div class="name">
-																			Ryan Gossling
-																		</div>
-																		<div class="time hidden-xs">
-																			September 21, 2013 18:28
-																		</div>
-																		<div class="text">
-																			I don't think they tried to market it to the billionaire, spelunking,
-																			base-jumping crowd.
-																		</div>
-																	</div>
-																</div>
-																<div class="conversation-item item-right clearfix">
-																	<div class="conversation-user">
-																		<img src="{% static 'img/samples/kunis.png' %}" alt=""/>
-																	</div>
-																	<div class="conversation-body">
-																		<div class="name">
-																			Mila Kunis
-																		</div>
-																		<div class="time hidden-xs">
-																			September 21, 2013 12:45
-																		</div>
-																		<div class="text">
-																			Normally, both your asses would be dead as fucking fried chicken, but you
-																			happen to pull this shit while I'm in a transitional period so I don't wanna
-																			kill you, I wanna help you.
-																		</div>
-																	</div>
-																</div>
-
-															</div>
-														</div>
-														<div class="conversation-new-message">
-															<form>
-																<div class="form-group">
-																	<textarea class="form-control" rows="2" placeholder="Enter your message..."></textarea>
-																</div>
-
-																<div class="clearfix">
-																	<button type="submit" class="btn btn-success pull-right">Send message</button>
-																</div>
-															</form>
-														</div>
-													</div>
-												</div>
 											</div>
 										</div>
 
