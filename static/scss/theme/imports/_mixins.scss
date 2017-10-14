@@ -1,63 +1,60 @@
-// MIXINS
-@mixin border-radius($radius) {
-	border-radius: $radius;
-	background-clip: padding-box; /* stops bg color from leaking outside the border: */
+// Mixins
+// --------------------------
+
+@mixin fa-icon() {
+  display: inline-block;
+  font: normal normal normal #{$fa-font-size-base}/#{$fa-line-height-base} FontAwesome; // shortening font declaration
+  font-size: inherit; // can't have font-size inherit on line above, so need to override
+  text-rendering: auto; // optimizelegibility throws things off #1094
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
 }
 
-@mixin box-sizing($box-model) {
-	box-sizing: $box-model;
+@mixin fa-icon-rotate($degrees, $rotation) {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=#{$rotation})";
+  -webkit-transform: rotate($degrees);
+      -ms-transform: rotate($degrees);
+          transform: rotate($degrees);
 }
 
-@mixin abs-pos ($top: auto, $right: auto, $bottom: auto, $left: auto) {
-	top: $top;
-	right: $right;
-	bottom: $bottom;
-	left: $left;
-	position: absolute;
+@mixin fa-icon-flip($horiz, $vert, $rotation) {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=#{$rotation}, mirror=1)";
+  -webkit-transform: scale($horiz, $vert);
+      -ms-transform: scale($horiz, $vert);
+          transform: scale($horiz, $vert);
 }
 
-@mixin font-size($size: 12, $base: 16) {
-	font-size: $size + px;
-	font-size: ($size / $base) * 1rem;
+
+// Only display content to screen readers. A la Bootstrap 4.
+//
+// See: http://a11yproject.com/posts/how-to-hide-content/
+
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
 }
 
-@mixin keyframes($animation-name) {
-	@-webkit-keyframes #{$animation-name} {
-		@content;
-	}
-	@-moz-keyframes #{$animation-name} {
-		@content;
-	}  
-	@-ms-keyframes #{$animation-name} {
-		@content;
-	}
-	@-o-keyframes #{$animation-name} {
-		@content;
-	}  
-	@keyframes #{$animation-name} {
-		@content;
-	}
-}
+// Use in conjunction with .sr-only to only display content when it's focused.
+//
+// Useful for "Skip to main content" links; see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/G1
+//
+// Credit: HTML5 Boilerplate
 
-@mixin animation($str) {
-	-webkit-animation: #{$str};
-	-moz-animation: #{$str};
-	-ms-animation: #{$str};
-	-o-animation: #{$str};
-	animation: #{$str};      
-}
-
-@mixin transition($args...) {
-	transition: $args;
-}
-
-@mixin opacity($opacity) {
-	opacity: $opacity;
-}
-
-// PLACEHOLDERS
-%text-truncate {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+@mixin sr-only-focusable {
+  &:active,
+  &:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+  }
 }

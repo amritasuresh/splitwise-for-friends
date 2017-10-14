@@ -1,0 +1,246 @@
+{#A django base template for the homepage #}
+
+{% extends "bases/base_project.html" %}
+{% load static %}
+
+{% block title %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+    <div id="theme-wrapper">
+        <header class="navbar" id="header-navbar">
+            <div class="container">
+                <a href="index.html" id="logo" class="navbar-brand">
+                    <img src="{% static 'img/logo.png' %}" alt=""
+                         class="normal-logo logo-white"/>
+                    <img src="{% static 'img/logo-black.png' %}" alt=""
+                         class="normal-logo logo-black"/>
+                    <img src="{% static 'img/logo-small.png' %}" alt=""
+                         class="small-logo hidden-xs hidden-sm hidden"/>
+                </a>
+
+                <div class="clearfix">
+                    <button class="navbar-toggle"
+                            data-target=".navbar-ex1-collapse"
+                            data-toggle="collapse" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="fa fa-bars"></span>
+                    </button>
+
+                    <div class="nav-no-collapse navbar-left pull-left hidden-sm hidden-xs">
+                        <ul class="nav navbar-nav pull-left">
+                            <li>
+                                <a class="btn" id="make-small-nav">
+                                    <i class="fa fa-bars"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="nav-no-collapse pull-right" id="header-nav">
+                        <ul class="nav navbar-nav pull-right">
+
+                            {#                            Search bar #}
+
+                            <li class="mobile-search">
+                                <a class="btn">
+                                    <i class="fa fa-search"></i>
+                                </a>
+
+                                <div class="drowdown-search">
+                                    <form role="search">
+                                        <div class="form-group">
+                                            <input type="text"
+                                                   class="form-control"
+                                                   placeholder="Search...">
+                                            <i class="fa fa-search nav-search-icon"></i>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </li>
+
+                            {#                            Notifications #}
+
+                            <li class="dropdown hidden-xs">
+                                <a class="btn dropdown-toggle"
+                                   data-toggle="dropdown">
+                                    <i class="fa fa-warning"></i>
+                                    <span class="count">1</span>
+                                </a>
+                                <ul class="dropdown-menu notifications-list">
+                                    <li class="pointer">
+                                        <div class="pointer-inner">
+                                            <div class="arrow"></div>
+                                        </div>
+                                    </li>
+                                    <li class="item-header">You have 1 new
+                                        notification
+                                    </li>
+                                    <li class="item">
+                                        <a href="#">
+                                            <i class="fa fa-comment"></i>
+                                            <span class="content">Example notification</span>
+                                            <span class="time"><i
+                                                    class="fa fa-clock-o"></i>1 min.</span>
+                                        </a>
+                                    </li>
+                                    <li class="item-footer">
+                                        <a href="#">
+                                            View all notifications
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            {#                            User bar #}
+
+                            <li class="dropdown profile-dropdown">
+                                <a href="#" class="dropdown-toggle"
+                                   data-toggle="dropdown">
+                                    <img src="{% static 'img/samples/scarlet-159.png' %}"
+                                         alt=""/>
+                                    <span class="hidden-xs">Scarlett Johansson</span>
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/profilepage"><i
+                                            class="fa fa-user"></i>Profile</a>
+                                    </li>
+                                    <li><a href="#"><i class="fa fa-cog"></i>Settings</a>
+                                    </li>
+                                    <li><a href="/logout"><i
+                                            class="fa fa-power-off"></i>Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            {#                            Power button #}
+
+                            <li class="hidden-xxs">
+                                <a class="btn">
+                                    <i class="fa fa-power-off"></i>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="page-wrapper" class="container">
+            <div class="row">
+
+                <div id="nav-col">
+                    <section id="col-left" class="col-left-nano">
+                        <div id="col-left-inner" class="col-left-nano-content">
+                            <div id="user-left-box"
+                                 class="clearfix hidden-sm hidden-xs">
+                                <img alt=""
+                                     src="{% static 'img/samples/scarlet-159.png' %}"/>
+                                <div class="user-box">
+									<span class="name">
+										Welcome<br/>
+										Scarlett
+									</span>
+                                    <span class="status">
+										<i class="fa fa-circle"></i> Online
+									</span>
+                                </div>
+                            </div>
+                            <div class="collapse navbar-collapse navbar-ex1-collapse"
+                                 id="sidebar-nav">
+
+                                <ul class="nav nav-pills nav-stacked">
+
+                                    {#                                    Home page #}
+
+                                    <li>
+                                        <a href="/">
+                                            <i class="fa fa-home"></i>
+                                            <span>Home</span>
+                                            <span class="label label-info label-circle pull-right">28</span>
+                                        </a>
+                                    </li>
+
+                                    {#                                    Users #}
+
+                                    <li>
+                                        <a href="#" class="dropdown-toggle">
+                                            <i class="fa fa-user"></i>
+                                            <span>Users</span>
+                                            <i class="fa fa-chevron-circle-right drop-icon"></i>
+                                        </a>
+                                        <ul class="submenu">
+                                            <li>
+                                                <a href="/profilepage">
+                                                    My profile
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/users">
+                                                    All users
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    {#                                    Groups #}
+
+                                    <li>
+                                        <a href="#" class="dropdown-toggle">
+                                            <i class="fa fa-users"></i>
+                                            <span>Groups</span>
+                                            <i class="fa fa-chevron-circle-right drop-icon"></i>
+                                        </a>
+                                        <ul class="submenu">
+                                            <li>
+                                                <a href="form-elements.html">
+                                                    My groups
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="form-elements.html">
+                                                    All groups
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    {#                                    My expenses #}
+
+                                    <li>
+                                        <a href="index.html">
+                                            <i class="fa fa-credit-card"></i>
+                                            <span>My Expenses</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                {% block mainpage_content %}
+                {% endblock %}
+
+            </div>
+        </div>
+    </div>
+
+    <!-- this page specific scripts -->
+    <script src="{% static 'js/jquery.slimscroll.min.js' %}"></script>
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&sensor=false"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+
+    <!-- theme scripts -->
+    <script src="{% static 'js/scripts.js' %}"></script>
+    <script src="{% static 'js/pace.min.js' %}"></script>
+{% endblock %}
