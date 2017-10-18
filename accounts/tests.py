@@ -3,12 +3,11 @@ from django.test import TestCase, RequestFactory
 from accounts.views import home
 
 
-class SimpleTest(TestCase):
+class AccessToPagesTest(TestCase):
     def setUp(self):
-        # Every test needs access to the request factory.
         self.factory = RequestFactory()
         self.user = User.objects.create_user(
-            username='jacob', email='jacob@gmail.com', password='top_secret')
+            username='xyz', email='myemail@gmail.com', password='top_secret')
 
     def test_access_to_home_page(self):
         request = self.factory.get('/')
