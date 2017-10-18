@@ -26,6 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["accounting-for-friends.herokuapp.com", "127.0.0.1"]
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
 

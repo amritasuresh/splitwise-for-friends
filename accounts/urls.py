@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^users/', users),
     url(r'^profilepage/', profile_page),
     url(r'^login/$', auth_views.login, {'template_name': 'sites/login.html'}),
-    url(r'^logout/$', auth_views.logout, {'template_name': 'sites/logout.html'})
+    url(r'^logout/$', auth_views.logout)
 ]
