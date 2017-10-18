@@ -101,8 +101,15 @@
                             <li class="dropdown profile-dropdown">
                                 <a href="#" class="dropdown-toggle"
                                    data-toggle="dropdown">
-                                    <img src="{% static 'img/samples/scarlet-159.png' %}"
-                                         alt=""/>
+
+                                    {% if user.small_avatar == None %}
+                                        <img src="{% static 'img/small_anonymous_user.png' %}"
+                                             alt=""/>
+                                    {% else %}
+                                        <img src="{{ user.small_avatar }}"/>
+                                    {% endif %}
+
+
                                     <span class="hidden-xs">{{ user.first_name }}</span>
                                     <b class="caret"></b>
                                 </a>
@@ -140,8 +147,14 @@
                         <div id="col-left-inner" class="col-left-nano-content">
                             <div id="user-left-box"
                                  class="clearfix hidden-sm hidden-xs">
-                                <img alt=""
-                                     src="{% static 'img/samples/scarlet-159.png' %}"/>
+
+                                {% if user.medium_avatar == None %}
+                                    <img alt=""
+                                         src="{% static 'img/medium_anonymous_user.png' %}"/>
+                                {% else %}
+                                    <img src="{{ user.medium_avatar }}"/>
+                                {% endif %}
+
                                 <div class="user-box">
 									<span class="name">
 										Welcome<br/>
@@ -233,12 +246,6 @@
             </div>
         </div>
     </div>
-
-    <!-- this page specific scripts -->
-    <script src="{% static 'js/jquery.slimscroll.min.js' %}"></script>
-    <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&sensor=false"></script>
-    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
 
     <!-- theme scripts -->
     <script src="{% static 'js/scripts.js' %}"></script>

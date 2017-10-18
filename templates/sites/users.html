@@ -51,12 +51,12 @@
                                         {% for user in users %}
                                         <tr>
                                             <td>
-                                                <img src="{% static 'img/samples/george.png' %}"
+                                                <img src="{% static 'img/small_anonymous_user.png' %}"
                                                      alt=""/>
                                                 <a href="#" class="user-link">
                                                     {{ user.first_name }} {{ user.last_name }}
                                                 </a>
-                                                <span class="user-subhead">Member</span>
+                                                <span class="user-subhead">{{ user.username }}</span>
                                             </td>
                                             <td>
                                                 {{ user.last_login }}
