@@ -20,6 +20,8 @@ def register(request):
         if form.is_valid():
             user_data = form.cleaned_data
             username = user_data['username']
+            first_name = user_data['first_name']
+            last_name = user_data['last_name']
             email = user_data['email']
             password = user_data['password']
             user_exists = User.objects.filter(username=username).exists()
@@ -28,10 +30,13 @@ def register(request):
             if user_exists or email_exists:
                 # TODO: Generate some error message and redict to error page
                 raise forms.ValidationError(
-                    'Looks like a username with that email '
+                    'Looks like a username with that email ' +
                     'or password already exists')
             else:
-                User.objects.create_user(username, email, password)
+                User.objects.create_user(username=username, email=email,
+                                         password=password,
+                                         first_name=first_name,
+                                         last_name=last_name)
                 user = authenticate(username=username, password=password)
                 login(request, user)
                 # TODO: Sending emails with registration data
@@ -50,7 +55,8 @@ def forgot_password(request):
 
 @login_required(login_url='/login')
 def users(request):
-    return render(request, 'sites/users.html')
+    all_users = User.objects.all()
+    return render(request, 'sites/users.html', {'users': all_users})
 
 
 @login_required(login_url='/login')
