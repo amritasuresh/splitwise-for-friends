@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -47,9 +48,11 @@ def forgot_password(request):
     return render(request, 'sites/forgotpassword.html')
 
 
+@login_required(login_url='/login')
 def users(request):
     return render(request, 'sites/users.html')
 
 
+@login_required(login_url='/login')
 def profile_page(request):
     return render(request, 'sites/profilepage.html')
