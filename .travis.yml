@@ -2,12 +2,17 @@ language: python
 branches:
   only:
   - master
+addons: # get google-chrome-stable
+  chrome: stable
 python:
 - 3.6.1
 install:
-- pip install -r requirements.txt
+  - pip install -r requirements.txt
+# Install ChromeDriver
+  - sudo apt-get install chromium-chromedriver
+  - sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
 script:
-- python3 manage.py test
+  - python3 manage.py test
 deploy:
   provider: heroku
   api_key:
