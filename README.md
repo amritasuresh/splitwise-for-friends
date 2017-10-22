@@ -59,4 +59,5 @@ amritasuresh
 * Herokku: https://accounting-for-friends.herokuapp.com
 * Trello: https://trello.com/b/OhDgwqto/accounting-for-friends
 * Travis: https://travis-ci.com/
+* WWW Template: https://www.dropbox.com/s/yydsz16oowdjf0n/WB0CX3745.zip?dl=0
 * Course webiste: http://www.lsv.fr/~baelde/gl/index.html
