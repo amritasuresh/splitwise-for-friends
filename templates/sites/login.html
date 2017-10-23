@@ -7,12 +7,11 @@
 
 {% block login_block_inner %}
     <div id="login-box-inner">
-        <form action="#" class="account_form"
-              method="POST">
+        <form action="#" class="account_form" method="POST">
             {% csrf_token %}
             <div class="input-group">
-                                                <span class="input-group-addon"><i
-                                                        class="fa fa-user"></i></span>
+                <span class="input-group-addon"><i
+                        class="fa fa-user"></i></span>
                 <input class="form-control"
                        type="text"
                        placeholder="Username"
@@ -48,34 +47,35 @@
             <div class="row">
                 <div class="col-xs-12">
                     <button type="submit"
-                            class="btn btn-success col-xs-12">
+                            class="btn btn-success col-xs-12"
+                            name="login">
                         Login
                     </button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <p class="social-text">Or
-                        login with</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                    <button type="submit"
-                            class="btn btn-primary col-xs-12 btn-facebook">
-                        <i class="fa fa-facebook"></i>
-                        facebook
-                    </button>
-                </div>
-                <div class="col-xs-12 col-sm-6">
-                    <button type="submit"
-                            class="btn btn-primary col-xs-12 btn-twitter">
-                        <i class="fa fa-twitter"></i>
-                        Twitter
-                    </button>
-                </div>
-            </div>
         </form>
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="social-text">Or
+                    login with</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <button
+                        class="btn btn-primary col-xs-12 btn-facebook">
+                    <i class="fa fa-facebook"></i>
+                    facebook
+                </button>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <button
+                        class="btn btn-primary col-xs-12 btn-twitter">
+                    <i class="fa fa-twitter"></i>
+                    Twitter
+                </button>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
 from accounts.views import home
 
@@ -32,3 +32,5 @@ class AccessToPagesTest(TestCase):
         request.user = self.user
         response = home(request)
         self.assertEqual(response.status_code, 200)
+
+
