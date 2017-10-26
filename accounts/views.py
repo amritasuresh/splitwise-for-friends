@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
+
+from accounts.models import Account
 from .forms import UserRegistrationForm
 
 
@@ -37,10 +39,12 @@ def register(request):
                                          password=password,
                                          first_name=first_name,
                                          last_name=last_name)
+
                 user = authenticate(username=username, password=password)
+                Account.objects.create(user=user)
                 login(request, user)
+
                 # TODO: Sending emails with registration data
-                # TODO: redict to home page
                 return HttpResponseRedirect('/')
     else:
         form = UserRegistrationForm()
@@ -61,4 +65,5 @@ def users(request):
 
 @login_required(login_url='/login')
 def profile_page(request):
-    return render(request, 'sites/profilepage.html')
+    account = Account.objects.get(user=request.user)
+    return render(request, 'sites/profilepage.html', {'account': account})

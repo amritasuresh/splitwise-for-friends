@@ -49,46 +49,49 @@
                                         <tbody>
 
                                         {% for user in users %}
-                                        <tr>
-                                            <td>
-                                                <img src="{% static 'img/small_anonymous_user.png' %}"
-                                                     alt=""/>
-                                                <a href="#" class="user-link">
-                                                    {{ user.first_name }} {{ user.last_name }}
-                                                </a>
-                                                <span class="user-subhead">{{ user.username }}</span>
-                                            </td>
-                                            <td>
-                                                {{ user.last_login }}
-                                            </td>
-                                            <td class="text-center">
-                                                <span class="label label-success">Active</span>
-                                            </td>
-                                            <td>
-                                                <a href="#">{{ user.email }}</a>
-                                            </td>
-                                            <td style="width: 20%;">
-                                                <a href="#" class="table-link">
+                                            <tr>
+                                                <td>
+                                                    <img src="{% static 'img/anonymous_user.png' %}"
+                                                         alt=""/>
+                                                    <a href="#"
+                                                       class="user-link">
+                                                        {{ user.first_name }} {{ user.last_name }}
+                                                    </a>
+                                                    <span class="user-subhead">{{ user.username }}</span>
+                                                </td>
+                                                <td>
+                                                    {{ user.last_login }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success">Active</span>
+                                                </td>
+                                                <td>
+                                                    <a href="#">{{ user.email }}</a>
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#"
+                                                       class="table-link">
 																	<span class="fa-stack">
 																		<i class="fa fa-square fa-stack-2x"></i>
 																		<i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
 																	</span>
-                                                </a>
-                                                <a href="#" class="table-link">
+                                                    </a>
+                                                    <a href="#"
+                                                       class="table-link">
 																	<span class="fa-stack">
 																		<i class="fa fa-square fa-stack-2x"></i>
 																		<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
 																	</span>
-                                                </a>
-                                                <a href="#"
-                                                   class="table-link danger">
+                                                    </a>
+                                                    <a href="#"
+                                                       class="table-link danger">
 																	<span class="fa-stack">
 																		<i class="fa fa-square fa-stack-2x"></i>
 																		<i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
 																	</span>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                                    </a>
+                                                </td>
+                                            </tr>
                                         {% endfor %}
 
                                         </tbody>

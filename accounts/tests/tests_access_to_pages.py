@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
+
+from accounts.models import Account
 from accounts.views import home
 
 
@@ -8,6 +10,8 @@ class AccessToPagesTest(TestCase):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(
             username='xyz', email='myemail@gmail.com', password='top_secret')
+        Account.objects.create(user=self.user)
+
 
     def test_access_to_home_page(self):
         request = self.factory.get('/')

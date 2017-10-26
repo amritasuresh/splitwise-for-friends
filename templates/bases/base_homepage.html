@@ -13,7 +13,7 @@
     <div id="theme-wrapper">
         <header class="navbar" id="header-navbar">
             <div class="container">
-                <a href="index.html" id="logo" class="navbar-brand">
+                <a href="/" id="logo" class="navbar-brand">
                     <img src="{% static 'img/logo.png' %}" alt=""
                          class="normal-logo logo-white"/>
                     <img src="{% static 'img/logo-black.png' %}" alt=""
@@ -101,16 +101,9 @@
                             <li class="dropdown profile-dropdown">
                                 <a href="#" class="dropdown-toggle"
                                    data-toggle="dropdown">
+                                        <img src="{% static account.avatar %}"/>
 
-                                    {% if user.small_avatar == None %}
-                                        <img src="{% static 'img/small_anonymous_user.png' %}"
-                                             alt=""/>
-                                    {% else %}
-                                        <img src="{{ user.small_avatar }}"/>
-                                    {% endif %}
-
-
-                                    <span class="hidden-xs">{{ user.first_name }}</span>
+                                    <span class="hidden-xs">{{ account.user.first_name }}</span>
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -148,17 +141,12 @@
                             <div id="user-left-box"
                                  class="clearfix hidden-sm hidden-xs">
 
-                                {% if user.medium_avatar == None %}
-                                    <img alt=""
-                                         src="{% static 'img/medium_anonymous_user.png' %}"/>
-                                {% else %}
-                                    <img src="{{ user.medium_avatar }}"/>
-                                {% endif %}
+                                    <img src="{% static account.avatar %}"/>
 
                                 <div class="user-box">
 									<span class="name">
 										Welcome<br/>
-										{{ user.first_name }}
+										{{ account.user.first_name }}
 									</span>
                                     <span class="status">
 										<i class="fa fa-circle"></i> Online

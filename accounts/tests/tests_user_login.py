@@ -3,6 +3,8 @@ from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
+from accounts.models import Account
+
 
 class UserLoginTestCase(LiveServerTestCase):
     def setUp(self):
@@ -19,6 +21,7 @@ class UserLoginTestCase(LiveServerTestCase):
             email=self.mocked_email, password=self.mocked_password)
 
         self.mocked_user.save()
+        Account.objects.create(user=self.mocked_user)
         super(UserLoginTestCase, self).setUp()
 
     def tearDown(self):

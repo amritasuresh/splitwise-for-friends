@@ -29,7 +29,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-4">
                         <div class="main-box clearfix">
                             <header class="main-box-header clearfix">
-                                <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                                <h2>{{ account.user.first_name }} {{ account.user.last_name }}</h2>
                             </header>
 
                             <div class="main-box-body clearfix">
@@ -37,16 +37,9 @@
                                     <i class="fa fa-circle"></i> Online
                                 </div>
 
-                                {% if user.medium_avatar == None %}
-                                    <img src="{% static 'img/medium_anonymous_user.png' %}"
-                                         alt=""
-                                         class="profile-img img-responsive center-block"/>
-                                {% else %}
-                                    <img src="{{ user.medium_avatar }}"
-                                         alt=""
-                                         class="profile-img img-responsive center-block"/>
-                                {% endif %}
-
+                                <img src="{% static account.avatar %}"
+                                     alt=""
+                                     class="profile-img img-responsive center-block"/>
 
 
                                 <div class="profile-label">
@@ -243,7 +236,7 @@
                                         <ul class="widget-users row">
                                             <li class="col-md-6">
                                                 <div class="img">
-                                                    <img src="{% static 'img/small_anonymous_user.png' %}"
+                                                    <img src="{% static 'img/anonymous_user.png' %}"
                                                          alt=""/>
                                                 </div>
                                                 <div class="details">
@@ -263,7 +256,7 @@
                                             </li>
                                             <li class="col-md-6">
                                                 <div class="img">
-                                                    <img src="{% static 'img/small_anonymous_user.png' %}"
+                                                    <img src="{% static 'img/anonymous_user.png' %}"
                                                          alt=""/>
                                                 </div>
                                                 <div class="details">
@@ -282,7 +275,7 @@
                                             </li>
                                             <li class="col-md-6">
                                                 <div class="img">
-                                                    <img src="{% static 'img/small_anonymous_user.png' %}"
+                                                    <img src="{% static 'img/anonymous_user.png' %}"
                                                          alt=""/>
                                                 </div>
                                                 <div class="details">
@@ -298,7 +291,7 @@
                                             </li>
                                             <li class="col-md-6">
                                                 <div class="img">
-                                                    <img src="{% static 'img/small_anonymous_user.png' %}"
+                                                    <img src="{% static 'img/anonymous_user.png' %}"
                                                          alt=""/>
                                                 </div>
                                                 <div class="details">
@@ -314,7 +307,7 @@
                                             </li>
                                             <li class="col-md-6">
                                                 <div class="img">
-                                                    <img src="{% static 'img/small_anonymous_user.png' %}"
+                                                    <img src="{% static 'img/anonymous_user.png' %}"
                                                          alt=""/>
                                                 </div>
                                                 <div class="details">
@@ -330,7 +323,7 @@
                                             </li>
                                             <li class="col-md-6">
                                                 <div class="img">
-                                                    <img src="{% static 'img/small_anonymous_user.png' %}"
+                                                    <img src="{% static 'img/anonymous_user.png' %}"
                                                          alt=""/>
                                                 </div>
                                                 <div class="details">
@@ -346,7 +339,7 @@
                                             </li>
                                             <li class="col-md-6">
                                                 <div class="img">
-                                                    <img src="{% static 'img/small_anonymous_user.png' %}"
+                                                    <img src="{% static 'img/anonymous_user.png' %}"
                                                          alt=""/>
                                                 </div>
                                                 <div class="details">
@@ -365,7 +358,7 @@
                                             </li>
                                             <li class="col-md-6">
                                                 <div class="img">
-                                                    <img src="{% static 'img/small_anonymous_user.png' %}"
+                                                    <img src="{% static 'img/anonymous_user.png' %}"
                                                          alt=""/>
                                                 </div>
                                                 <div class="details">
