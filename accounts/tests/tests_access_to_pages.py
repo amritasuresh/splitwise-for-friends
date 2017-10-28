@@ -12,7 +12,6 @@ class AccessToPagesTest(TestCase):
             username='xyz', email='myemail@gmail.com', password='top_secret')
         Account.objects.create(user=self.user)
 
-
     def test_access_to_home_page(self):
         request = self.factory.get('/')
         request.user = self.user
@@ -36,5 +35,3 @@ class AccessToPagesTest(TestCase):
         request.user = self.user
         response = home(request)
         self.assertEqual(response.status_code, 200)
-
-

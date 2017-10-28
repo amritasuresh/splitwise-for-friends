@@ -6,9 +6,14 @@ from django.contrib.auth.models import Group
 import uuid
 
 
-# The UserGroup model represents groups of Accounts that can send Transactions to each other.
+# The UserGroup model represents groups of Accounts that can
+# send Transactions to each other.
+
 class UserGroup(models.Model):
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
+
+    # For storing group name - it does not need to be unique!
+    group_name = models.CharField(max_length=80, default="")
 
     # Unique UUID to distinguish UserGroups with the same name
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

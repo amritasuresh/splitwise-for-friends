@@ -60,7 +60,9 @@ def forgot_password(request):
 @login_required(login_url='/login')
 def users(request):
     all_users = User.objects.all()
-    return render(request, 'sites/users.html', {'users': all_users})
+    account = Account.objects.get(user=request.user)
+    return render(request, 'sites/users.html', {'users': all_users,
+                                                'account': account})
 
 
 @login_required(login_url='/login')

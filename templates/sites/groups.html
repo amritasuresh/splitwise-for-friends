@@ -1,0 +1,124 @@
+{% extends "bases/base_homepage.html" %}
+{% load static %}
+
+{% block title %}
+    Groups
+{% endblock %}
+
+{#TODO: Fix a problem with charts#}
+
+{% block mainpage_content %}
+    <div id="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li><a href="/">Home</a></li>
+                            <li class="active"><span>Groups</span></li>
+                        </ol>
+
+                        <div class="clearfix">
+                            <h1 class="pull-left">Groups</h1>
+
+
+                            <div class="pull-right top-page-ui">
+                                <a href="{% url 'create_group_form' %}"
+                                   class="btn btn-primary pull-right mrg-b-lg">
+                                    <i class=" fa fa-plus-circle fa-lg"></i>
+                                    Create new group
+                                </a>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    {% for group in groups %}
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="main-box clearfix project-box emerald-box">
+                                <div class="main-box-body clearfix">
+                                    <div class="project-box-header emerald-bg">
+                                        <div class="name">
+                                            <a href="#">
+                                                {{ group.group_name }}
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="project-box-content">
+												<span class="chart"
+                                                      data-percent="69">
+													<span class="percent"></span>%<br/>
+													<span class="lbl">completed</span>
+												</span>
+                                    </div>
+
+                                    <div class="project-box-footer clearfix">
+                                        <a href="#">
+                                            <span class="value">123</span>
+                                            <span class="label">Tasks</span>
+                                        </a>
+                                        <a href="#">
+                                            <span class="value">666</span>
+                                            <span class="label">Alerts</span>
+                                        </a>
+                                        <a href="#">
+                                            <span class="value">
+                                                {% if group.users %}
+                                                    {{ group.users.count }}
+                                                {% else %}
+                                                    ERROR
+                                                {% endif %}
+                                            </span>
+                                            <span class="label">Users</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="project-box-ultrafooter clearfix">
+
+                                        {% for u in group.users %}
+
+                                            <img class="project-img-owner"
+                                                 alt=""
+                                                 src="{% static u.account.avatar %}"
+                                                 data-toggle="tooltip"
+                                                 title="{{ u.first_name }} {{ u.last_name }}"/>
+
+                                        {% endfor %}
+
+                                        <a href="#" class="link pull-right">
+                                            <i class="fa fa-arrow-circle-right fa-lg"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            $('.chart').easyPieChart({
+                easing: 'easeOutBounce',
+                onStep: function (from, to, percent) {
+                    $(this.el).find('.percent').text(Math.round(percent));
+                },
+                barColor: '#3498db',
+                trackColor: '#f2f2f2',
+                scaleColor: false,
+                lineWidth: 8,
+                size: 130,
+                animate: 1500
+            });
+        });
+    </script>
+{% endblock %}
