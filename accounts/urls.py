@@ -5,10 +5,10 @@ from .views import *
 
 urlpatterns = [
     url(r'^$', home),
-    url(r'^register/', register),
-    url(r'^forgotpassword/', forgot_password),
-    url(r'^users/', users),
-    url(r'^profilepage/', profile_page),
+    url(r'^register/$', register),
+    url(r'^forgotpassword/$', forgot_password),
+    url(r'^users/$', users),
+    url(r'^profilepage/$', profile_page),
     url(r'^login/$', auth_views.login, {'template_name': 'sites/login.html'}),
     url(r'^logout/$', auth_views.logout)
 ]
