@@ -2,21 +2,20 @@ language: python
 branches:
   only:
   - master
-addons: # get google-chrome-stable
+addons:
   chrome: stable
 python:
 - 3.6.1
 install:
-  - pip install -r requirements.txt
-# Install ChromeDriver
-  - sudo apt-get install chromium-chromedriver
-  - sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
+- pip install -r requirements.txt
+- sudo apt-get install chromium-chromedriver
+- sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
 script:
-  - python3 manage.py test
+- python3 manage.py test
 deploy:
   provider: heroku
   api_key:
-    secure: S61alzbibeNMXTq/t5uNVzojuuR+C8VjP9daJ2iVhRLK772zhDV83FoYtWyraVGoGUgX+c8qwuDV8k53WYKcH1DRAq1QiGRKufHzDmGBZBU9cRheNvPDmfopUHRxv43+99Ta1/SA6ycU674NJ4k0OTaXh/H4483BacNtscP3le2C36ZrZD48poORxJP9EBUMjUqZEllDNFFmRO4yWwmpb1G2km899ztx/Hhd/vaMnrA940veAwEaPDwiUax22Fa233hvY1a2J1yV7VnbCPNx3h9nB0J2IMkQFGjFBoZrQTw7ZIQm913WcI0mm5oIlchg/8+GFkN1HFf3G9pSXVZiDxz+bctrQUNMeL6z7bsnI8lUCY6RVMyHG3v5KSSe29n0HyX8h+eE9HZsDlFqskzl/gojFh6+sSN9GhygaToHjHHj1KV/1y4WTjTFGMGCvDudQQeaKAIHBAfrjYORJ8Cu3EBrmicb4bH9ncqCNM0yhDim1Ys9up237TFHgAyAuyqKy+4w/mX2bfpqZH+oFbu194AxkP4ZCeUX7Tdv/QxKcTDsvNPDbW3QFSGvQkKbUMSqM/1yYK7vPqccuAGuxhzuXZzZoCQmYakmov3vbv9PBTMQ9sVW03V3VJPo+l/GDe4IykNrmM25QzBijizsHmiMlLfyt8R9YrX+eajqaCF7PpI=
+    secure: FPwQ8fgOq/AzjAd9BufvHwHy8xpmaE6JIdL3skRiWPzlbqJ1CXwQi84aRzIAR6hKLnXqMnYbF7I0/rjHBXWe82NuJvhCgkz8M8y6NughlPSUt22kfw3DH8Xqd4OfSnMu2OONMc13FIThw+USoNAsWq5rFJzitXmAbVStBX3Xot8hpKjIatmnkTJrt+208gNcxClA+Z0J8WD0KTJ/vpWamFOe2LStqYM3CIogbl0wpm12obMHGHkZ26gw6WEklw2Cw17saGe/5Cv7o5gCmasFBBTeqhGbCt4XrJwziStPAgKL0R9bTf/j+JDLJlr/tnP9Fxf6B8mUf4PqcBAO1r5Hl8goPUKPmn6UhY/tTrVRMCBxdcuaghhSKhYwg+u+81b0d/+o4xAMX/ZYJ+8jv3ew7nzAB9J8+R2qtttH8E6Tlf16PpGtcw/OTV0mjMO50aVuXA3m1nlm+aixOA5eGoDW4RFYo/L2DYzY23vQxURKWNVElbTS6XMknJt8qXdV+By7DdUUa+x6FoH3Mdyugvkuy5HViZp9ngIthQpLBpB/n/xGWDRGcPQyPi4XySfwmQsGRt9SNLyCqxjMIXXznCzL6zFMqhA8fUa3/5AXzbPOo0kEgc/WMrIAcOvVrXNjszC3RhPHAapuejYr8ZX/EE2Y1uTnGb6B0FrcYs6gRdT9fnY=
   app: accounting-for-friends
   on:
     repo: wiedzmac/accounting_for_friends
