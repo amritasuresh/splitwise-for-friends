@@ -7,8 +7,9 @@ from django.contrib.auth.models import Group, User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from accounts.models import Account
-from groups.forms import CreateGroupForm, AddUserToGroupForm
+from groups.forms import CreateGroupForm, AddUserToGroupForm, AddTransactionToGroupForm
 from groups.models import UserGroup
+from transactions.models import Transaction
 import uuid
 
 
@@ -94,4 +95,43 @@ def add_user_to_group_form(request, usergroup_id):
     else:
         return render(request, 'forms/add_user_to_group_form.html',
                       {'form': AddUserToGroupForm(),
+                       "usergroup_id": usergroup_id})
+
+@login_required(login_url='/login')
+def add_transaction_to_group_form(request, usergroup_id):
+    try:
+        usergroup = UserGroup.objects.get(id=usergroup_id)
+    except UserGroup.DoesNotExist:
+        usergroup = None  # TODO invalid usergroup_id
+
+    account = Account.objects.get(user=request.user)
+    users = User.objects.filter(groups__name=usergroup.group.name)
+    if request.method.upper() == "POST":
+        form = AddTransactionToGroupForm(request.POST)
+        if form.is_valid():
+            user_data = form.cleaned_data
+            transaction = user_data["transaction"]
+            payer = user_data["payer"]
+            details = user_data["details"]
+
+            grp = UserGroup.objects.get(id=usergroup_id)
+            payeruser = User.objects.get(username=payer)
+            payeracc = Account.objects.get(user_id=payeruser.id)
+
+            for user in users:
+                if user.username is not payeruser.username:
+                    useracc = User.objects.get(username=user)
+                    acc = Account.objects.get(user_id=useracc.id)
+                    Transaction.objects.create(name=details, payee=acc, payer=payeracc, amount=transaction, group=grp, created=datetime.now())
+            #user = User.objects.get(username=username)
+            #user.groups.add(grp)
+
+
+        else:
+            pass  # TODO
+
+        return HttpResponseRedirect('/groups/group' + str(usergroup_id))
+    else:
+        return render(request, 'forms/add_transaction_to_group_form.html',
+                      {'form': AddTransactionToGroupForm(),
                        "usergroup_id": usergroup_id})
