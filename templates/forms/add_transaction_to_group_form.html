@@ -1,0 +1,36 @@
+{% extends "bases/base_project.html" %}
+{% load static %}
+
+{% block title %}
+    Add transaction to group form
+{% endblock %}
+
+{% block content %}
+    <div class="form-horizontal">
+        <form action="/groups/group{{ usergroup_id }}/addtransaction" method="POST">
+            {% csrf_token %}
+
+            <h2>ADD TRANSACTION TO GROUP</h2>
+
+            <div class="form-field">
+                <input type="text" class="field-text" placeholder="Transaction amount"
+                       name="{{ form.transaction.html_name }}">
+            </div>
+
+            <div class="form-field">
+                <input type="text" class="field-text" placeholder="Payer"
+                       name="{{ form.payer.html_name }}">
+            </div>
+
+            <div class="form-field">
+                <input type="text" class="field-text" placeholder="Details"
+                       name="{{ form.details.html_name }}">
+            </div>
+
+            <div class="form-field">
+                <button type="submit" class="btn btn-success col-xs-4">SAVE
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

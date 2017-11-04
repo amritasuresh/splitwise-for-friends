@@ -7,3 +7,10 @@ class CreateGroupForm(forms.Form):
 
 class AddUserToGroupForm(forms.Form):
     username = forms.CharField(max_length=80, empty_value=False)
+
+class AddTransactionToGroupForm(forms.Form):
+    transaction = forms.CharField(max_length=80, empty_value=False)
+    payer = forms.CharField(max_length=80, empty_value=False)
+    details = forms.CharField(max_length=80, empty_value=False)
+
+
