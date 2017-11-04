@@ -20,8 +20,8 @@ class Transaction(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     # The Account who pays (payer) and the Account who receives (payee)
-    payer = models.OneToOneField(Account, related_name='payer', on_delete=models.CASCADE, null=True)
-    payee = models.OneToOneField(Account, related_name='payee', on_delete=models.CASCADE, null=True)
+    payer = models.ForeignKey(Account, related_name='payer', on_delete=models.CASCADE, null=True)
+    payee = models.ForeignKey(Account, related_name='payee', on_delete=models.CASCADE, null=True)
 
     # The amount of money involved in the transaction
     amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
