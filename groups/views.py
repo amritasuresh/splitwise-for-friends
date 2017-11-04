@@ -7,7 +7,8 @@ from django.contrib.auth.models import Group, User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from accounts.models import Account
-from groups.forms import CreateGroupForm, AddUserToGroupForm, AddTransactionToGroupForm
+from groups.forms import CreateGroupForm, AddUserToGroupForm, \
+    AddTransactionToGroupForm
 from groups.models import UserGroup
 from transactions.models import Transaction
 import uuid
@@ -41,9 +42,11 @@ def group(request, usergroup_id):
     account = Account.objects.get(user=request.user)
     users = User.objects.filter(groups__name=usergroup.group.name)
 
+    transactions = Transaction.objects.filter(group_id=usergroup_id)
+
     return render(request, 'sites/group.html',
                   {'account': account, 'usergroup': usergroup,
-                   'users': users})
+                   'users': users, 'transactions': transactions})
 
 
 @login_required(login_url='/login')
@@ -97,6 +100,7 @@ def add_user_to_group_form(request, usergroup_id):
                       {'form': AddUserToGroupForm(),
                        "usergroup_id": usergroup_id})
 
+
 @login_required(login_url='/login')
 def add_transaction_to_group_form(request, usergroup_id):
     try:
@@ -122,9 +126,12 @@ def add_transaction_to_group_form(request, usergroup_id):
                 if user.username is not payeruser.username:
                     useracc = User.objects.get(username=user)
                     acc = Account.objects.get(user_id=useracc.id)
-                    Transaction.objects.create(name=details, payee=acc, payer=payeracc, amount=transaction, group=grp, created=datetime.now())
-            #user = User.objects.get(username=username)
-            #user.groups.add(grp)
+                    Transaction.objects.create(name=details, payee=acc,
+                                               payer=payeracc,
+                                               amount=transaction, group=grp,
+                                               created=datetime.now())
+                    # user = User.objects.get(username=username)
+                    # user.groups.add(grp)
 
 
         else:
