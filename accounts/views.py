@@ -71,7 +71,8 @@ def profile_page(request):
     subscribed_groups = request.user.groups.all()
     friends = []
     for grp in subscribed_groups:
-        friends += [usr for usr in User.objects.filter(groups__name=grp.name)]
+        friends += [usr for usr in User.objects.filter(groups__name=grp.name) if
+                    usr.account != account]
     friends = list(set(friends))  # remove duplicates
 
     return render(request, 'sites/profilepage.html', {'account': account,
