@@ -122,7 +122,7 @@ def add_transaction_to_group_form(request, usergroup_id):
             payeruser = User.objects.get(username=payer)
             payeracc = Account.objects.get(user_id=payeruser.id)
             noofusers = users.count()
-            amount = int(transaction)/noofusers
+            amount = float(transaction)/noofusers
 
             for user in users:
                 if user.id != payeruser.id:
