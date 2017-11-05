@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    {{ target_account.user.username }} page
+    {{ target_account.user.first_name }} {{ target_account.user.last_name }}
 {% endblock %}
 
 {% block mainpage_content %}
@@ -15,7 +15,7 @@
                         <ol class="breadcrumb">
                             <li><a href="#">Home</a></li>
                             <li><a href="#">Users</a></li>
-                            <li class="active"><span>{{ target_account.user.username }} page</span></li>
+                            <li class="active"><span>{{ target_account.user.first_name }} {{ target_account.user.last_name }}</span></li>
                         </ol>
 
                         <h1>User Profile</h1>
@@ -33,48 +33,16 @@
                             </header>
 
                             <div class="main-box-body clearfix">
-                                <div class="profile-status">
-                                    <i class="fa fa-circle"></i> Online
-                                </div>
 
                                 <img src="{% static target_account.avatar %}"
                                      alt=""
                                      class="profile-img img-responsive center-block"/>
-
-
-                                <div class="profile-label">
-                                    <span class="label label-success">Active</span>
-                                </div>
-
-                                <div class="profile-stars">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <span>Super User</span>
-                                </div>
 
                                 <div class="profile-since">
                                     Member since:
                                     {{ target_account.user.date_joined.day }}.{{ target_account.user.date_joined.month }}.{{ target_account.user.date_joined.year }}
                                 </div>
 
-                                <div class="profile-details">
-                                    <ul class="fa-ul">
-                                        <li><i class="fa-li fa fa-truck"></i>Orders:
-                                            <span>456</span></li>
-                                        <li><i class="fa-li fa fa-tasks"></i>Tasks
-                                            done: <span>1024</span></li>
-                                    </ul>
-                                </div>
-
-                                <div class="profile-message-btn center-block text-center">
-                                    <a href="#" class="btn btn-success">
-                                        <i class="fa fa-plus"></i>
-                                        Add as friend
-                                    </a>
-                                </div>
                             </div>
 
                         </div>
@@ -112,15 +80,6 @@
                                                                 {{ friend.last_name }}
                                                             </a>
                                                         </div>
-                                                        <div class="time">
-                                                            <i class="fa fa-clock-o"></i>
-                                                            Last
-                                                            online: {{ friend.last_login }}
-                                                        </div>
-                                                        <div class="type">
-                                                            <span class="label label-success">Active</span>
-                                                        </div>
-                                                    </div>
                                                 </li>
                                             {% endfor %}
                                         </ul>

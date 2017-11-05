@@ -13,8 +13,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
-                            <li><a href="/">Home</a></li>
-                            <li class="active"><span>Dashboard</span></li>
+                            <li><a href="/">HOME</a></li>
+                            <li class="active"><span>DASHBOARD</span></li>
                         </ol>
 
                         <div class="clearfix">
@@ -26,54 +26,41 @@
 
                 <div class="row">
 
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
-                        <div class="main-box infographic-box">
-                            <a href="/groups/">
-                            <i class="fa fa-group emerald-bg"></i>
-                            <span class="headline">Groups</span>
-                            <span class="value">
-                                <span class="timer" data-speed="800" data-refresh-interval="30">
-                                    {{ n_groups }}
-                                </span>
-                            </span>
-                            </a>
-                        </div>
-                    </div>
 
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="col-lg-4 col-sm-6 col-xs-12">
                         <div class="main-box infographic-box">
                             <i class="fa fa-money green-bg"></i>
-                            <span class="headline">You're Due</span>
+                            <span class="headline">YOU'RE DUE</span>
                             <span class="value">
-                                &euro;<span class="timer" data-speed="900" data-refresh-interval="60">
+                                <span class="timer" data-speed="900" data-refresh-interval="60">
                                 {{ amount_due }}
                             </span>
                             </span>
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="col-lg-4 col-sm-6 col-xs-12">
                         <div class="main-box infographic-box">
                             <i class="fa fa-credit-card red-bg"></i>
-                            <span class="headline">You Owe</span>
+                            <span class="headline">YOU OWE</span>
                             <span class="value negative">
-                                &euro;<span class="timer" data-speed="1100">
+                                <span class="timer" data-speed="1100">
                                     {{ amount_owed }}
                                 </span>
                             </span>
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="col-lg-4 col-sm-12 col-xs-12">
                         <div class="main-box infographic-box">
                             <i class="fa fa-euro yellow-bg"></i>
-                            <span class="headline">Total Balance</span>
+                            <span class="headline">TOTAL BALANCE</span>
                             {% if balance > 0 %}
                             <span class="value">
                             {% else %}
                             <span class="value negative">
                             {% endif %}
-                                &euro;<span class="timer" data-speed="1100">
+                                <span class="timer" data-speed="1100">
                                     {{ balance_string }}
                                 </span>
                             </span>
@@ -86,7 +73,7 @@
                     <div class="col-lg-12">
                         <div class="main-box clearfix">
                             <header class="main-box-header clearfix">
-                                <h2 class="pull-left">Latest transactions</h2>
+                                <h2 class="pull-left">Your latest transactions</h2>
                                 
                             </header>
 
@@ -96,12 +83,12 @@
                                         <thead>
                                         <tr>
                                             <th><a href="#"><span>Title</span></a></th>
-                                            <th><a href="#" class="desc"><span>Time</span></a></th>
-                                            <th><a href="#" class="asc"><span>Payer</span></a></th>
-                                            <th><a href="#" class="asc"><span>Payee</span></a></th>
-                                            <th><a href="#" class="asc"><span>Group</span></a></th>
+                                            <th><a href="#"><span>Time</span></a></th>
+                                            <th><a href="#"><span>Payer</span></a></th>
+                                            <th><a href="#"><span>Receiver</span></a></th>
+                                            <th><a href="#"><span>Group</span></a></th>
                                             <th class="text-center"><span>Status</span></th>
-                                            <th class="text-right"><span>Price</span></th>
+                                            <th class="text-right"><span>Amount</span></th>
                                             <th>&nbsp;</th>
                                         </tr>
                                         </thead>
@@ -115,15 +102,15 @@
                                                         {{ transaction.created }}
                                                     </td>
                                                     <td>
-                                                     <a href="/user/{{ transaction.payer.user.id }}">
-                                                            {{ transaction.payer.user.first_name }}
-                                                            {{ transaction.payer.user.last_name }}
+                                                     <a href="/users/{{ transaction.payee.user.id }}">
+                                                            {{ transaction.payee.user.first_name }}
+                                                            {{ transaction.payee.user.last_name }}
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        <a href="/user/{{ transaction.payee.user.id }}">
-                                                            {{ transaction.payee.user.first_name }}
-                                                            {{ transaction.payee.user.last_name }}
+                                                        <a href="/users/{{ transaction.payer.user.id }}">
+                                                            {{ transaction.payer.user.first_name }}
+                                                            {{ transaction.payer.user.last_name }}
                                                        </a>
                                                     </td>
                                                     <td>
