@@ -5,6 +5,25 @@
     Dashboard
 {% endblock %}
 
+{% block scripts %}
+    <script>
+        $(function () {
+            $('.chart').easyPieChart({
+                easing: 'easeOutBounce',
+                onStep: function (from, to, percent) {
+                    $(this.el).find('.percent').text(Math.round(percent));
+                },
+                barColor: '#3498db',
+                trackColor: '#f2f2f2',
+                scaleColor: false,
+                lineWidth: 8,
+                size: 130,
+                animate: 1500
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block mainpage_content %}
     <div id="content-wrapper">
         <div class="row">
@@ -159,21 +178,4 @@
         </div>
     </div>
     </div>
-
-    <script>
-        $(function () {
-            $('.chart').easyPieChart({
-                easing: 'easeOutBounce',
-                onStep: function (from, to, percent) {
-                    $(this.el).find('.percent').text(Math.round(percent));
-                },
-                barColor: '#3498db',
-                trackColor: '#f2f2f2',
-                scaleColor: false,
-                lineWidth: 8,
-                size: 130,
-                animate: 1500
-            });
-        });
-    </script>
 {% endblock %}
