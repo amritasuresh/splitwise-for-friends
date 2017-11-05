@@ -25,22 +25,24 @@ def dash(request):
     # We may add a more reciprocal system for friends (like FB) in the future.
     friends = get_friends(my_account)
 
-    expenses_received = 0.0
-    expenses_paid = 0.0
+    amount_due = 0.0
+    amount_owed = 0.0
 
-    transactions_received = Transaction.objects.filter(payee=my_account)
-    for t in transactions_received:
-        if t.status == 'C':
-            expenses_received += float(t.amount)
+    expenses_due = Transaction.objects.filter(payee=my_account)
+    for t in expenses_due:
+        if t.status == 'O':
+            amount_due += float(t.amount)
 
-    transactions_paid = Transaction.objects.filter(payer=my_account)
-    for t in transactions_paid:
-        if t.status == 'C':
-            expenses_paid += float(t.amount)
+    expenses_owed = Transaction.objects.filter(payer=my_account)
+    for t in expenses_owed:
+        if t.status == 'O':
+            amount_owed += float(t.amount)
+
+    balance = amount_due - amount_owed
 
     transactions = Transaction.objects.filter(
         payee=my_account) | Transaction.objects.filter(payer=my_account)
-    transactions = transactions.order_by('-created')[:5]
+    transactions = transactions.order_by('-created')[:10]
 
     for transaction in transactions:
         transaction.group
@@ -48,6 +50,8 @@ def dash(request):
     return render(request, 'sites/dashboard.html',
                   {'my_account': my_account, 'n_groups': groups.count(),
                    'n_friends': len(friends),
-                   'expenses_received': "%.2f" % expenses_received,
-                   'expenses_paid': "%.2f" % expenses_paid,
+                   'amount_due': "%.2f" % amount_due,
+                   'amount_owed': "%.2f" % amount_owed,
+                   'balance': balance,
+                   'balance_string': "%.2f" % abs(balance),
                    'transactions': transactions})

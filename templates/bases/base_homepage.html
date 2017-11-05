@@ -148,9 +148,6 @@
 										Welcome,<br/>
 										{{ my_account.user.first_name }}!
 									</span>
-                                    <span class="status">
-										<i class="fa fa-circle"></i> Online
-									</span>
                                 </div>
                             </div>
                             <div class="collapse navbar-collapse navbar-ex1-collapse"
@@ -170,10 +167,23 @@
                                     {#                                    Users #}
 
                                     <li>
-                                        <a href="/users/">
-                                            <i class="fa fa-home"></i>
+                                        <a href="#" class="dropdown-toggle">
+                                            <i class="fa fa-user"></i>
                                             <span>Users</span>
+                                            <i class="fa fa-chevron-circle-right drop-icon"></i>
                                         </a>
+                                        <ul class="submenu">
+                                            <li>
+                                                <a href="/users/friends/">
+                                                    My Friends
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/users/">
+                                                    All Users
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
 
                                     {#                                    Groups #}
@@ -191,7 +201,7 @@
                                     <li>
                                         <a href="index.html">
                                             <i class="fa fa-credit-card"></i>
-                                            <span>My Expenses</span>
+                                            <span>My Transactions</span>
                                         </a>
                                     </li>
 

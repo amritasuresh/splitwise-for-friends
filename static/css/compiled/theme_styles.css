@@ -2187,10 +2187,12 @@ blockquote.pull-right:before {
   font-size: 1.25em;
   padding-top: 3px;
   margin-left: 60px;
+  font-weight: bold;
 }
 .user-list tbody td .user-subhead {
   font-size: 0.875em;
   font-style: italic;
+  font-weight: bold;
 }
 
 /* FORMS */
@@ -4140,6 +4142,9 @@ input[type="radio"] {
   .infographic-box.merged.merged-top.merged-right {
     border-top: 1px solid #e7ebee;
   }
+}
+.negative {
+  color: #E74C3C;
 }
 
 /* RECENT - PRODUCTS */
