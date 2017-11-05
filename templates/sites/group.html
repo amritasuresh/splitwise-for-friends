@@ -250,21 +250,23 @@
 
                                 <div class="tab-pane clearfix fade"
                                      id="tab-expenses">
-                                    <table class="table">
+                                    <table class="table table-hover">
                                         <thead>
                                         <tr>
                                             <th>
-                                                <a href="#"><span>Order ID</span></a>
+                                                <a href="#"><span>Title</span></a>
                                             </th>
-                                            <th><a href="#" class="desc"><span>Date</span></a>
+                                            <th><a href="#" class="desc"><span>Time</span></a>
                                             </th>
                                             <th><a href="#" class="asc"><span>Payer</span></a>
+                                            </th>
                                             <th><a href="#" class="asc"><span>Payee</span></a>
                                             </th>
                                             <th class="text-center">
                                                 <span>Status</span></th>
                                             <th class="text-right">
                                                 <span>Price</span></th>
+                                            <th>&nbsp;</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -277,12 +279,12 @@
                                                     {{ transaction.created }}
                                                 </td>
                                                 <td>
-                                                    <a href="#">
+                                                    <a href="/user/{{ transaction.payer.user.id }}">
                                                         {{ transaction.payer.user.username }}
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a href="#">
+                                                    <a href="/user/{{ transaction.payee.user.id }}">
                                                         {{ transaction.payee.user.username }}
                                                     </a>
                                                 </td>
@@ -294,7 +296,7 @@
                                                     {% endif %}
                                                 </td>
                                                 <td class="text-right">
-                                                    &dollar; {{ transaction.amount }}
+                                                    &euro; {{ transaction.amount }}
                                                 </td>
                                             </tr>
                                         {% endfor %}
