@@ -109,18 +109,18 @@
                                                         {{ transaction.created }}
                                                     </td>
                                                     <td>
-                                                     <a href="#">
+                                                     <a href="/user/{{ transaction.payer.user.id }}">
                                                             {{ transaction.payer.user.username }}
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        <a href="#">
+                                                        <a href="/user/{{ transaction.payee.user.id }}">
                                                             {{ transaction.payee.user.username }}
                                                        </a>
                                                     </td>
                                                     <td>
-                                                        <a href="#">
-                                                            {{ transaction.group.name }}
+                                                        <a href="/groups/group{{ transaction.group.id }}">
+                                                            {{ transaction.group.group_name }}
                                                        </a>
                                                     </td>
                                                     <td class="text-center">
