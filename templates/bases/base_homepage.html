@@ -7,6 +7,12 @@
     {{ block.super }}
 {% endblock %}
 
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/scripts.js' %}"></script>
+    <script src="{% static 'js/pace.min.js' %}"></script>
+{% endblock %}
+
 {% block content %}
     {{ block.super }}
 
@@ -222,8 +228,4 @@
             </div>
         </div>
     </div>
-
-    <!-- theme scripts -->
-    <script src="{% static 'js/scripts.js' %}"></script>
-    <script src="{% static 'js/pace.min.js' %}"></script>
 {% endblock %}
