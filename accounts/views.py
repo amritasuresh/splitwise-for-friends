@@ -6,12 +6,13 @@ from django.http import HttpResponseRedirect
 from django import forms
 
 from accounts.models import Account
+import dashboard.views
 from .forms import UserRegistrationForm
 
 
 def home(request):
     if request.user.is_authenticated():
-        return profile_page(request)
+        return dashboard.views.dash(request)
     else:
         return HttpResponseRedirect('/login')
 

@@ -1,0 +1,167 @@
+{% extends "bases/base_homepage.html" %}
+{% load static %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block mainpage_content %}
+    <div id="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li><a href="/">Home</a></li>
+                            <li class="active"><span>Dashboard</span></li>
+                        </ol>
+
+                        <div class="clearfix">
+                            <h1 class="pull-left">Dashboard</h1>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                        <div class="main-box infographic-box">
+                            <i class="fa fa-user yellow-bg"></i>
+                            <span class="headline">Friends</span>
+                            <span class="value">
+                                <span class="timer" data-speed="1000" data-refresh-interval="50">
+                                    {{ n_friends }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                        <div class="main-box infographic-box">
+                            <i class="fa fa-shopping-cart emerald-bg"></i>
+                            <span class="headline">Groups</span>
+                            <span class="value">
+                                <span class="timer" data-speed="800" data-refresh-interval="30">
+                                    {{ n_groups }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                        <div class="main-box infographic-box">
+                            <i class="fa fa-money green-bg"></i>
+                            <span class="headline">Expenses Received</span>
+                            <span class="value">
+                                &euro;<span class="timer" data-speed="900" data-refresh-interval="60">
+                                {{ expenses_received }}
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                        <div class="main-box infographic-box">
+                            <i class="fa fa-money red-bg"></i>
+                            <span class="headline">Expenses Paid</span>
+                            <span class="value">
+                                &euro;<span class="timer" data-from="539" data-to="12526" data-speed="1100">
+                                    {{ expenses_paid }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="main-box clearfix">
+                            <header class="main-box-header clearfix">
+                                <h2 class="pull-left">Last transactions</h2>
+                                
+                            </header>
+
+                            <div class="main-box-body clearfix">
+                                <div class="table-responsive clearfix">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th><a href="#"><span>Title</span></a></th>
+                                            <th><a href="#" class="desc"><span>Time</span></a></th>
+                                            <th><a href="#" class="asc"><span>Payer</span></a></th>
+                                            <th><a href="#" class="asc"><span>Payee</span></a></th>
+                                            <th><a href="#" class="asc"><span>Group</span></a></th>
+                                            <th class="text-center"><span>Status</span></th>
+                                            <th class="text-right"><span>Price</span></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for transaction in transactions %}
+                                                <tr>
+                                                    <td>
+                                                        <a href="#">{{ transaction.name }}</a>
+                                                    </td>
+                                                    <td>
+                                                        {{ transaction.created }}
+                                                    </td>
+                                                    <td>
+                                                     <a href="#">
+                                                            {{ transaction.payer.user.username }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#">
+                                                            {{ transaction.payee.user.username }}
+                                                       </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#">
+                                                            {{ transaction.group.name }}
+                                                       </a>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {% if transaction.status == 1 %}
+                                                            <span class="label label-success">Completed</span>
+                                                        {% else %}
+                                                            <span class="label label-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        &euro; {{ transaction.amount }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            $('.chart').easyPieChart({
+                easing: 'easeOutBounce',
+                onStep: function (from, to, percent) {
+                    $(this.el).find('.percent').text(Math.round(percent));
+                },
+                barColor: '#3498db',
+                trackColor: '#f2f2f2',
+                scaleColor: false,
+                lineWidth: 8,
+                size: 130,
+                animate: 1500
+            });
+        });
+    </script>
+{% endblock %}
