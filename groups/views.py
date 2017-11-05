@@ -63,11 +63,11 @@ def create_group_form(request):
             while Group.objects.filter(name=unique_django_group_id).exists():
                 unique_django_group_id = uuid.uuid4()
 
-            group = Group.objects.create(name=unique_django_group_id)
-            request.user.groups.add(group)
-            group.user_set.add(request.user)
+            grp = Group.objects.create(name=unique_django_group_id)
+            request.user.groups.add(grp)
+            grp.user_set.add(request.user)
 
-            UserGroup.objects.create(group=group, group_name=group_name,
+            UserGroup.objects.create(group=grp, group_name=group_name,
                                      created=datetime.now())
         else:
             pass  # TODO
@@ -94,7 +94,7 @@ def add_user_to_group_form(request, usergroup_id):
         else:
             pass  # TODO
 
-        return HttpResponseRedirect('/groups/group' + str(usergroup_id))
+        return HttpResponseRedirect('/group/' + str(usergroup_id))
     else:
         return render(request, 'forms/add_user_to_group_form.html',
                       {'form': AddUserToGroupForm(),
@@ -136,7 +136,7 @@ def add_transaction_to_group_form(request, usergroup_id):
         else:
             pass  # TODO
 
-        return HttpResponseRedirect('/groups/group' + str(usergroup_id))
+        return HttpResponseRedirect('/group/' + str(usergroup_id))
     else:
         return render(request, 'forms/add_transaction_to_group_form.html',
                       {'form': AddTransactionToGroupForm(),
