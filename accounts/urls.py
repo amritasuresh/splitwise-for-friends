@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout),
     # users
     url(r'^users/$', users),
+    url(r'^users/friends/$', friends),
     # profile pages
     url(r'^profilepage/$', profile_page),
     url(r'^user/(?P<user_id>[0-9]+)/$', user_page),

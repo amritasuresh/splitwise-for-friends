@@ -13,12 +13,13 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
-                            <li><a href="/">Home</a></li>
-                            <li class="active"><span>Users</span></li>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="/users/">Users</a></li>
+                            <li class="active"><span>Friends</span></li>
                         </ol>
 
                         <div class="clearfix">
-                            <h1 class="pull-left">Users</h1>
+                            <h1 class="pull-left">Friends</h1>
                         </div>
                     </div>
                 </div>
@@ -31,7 +32,7 @@
                                     <table class="table user-list table-hover">
                                         <thead>
                                         <tr>
-                                            <th><span>User</span></th>
+                                            <th><span>Friend</span></th>
                                             <th><span>Last login</span></th>
                                             <th><span>Email</span></th>
                                             <th>&nbsp;</th>
@@ -42,7 +43,7 @@
                                         {% for user in users %}
                                             <tr>
                                                 <td>
-                                                    <img src="{% static user.account.avatar %}"
+                                                    <img src="{% static 'img/anonymous_user.png' %}"
                                                          alt=""/>
                                                     <a href="/user/{{ user.account.user_id }}"
                                                        class="user-link">

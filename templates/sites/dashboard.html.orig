@@ -47,7 +47,10 @@
 
                     <div class="col-lg-3 col-sm-6 col-xs-12">
                         <div class="main-box infographic-box">
-                            <a href="/profilepage/#tab-friends">
+<<<<<<< HEAD
+                            <a href="/groups/">
+                            <i class="fa fa-group emerald-bg"></i>
+=======
                             <i class="fa fa-user yellow-bg"></i>
                             <span class="headline">Friends</span>
                             <span class="value">
@@ -57,13 +60,12 @@
                                 </span>
                             </span>
                         </div>
-                        </a>
                     </div>
 
                     <div class="col-lg-3 col-sm-6 col-xs-12">
                         <div class="main-box infographic-box">
-                            <a href="/groups/">
-                            <i class="fa fa-group emerald-bg"></i>
+                            <i class="fa fa-shopping-cart emerald-bg"></i>
+>>>>>>> master
                             <span class="headline">Groups</span>
                             <span class="value">
                                 <span class="timer" data-speed="800"
@@ -71,18 +73,22 @@
                                     {{ n_groups }}
                                 </span>
                             </span>
-                            </a>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-sm-6 col-xs-12">
                         <div class="main-box infographic-box">
                             <i class="fa fa-money green-bg"></i>
-                            <span class="headline">Expenses Received</span>
+                            <span class="headline">You're Due</span>
                             <span class="value">
+<<<<<<< HEAD
+                                &euro;<span class="timer" data-speed="900" data-refresh-interval="60">
+                                {{ amount_due }}
+=======
                                 &euro;<span class="timer" data-speed="900"
                                             data-refresh-interval="60">
                                 {{ expenses_received }}
+>>>>>>> master
                             </span>
                             </span>
                         </div>
@@ -91,15 +97,32 @@
                     <div class="col-lg-3 col-sm-6 col-xs-12">
                         <div class="main-box infographic-box">
                             <i class="fa fa-credit-card red-bg"></i>
-                            <span class="headline">Expenses Paid</span>
+                            <span class="headline">You Owe</span>
+                            <span class="value negative">
+                                &euro;<span class="timer" data-speed="1100">
+                                    {{ amount_owed }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                        <div class="main-box infographic-box">
+                            <i class="fa fa-euro yellow-bg"></i>
+                            <span class="headline">Total Balance</span>
+                            {% if balance > 0 %}
                             <span class="value">
 <<<<<<< HEAD
+                            {% else %}
+                            <span class="value negative">
+                            {% endif %}
+                                &euro;<span class="timer" data-speed="1100">
+                                    {{ balance_string }}
+=======
                                 &euro;<span class="timer" data-from="539"
                                             data-to="12526" data-speed="1100">
-=======
-                                &euro;<span class="timer" data-speed="1100">
->>>>>>> master
                                     {{ expenses_paid }}
+>>>>>>> master
                                 </span>
                             </span>
                         </div>
@@ -111,8 +134,13 @@
                     <div class="col-lg-12">
                         <div class="main-box clearfix">
                             <header class="main-box-header clearfix">
+<<<<<<< HEAD
+                                <h2 class="pull-left">Latest transactions</h2>
+                                
+=======
                                 <h2 class="pull-left">Last transactions</h2>
 
+>>>>>>> master
                             </header>
 
                             <div class="main-box-body clearfix">
@@ -139,6 +167,45 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+<<<<<<< HEAD
+                                            {% for transaction in transactions %}
+                                                <tr>
+                                                    <td>
+                                                        <a href="#">{{ transaction.name }}</a>
+                                                    </td>
+                                                    <td>
+                                                        {{ transaction.created }}
+                                                    </td>
+                                                    <td>
+                                                     <a href="/user/{{ transaction.payer.user.id }}">
+                                                            {{ transaction.payer.user.first_name }}
+                                                            {{ transaction.payer.user.last_name }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/user/{{ transaction.payee.user.id }}">
+                                                            {{ transaction.payee.user.first_name }}
+                                                            {{ transaction.payee.user.last_name }}
+                                                       </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/groups/group{{ transaction.group.id }}">
+                                                            {{ transaction.group.group_name }}
+                                                       </a>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {% if transaction.status == 1 %}
+                                                            <span class="label label-success">Completed</span>
+                                                        {% else %}
+                                                            <span class="label label-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        &euro; {{ transaction.amount }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+=======
                                         {% for transaction in transactions %}
                                             <tr>
                                                 <td>
@@ -174,6 +241,7 @@
                                                 </td>
                                             </tr>
                                         {% endfor %}
+>>>>>>> master
                                         </tbody>
                                     </table>
                                 </div>

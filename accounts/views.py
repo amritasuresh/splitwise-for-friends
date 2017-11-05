@@ -77,6 +77,14 @@ def get_friends(account):
 
 
 @login_required(login_url='/login')
+def friends(request):
+    my_account = Account.objects.get(user=request.user)
+    my_friends = get_friends(my_account)
+    return render(request, 'sites/friends.html', {'users': my_friends,
+                                                'my_account': my_account})
+
+
+@login_required(login_url='/login')
 def profile_page(request):
     my_account = Account.objects.get(user=request.user)
     friends = get_friends(my_account)
