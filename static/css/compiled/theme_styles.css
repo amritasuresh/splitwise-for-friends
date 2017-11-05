@@ -4077,6 +4077,10 @@ input[type="radio"] {
 .infographic-box {
   padding: 20px;
 }
+.infographic-box a {
+  text-decoration: none;
+  color:black;
+}
 .infographic-box i {
   font-size: 2.4em;
   display: block;
