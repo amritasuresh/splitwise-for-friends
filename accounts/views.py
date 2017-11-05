@@ -68,4 +68,11 @@ def users(request):
 @login_required(login_url='/login')
 def profile_page(request):
     account = Account.objects.get(user=request.user)
-    return render(request, 'sites/profilepage.html', {'account': account})
+    subscribed_groups = request.user.groups.all()
+    friends = []
+    for grp in subscribed_groups:
+        friends += [usr for usr in User.objects.filter(groups__name=grp.name)]
+    friends = list(set(friends))  # remove duplicates
+
+    return render(request, 'sites/profilepage.html', {'account': account,
+                                                      'friends': friends})
