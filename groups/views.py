@@ -108,8 +108,8 @@ def add_transaction_to_group_form(request, usergroup_id):
     except UserGroup.DoesNotExist:
         usergroup = None  # TODO invalid usergroup_id
 
-    account = Account.objects.get(user=request.user)
     users = User.objects.filter(groups__name=usergroup.group.name)
+
     if request.method.upper() == "POST":
         form = AddTransactionToGroupForm(request.POST)
         if form.is_valid():
@@ -119,22 +119,19 @@ def add_transaction_to_group_form(request, usergroup_id):
             details = user_data["details"]
 
             grp = UserGroup.objects.get(id=usergroup_id)
-            payeruser = User.objects.get(username=payer)
-            payeracc = Account.objects.get(user_id=payeruser.id)
-            noofusers = users.count()
-            amount = float(transaction) / noofusers
+            payer_user = User.objects.get(username=payer)
+            payer_account = Account.objects.get(user_id=payer_user.id)
+            num_of_users = users.count()
+            amount = float(transaction) / num_of_users
 
             for user in users:
-                if user.id != payeruser.id:
-                    useracc = User.objects.get(username=user)
-                    acc = Account.objects.get(user_id=useracc.id)
-                    Transaction.objects.create(name=details, payee=acc,
-                                               payer=payeracc,
+                if user.id != payer_user.id:
+                    user_account = User.objects.get(username=user)
+                    account = Account.objects.get(user_id=user_account.id)
+                    Transaction.objects.create(name=details, payee=account,
+                                               payer=payer_account,
                                                amount=amount, group=grp,
                                                created=datetime.now())
-                    # user = User.objects.get(username=username)
-                    # user.groups.add(grp)
-
 
         else:
             pass  # TODO
