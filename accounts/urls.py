@@ -1,18 +1,20 @@
-from django.conf.urls import url, include
-from django.contrib import admin
+from django.conf.urls import url
 from django.contrib.auth import views as auth_views
-
-from accounting_for_friends import settings
 from .views import *
-from django.conf.urls.static import static
 
 
 urlpatterns = [
+    # home
     url(r'^$', home),
+    # registration
     url(r'^register/$', register),
     url(r'^forgotpassword/$', forgot_password),
-    url(r'^users/$', users),
-    url(r'^profilepage/$', profile_page),
+    # login/logout
     url(r'^login/$', auth_views.login, {'template_name': 'sites/login.html'}),
-    url(r'^logout/$', auth_views.logout)
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    url(r'^logout/$', auth_views.logout),
+    # users
+    url(r'^users/$', users),
+    # profile pages
+    url(r'^profilepage/$', profile_page),
+    url(r'^user/(?P<user_id>[0-9]+)/$', user_page),
+]

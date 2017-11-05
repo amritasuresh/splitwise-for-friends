@@ -46,7 +46,7 @@
                                                 <td>
                                                     <img src="{% static 'img/anonymous_user.png' %}"
                                                          alt=""/>
-                                                    <a href="#"
+                                                    <a href="/user/{{ user.account.user_id }}"
                                                        class="user-link">
                                                         {{ user.first_name }} {{ user.last_name }}
                                                     </a>

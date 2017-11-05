@@ -16,7 +16,7 @@ import uuid
 
 @login_required(login_url='/login')
 def groups(request):
-    account = Account.objects.get(user=request.user)
+    my_account = Account.objects.get(user=request.user)
     subscribed_groups = request.user.groups.all()
     groups_data = []
 
@@ -28,7 +28,7 @@ def groups(request):
             {'group_name': group_name, 'users': users, 'id': group_id})
 
     return render(request, 'sites/groups.html',
-                  {'account': account, 'groups': groups_data})
+                  {'my_account': my_account, 'groups': groups_data})
 
 
 @login_required(login_url='/login')
@@ -39,13 +39,13 @@ def group(request, usergroup_id):
     except UserGroup.DoesNotExist:
         usergroup = None  # TODO invalid usergroup_id
 
-    account = Account.objects.get(user=request.user)
+    my_account = Account.objects.get(user=request.user)
     users = User.objects.filter(groups__name=usergroup.group.name)
 
     transactions = Transaction.objects.filter(group_id=usergroup_id)
 
     return render(request, 'sites/group.html',
-                  {'account': account, 'usergroup': usergroup,
+                  {'my_account': my_account, 'usergroup': usergroup,
                    'users': users, 'transactions': transactions})
 
 
@@ -122,7 +122,7 @@ def add_transaction_to_group_form(request, usergroup_id):
             payeruser = User.objects.get(username=payer)
             payeracc = Account.objects.get(user_id=payeruser.id)
             noofusers = users.count()
-            amount = float(transaction)/noofusers
+            amount = float(transaction) / noofusers
 
             for user in users:
                 if user.id != payeruser.id:

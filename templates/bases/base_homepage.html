@@ -101,9 +101,9 @@
                             <li class="dropdown profile-dropdown">
                                 <a href="#" class="dropdown-toggle"
                                    data-toggle="dropdown">
-                                    <img src="{% static account.avatar %}"/>
+                                    <img src="{% static my_account.avatar %}"/>
 
-                                    <span class="hidden-xs">{{ account.user.first_name }}</span>
+                                    <span class="hidden-xs">{{ my_account.user.first_name }}</span>
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -141,12 +141,12 @@
                             <div id="user-left-box"
                                  class="clearfix hidden-sm hidden-xs">
 
-                                <img src="{% static account.avatar %}"/>
+                                <img src="{% static my_account.avatar %}"/>
 
                                 <div class="user-box">
 									<span class="name">
 										Welcome<br/>
-										{{ account.user.first_name }}
+										{{ my_account.user.first_name }}
 									</span>
                                     <span class="status">
 										<i class="fa fa-circle"></i> Online

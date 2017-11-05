@@ -227,7 +227,9 @@
                                                 </div>
                                                 <div class="details">
                                                     <div class="name">
-                                                        <a href="#">{{ user.first_name }} {{ user.last_name }}</a>
+                                                        <a href="/user/{{ user.account.user_id }}">
+                                                            {{ user.first_name }} {{ user.last_name }}
+                                                        </a>
                                                     </div>
                                                     <div class="time online">
                                                         <i class="fa fa-check-circle"></i>

@@ -60,20 +60,34 @@ def forgot_password(request):
 @login_required(login_url='/login')
 def users(request):
     all_users = User.objects.all()
-    account = Account.objects.get(user=request.user)
+    my_account = Account.objects.get(user=request.user)
     return render(request, 'sites/users.html', {'users': all_users,
-                                                'account': account})
+                                                'my_account': my_account})
 
 
-@login_required(login_url='/login')
-def profile_page(request):
-    account = Account.objects.get(user=request.user)
-    subscribed_groups = request.user.groups.all()
+def get_friends(account):
+    subscribed_groups = account.user.groups.all()
     friends = []
     for grp in subscribed_groups:
         friends += [usr for usr in User.objects.filter(groups__name=grp.name) if
                     usr.account != account]
     friends = list(set(friends))  # remove duplicates
+    return friends
 
-    return render(request, 'sites/profilepage.html', {'account': account,
+
+@login_required(login_url='/login')
+def profile_page(request):
+    my_account = Account.objects.get(user=request.user)
+    friends = get_friends(my_account)
+    return render(request, 'sites/profilepage.html', {'my_account': my_account,
                                                       'friends': friends})
+
+
+@login_required(login_url='/login')
+def user_page(request, user_id):
+    my_account = Account.objects.get(user=request.user)
+    target_account = Account.objects.get(user_id=user_id)
+    friends = get_friends(target_account)
+    return render(request, 'sites/user.html', {'my_account': my_account,
+                                               'target_account': target_account,
+                                               'friends': friends})

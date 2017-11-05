@@ -1,0 +1,142 @@
+{% extends "bases/base_homepage.html" %}
+{% load static %}
+
+{% block title %}
+    {{ target_account.user.username }} page
+{% endblock %}
+
+{% block mainpage_content %}
+    <div id="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Users</a></li>
+                            <li class="active"><span>{{ target_account.user.username }} page</span></li>
+                        </ol>
+
+                        <h1>User Profile</h1>
+                    </div>
+                </div>
+
+                <div class="row" id="user-profile">
+
+                    {#                                Left hand side of profile page #}
+
+                    <div class="col-lg-3 col-md-4 col-sm-4">
+                        <div class="main-box clearfix">
+                            <header class="main-box-header clearfix">
+                                <h2>{{ target_account.user.first_name }} {{ target_account.user.last_name }}</h2>
+                            </header>
+
+                            <div class="main-box-body clearfix">
+                                <div class="profile-status">
+                                    <i class="fa fa-circle"></i> Online
+                                </div>
+
+                                <img src="{% static target_account.avatar %}"
+                                     alt=""
+                                     class="profile-img img-responsive center-block"/>
+
+
+                                <div class="profile-label">
+                                    <span class="label label-success">Active</span>
+                                </div>
+
+                                <div class="profile-stars">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o"></i>
+                                    <span>Super User</span>
+                                </div>
+
+                                <div class="profile-since">
+                                    Member since:
+                                    {{ target_account.user.date_joined.day }}.{{ target_account.user.date_joined.month }}.{{ target_account.user.date_joined.year }}
+                                </div>
+
+                                <div class="profile-details">
+                                    <ul class="fa-ul">
+                                        <li><i class="fa-li fa fa-truck"></i>Orders:
+                                            <span>456</span></li>
+                                        <li><i class="fa-li fa fa-tasks"></i>Tasks
+                                            done: <span>1024</span></li>
+                                    </ul>
+                                </div>
+
+                                <div class="profile-message-btn center-block text-center">
+                                    <a href="#" class="btn btn-success">
+                                        <i class="fa fa-plus"></i>
+                                        Add as friend
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {#                                Right hand side of profile page #}
+
+
+                    <div class="col-lg-9 col-md-8 col-sm-8">
+                        <div class="main-box clearfix">
+                            <div class="tabs-wrapper profile-tabs">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#tab-friends"
+                                                          data-toggle="tab">Friends</a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+
+                                    {#                                                FRIENDS #}
+
+                                    <div class="tab-pane fade in active"
+                                         id="tab-friends">
+                                        <ul class="widget-users row">
+                                            {% for friend in friends %}
+                                                <li class="col-md-6">
+                                                    <div class="img">
+                                                        <img src="{% static friend.account.avatar %}"
+                                                             alt=""/>
+                                                    </div>
+                                                    <div class="details">
+                                                        <div class="name">
+                                                            <a href="/user/{{friend.account.user_id}}">
+                                                                {{ friend.first_name }}
+                                                                {{ friend.last_name }}
+                                                            </a>
+                                                        </div>
+                                                        <div class="time">
+                                                            <i class="fa fa-clock-o"></i>
+                                                            Last
+                                                            online: {{ friend.last_login }}
+                                                        </div>
+                                                        <div class="type">
+                                                            <span class="label label-success">Active</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <br/>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
