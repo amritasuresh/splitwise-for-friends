@@ -29,7 +29,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-4">
                         <div class="main-box clearfix">
                             <header class="main-box-header clearfix">
-                                <h2>{{ account.user.first_name }} {{ account.user.last_name }}</h2>
+                                <h2>{{ my_account.user.first_name }} {{ my_account.user.last_name }}</h2>
                             </header>
 
                             <div class="main-box-body clearfix">
@@ -37,7 +37,7 @@
                                     <i class="fa fa-circle"></i> Online
                                 </div>
 
-                                <img src="{% static account.avatar %}"
+                                <img src="{% static my_account.avatar %}"
                                      alt=""
                                      class="profile-img img-responsive center-block"/>
 
@@ -57,7 +57,7 @@
 
                                 <div class="profile-since">
                                     Member since:
-                                    {{ account.user.date_joined.day }}.{{ account.user.date_joined.month }}.{{ account.user.date_joined.year }}
+                                    {{ my_account.user.date_joined.day }}.{{ my_account.user.date_joined.month }}.{{ my_account.user.date_joined.year }}
                                 </div>
 
                                 <div class="profile-details">
@@ -68,13 +68,6 @@
                                             done: <span>1024</span></li>
                                     </ul>
                                 </div>
-
-{#                                <div class="profile-message-btn center-block text-center">#}
-{#                                    <a href="#" class="btn btn-success">#}
-{#                                        <i class="fa fa-plus"></i>#}
-{#                                        Add as friend#}
-{#                                    </a>#}
-{#                                </div>#}
                             </div>
 
                         </div>
@@ -243,7 +236,7 @@
                                                     </div>
                                                     <div class="details">
                                                         <div class="name">
-                                                            <a href="#">
+                                                            <a href="/user/{{ friend.account.user_id }}">
                                                                 {{ friend.first_name }}
                                                                 {{ friend.last_name }}
                                                             </a>
