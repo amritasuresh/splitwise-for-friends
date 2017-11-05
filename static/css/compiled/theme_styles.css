@@ -536,7 +536,6 @@ h3 .small {
   float: left;
   display: block;
   margin-right: 3px;
-  font-size: em;
 }
 
 #header-nav .form-control {
@@ -4110,6 +4109,9 @@ input[type="radio"] {
   display: block;
   text-align: right;
 }
+.infographic-box .negative {
+  color: #E74C3C;
+}
 .infographic-box.merged {
   border-top: 1px solid #e7ebee;
   border-right: 1px solid #e7ebee;
@@ -4142,9 +4144,6 @@ input[type="radio"] {
   .infographic-box.merged.merged-top.merged-right {
     border-top: 1px solid #e7ebee;
   }
-}
-.negative {
-  color: #E74C3C;
 }
 
 /* RECENT - PRODUCTS */

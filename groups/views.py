@@ -150,5 +150,4 @@ def add_transaction_to_group_form(request, usergroup_id):
         return HttpResponseRedirect('/group/' + str(usergroup_id))
     else:
         return render(request, 'forms/add_transaction_to_group_form.html',
-                      {'form': AddTransactionToGroupForm(),
-                       "usergroup_id": usergroup_id})
+                      {'form': AddTransactionToGroupForm(), 'usergroup_id': usergroup_id})

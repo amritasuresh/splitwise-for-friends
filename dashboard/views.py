@@ -28,12 +28,12 @@ def dash(request):
     amount_due = 0.0
     amount_owed = 0.0
 
-    expenses_due = Transaction.objects.filter(payee=my_account)
+    expenses_due = Transaction.objects.filter(payer=my_account)
     for t in expenses_due:
         if t.status == 'O':
             amount_due += float(t.amount)
 
-    expenses_owed = Transaction.objects.filter(payer=my_account)
+    expenses_owed = Transaction.objects.filter(payee=my_account)
     for t in expenses_owed:
         if t.status == 'O':
             amount_owed += float(t.amount)
@@ -50,8 +50,8 @@ def dash(request):
     return render(request, 'sites/dashboard.html',
                   {'my_account': my_account, 'n_groups': groups.count(),
                    'n_friends': len(friends),
-                   'amount_due': "%.2f" % amount_due,
-                   'amount_owed': "%.2f" % amount_owed,
+                   'amount_due': "€%.2f" % amount_due,
+                   'amount_owed': "€%.2f" % amount_owed,
                    'balance': balance,
-                   'balance_string': "%.2f" % abs(balance),
+                   'balance_string': "€%.2f" % abs(balance),
                    'transactions': transactions})

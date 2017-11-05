@@ -5,25 +5,6 @@
     Dashboard
 {% endblock %}
 
-{% block scripts %}
-    <script>
-        $(function () {
-            $('.chart').easyPieChart({
-                easing: 'easeOutBounce',
-                onStep: function (from, to, percent) {
-                    $(this.el).find('.percent').text(Math.round(percent));
-                },
-                barColor: '#3498db',
-                trackColor: '#f2f2f2',
-                scaleColor: false,
-                lineWidth: 8,
-                size: 130,
-                animate: 1500
-            });
-        });
-    </script>
-{% endblock %}
-
 {% block mainpage_content %}
     <div id="content-wrapper">
         <div class="row">
@@ -32,8 +13,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
-                            <li><a href="/">HOME</a></li>
-                            <li class="active"><span>DASHBOARD</span></li>
+                            <li><a href="/">Home</a></li>
+                            <li class="active"><span>Dashboard</span></li>
                         </ol>
 
                         <div class="clearfix">
@@ -51,8 +32,7 @@
                             <i class="fa fa-group emerald-bg"></i>
                             <span class="headline">Groups</span>
                             <span class="value">
-                                <span class="timer" data-speed="800"
-                                      data-refresh-interval="30">
+                                <span class="timer" data-speed="800" data-refresh-interval="30">
                                     {{ n_groups }}
                                 </span>
                             </span>
@@ -175,5 +155,21 @@
             </div>
         </div>
     </div>
-    </div>
+
+    <script>
+        $(function () {
+            $('.chart').easyPieChart({
+                easing: 'easeOutBounce',
+                onStep: function (from, to, percent) {
+                    $(this.el).find('.percent').text(Math.round(percent));
+                },
+                barColor: '#3498db',
+                trackColor: '#f2f2f2',
+                scaleColor: false,
+                lineWidth: 8,
+                size: 130,
+                animate: 1500
+            });
+        });
+    </script>
 {% endblock %}
