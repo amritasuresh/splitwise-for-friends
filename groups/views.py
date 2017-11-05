@@ -24,8 +24,19 @@ def groups(request):
         users = User.objects.filter(groups__name=grp.name)
         group_name = grp.usergroup.group_name
         group_id = grp.usergroup.id
+        transactions = Transaction.objects.filter(group_id=grp.usergroup.id)
+        number_of_transactions = transactions.count()
+        total_money = sum([transaction.amount for transaction in transactions])
+
         groups_data.append(
-            {'group_name': group_name, 'users': users, 'id': group_id})
+            {
+                'group_name': group_name,
+                'users': users,
+                'id': group_id,
+                'number_of_transactions': number_of_transactions,
+                'total_money': total_money
+            }
+        )
 
     return render(request, 'sites/groups.html',
                   {'my_account': my_account, 'groups': groups_data})
