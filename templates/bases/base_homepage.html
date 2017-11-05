@@ -7,6 +7,12 @@
     {{ block.super }}
 {% endblock %}
 
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/scripts.js' %}"></script>
+    <script src="{% static 'js/pace.min.js' %}"></script>
+{% endblock %}
+
 {% block content %}
     {{ block.super }}
 
@@ -42,26 +48,6 @@
 
                     <div class="nav-no-collapse pull-right" id="header-nav">
                         <ul class="nav navbar-nav pull-right">
-
-                            {#                            Search bar #}
-
-                            <li class="mobile-search">
-                                <a class="btn">
-                                    <i class="fa fa-search"></i>
-                                </a>
-
-                                <div class="drowdown-search">
-                                    <form role="search">
-                                        <div class="form-group">
-                                            <input type="text"
-                                                   class="form-control"
-                                                   placeholder="Search...">
-                                            <i class="fa fa-search nav-search-icon"></i>
-                                        </div>
-                                    </form>
-                                </div>
-
-                            </li>
 
                             {#                            Notifications #}
 
@@ -189,7 +175,7 @@
                                     {#                                    My expenses #}
 
                                     <li>
-                                        <a href="index.html">
+                                        <a href="#">
                                             <i class="fa fa-credit-card"></i>
                                             <span>My Expenses</span>
                                         </a>
@@ -208,8 +194,4 @@
             </div>
         </div>
     </div>
-
-    <!-- theme scripts -->
-    <script src="{% static 'js/scripts.js' %}"></script>
-    <script src="{% static 'js/pace.min.js' %}"></script>
 {% endblock %}
