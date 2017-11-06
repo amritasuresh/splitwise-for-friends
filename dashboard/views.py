@@ -44,9 +44,6 @@ def dash(request):
         payee=my_account) | Transaction.objects.filter(payer=my_account)
     transactions = transactions.order_by('-created')[:10]
 
-    for transaction in transactions:
-        transaction.group
-
     return render(request, 'sites/dashboard.html',
                   {'my_account': my_account, 'n_groups': groups.count(),
                    'n_friends': len(friends),
