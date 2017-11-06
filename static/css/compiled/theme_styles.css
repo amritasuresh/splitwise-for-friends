@@ -4124,7 +4124,10 @@ input[type="radio"] {
   display: block;
   text-align: right;
 }
-.infographic-box .negative {
+.positive {
+  color: #2ECC71;
+}
+.negative {
   color: #E74C3C;
 }
 .infographic-box.merged {
