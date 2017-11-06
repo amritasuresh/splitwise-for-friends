@@ -44,7 +44,6 @@ def groups(request):
 
 @login_required(login_url='/login')
 def group(request, usergroup_id):
-    print(usergroup_id)
     try:
         usergroup = UserGroup.objects.get(id=usergroup_id)
     except UserGroup.DoesNotExist:
@@ -105,7 +104,7 @@ def add_user_to_group_form(request, usergroup_id):
         else:
             pass  # TODO
 
-        return HttpResponseRedirect('/group/' + str(usergroup_id))
+        return HttpResponseRedirect('/groups/' + str(usergroup_id))
     else:
         return render(request, 'forms/add_user_to_group_form.html',
                       {'form': AddUserToGroupForm(),
@@ -147,8 +146,7 @@ def add_transaction_to_group_form(request, usergroup_id):
         else:
             pass  # TODO
 
-        return HttpResponseRedirect('/group/' + str(usergroup_id))
+        return HttpResponseRedirect('/groups/' + str(usergroup_id))
     else:
         return render(request, 'forms/add_transaction_to_group_form.html',
-                      {'form': AddTransactionToGroupForm(),
-                       "usergroup_id": usergroup_id})
+                      {'form': AddTransactionToGroupForm(), 'usergroup_id': usergroup_id})

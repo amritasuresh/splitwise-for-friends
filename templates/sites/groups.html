@@ -8,7 +8,109 @@
 {#TODO: Fix a problem with charts#}
 {#TODO: Add modal window #}
 
-{% block scripts %}
+{% block mainpage_content %}
+    <div id="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li><a href="/">Home</a></li>
+                            <li class="active"><span>Groups</span></li>
+                        </ol>
+
+                        <div class="clearfix">
+                            <h1 class="pull-left">Groups</h1>
+
+
+                            <div class="pull-right top-page-ui">
+                                <a href="{% url 'create_group_form' %}"
+                                   class="btn btn-primary pull-right mrg-b-lg">
+                                    <i class=" fa fa-plus-circle fa-lg"></i>
+                                    Create group
+                                </a>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% for group in groups %}
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="main-box clearfix project-box emerald-box">
+                                <div class="main-box-body clearfix">
+                                    <div class="project-box-header emerald-bg">
+                                        <div class="name">
+                                            <a href="/groups/{{ group.id }}">
+                                                {{ group.group_name }}
+                                            </a>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="project-box-footer clearfix">
+                                        <a href="#">
+                                            <span class="value">{{ group.number_of_transactions }}</span>
+                                            <span class="label">
+                                                {% if group.number_of_transactions == 1 %}
+                                                    Transaction
+                                                {% else  %}
+                                                    Transactions
+                                                {% endif %}
+                                            </span>
+                                        </a>
+                                        <a href="#">
+                                            <span class="value">&euro;{{ group.total_money }}</span>
+                                            <span class="label">Total money</span>
+                                        </a>
+                                        <a href="#">
+                                            <span class="value">
+                                                {% if group.users %}
+                                                    {{ group.users.count }}
+                                                {% else %}
+                                                    ERROR
+                                                {% endif %}
+                                            </span>
+                                            <span class="label">
+                                                {% if group.users.count == 1 %}
+                                                    User
+                                                {% else  %}
+                                                    Users
+                                                {% endif %}
+                                            </span>
+                                        </a>
+                                    </div>
+
+                                    <div class="project-box-ultrafooter clearfix">
+
+                                        {% for u in group.users %}
+
+                                            <img class="project-img-owner"
+                                                 alt=""
+                                                 src="{% static u.account.avatar %}"
+                                                 data-toggle="tooltip"
+                                                 title="{{ u.first_name }} {{ u.last_name }}"/>
+
+                                        {% endfor %}
+
+                                        <a href="/groups/{{ group.id }}"
+                                           class="link pull-right">
+                                            <i class="fa fa-arrow-circle-right fa-lg"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(function () {
             $('.chart').easyPieChart({
@@ -25,96 +127,4 @@
             });
         });
     </script>
-{% endblock %}
-
-{% block mainpage_content %}
-    <div id="content-wrapper">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ol class="breadcrumb">
-                            <li><a href="/">HOME</a></li>
-                            <li class="active"><span>YOUR GROUPS</span></li>
-                        </ol>
-                        <div class="clearfix">
-                            <h1 class="pull-left">Groups</h1>
-                            <div class="pull-right top-page-ui">
-                                <a href="{% url 'create_group_form' %}"
-                                   class="btn btn-primary pull-right mrg-b-lg">
-                                    <i class=" fa fa-plus-circle fa-lg"></i>
-                                    Create new group
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    {% for group in groups %}
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="main-box clearfix project-box emerald-box">
-                                <div class="main-box-body clearfix">
-                                    <div class="project-box-header emerald-bg">
-                                        <div class="name">
-                                            <a href="/group/{{ group.id }}">
-                                                {{ group.group_name }}
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="project-box-content">
-												<span class="chart"
-                                                      data-percent="69">
-													<span class="percent"></span>%<br/>
-													<span class="lbl">completed</span>
-												</span>
-                                    </div>
-
-                                    <div class="project-box-footer clearfix">
-                                        <a href="#">
-                                            <span class="value">{{ group.number_of_transactions }}</span>
-                                            <span class="label">Transactions</span>
-                                        </a>
-                                        <a href="#">
-                                            <span class="value">&euro; {{ group.total_money }}</span>
-                                            <span class="label">Total money</span>
-                                        </a>
-                                        <a href="#">
-                                            <span class="value">
-                                                {% if group.users %}
-                                                    {{ group.users.count }}
-                                                {% else %}
-                                                    ERROR
-                                                {% endif %}
-                                            </span>
-                                            <span class="label">Users</span>
-                                        </a>
-                                    </div>
-
-                                    <div class="project-box-ultrafooter clearfix">
-
-                                        {% for u in group.users %}
-
-                                            <img class="project-img-owner"
-                                                 alt=""
-                                                 src="{% static u.account.avatar %}"
-                                                 data-toggle="tooltip"
-                                                 title="{{ u.first_name }} {{ u.last_name }}"/>
-
-                                        {% endfor %}
-
-                                        <a href="/group/{{ group.id }}"
-                                           class="link pull-right">
-                                            <i class="fa fa-arrow-circle-right fa-lg"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock %}

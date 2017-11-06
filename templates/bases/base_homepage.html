@@ -7,12 +7,6 @@
     {{ block.super }}
 {% endblock %}
 
-{% block scripts %}
-    {{ block.super }}
-    <script src="{% static 'js/scripts.js' %}"></script>
-    <script src="{% static 'js/pace.min.js' %}"></script>
-{% endblock %}
-
 {% block content %}
     {{ block.super }}
 
@@ -49,38 +43,9 @@
                     <div class="nav-no-collapse pull-right" id="header-nav">
                         <ul class="nav navbar-nav pull-right">
 
-                            {#                            Notifications #}
+                            {#                            Search bar #}
 
-                            <li class="dropdown hidden-xs">
-                                <a class="btn dropdown-toggle"
-                                   data-toggle="dropdown">
-                                    <i class="fa fa-warning"></i>
-                                    <span class="count">1</span>
-                                </a>
-                                <ul class="dropdown-menu notifications-list">
-                                    <li class="pointer">
-                                        <div class="pointer-inner">
-                                            <div class="arrow"></div>
-                                        </div>
-                                    </li>
-                                    <li class="item-header">You have 1 new
-                                        notification
-                                    </li>
-                                    <li class="item">
-                                        <a href="#">
-                                            <i class="fa fa-comment"></i>
-                                            <span class="content">Example notification</span>
-                                            <span class="time"><i
-                                                    class="fa fa-clock-o"></i>1 min.</span>
-                                        </a>
-                                    </li>
-                                    <li class="item-footer">
-                                        <a href="#">
-                                            View all notifications
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            {#                            Notifications #}
 
                             {#                            User bar #}
 
@@ -146,7 +111,7 @@
                                     <li>
                                         <a href="/">
                                             <i class="fa fa-home"></i>
-                                            <span>Home</span>
+                                            <span>HOME</span>
                                         </a>
                                     </li>
 
@@ -155,18 +120,18 @@
                                     <li>
                                         <a href="#" class="dropdown-toggle">
                                             <i class="fa fa-user"></i>
-                                            <span>Users</span>
+                                            <span>USERS</span>
                                             <i class="fa fa-chevron-circle-right drop-icon"></i>
                                         </a>
                                         <ul class="submenu">
                                             <li>
                                                 <a href="/users/friends/">
-                                                    My Friends
+                                                    MY FRIENDS
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="/users/">
-                                                    All Users
+                                                    ALL USERS
                                                 </a>
                                             </li>
                                         </ul>
@@ -177,7 +142,7 @@
                                     <li>
                                         <a href="/groups/">
                                             <i class="fa fa-users"></i>
-                                            <span>My Groups</span>
+                                            <span>MY GROUPS</span>
                                         </a>
                                     </li>
 
@@ -185,10 +150,28 @@
                                     {#                                    My expenses #}
 
                                     <li>
-                                        <a href="#">
+                                        <a href="#" class="dropdown-toggle">
                                             <i class="fa fa-credit-card"></i>
-                                            <span>My Transactions</span>
+                                            <span>MY TRANSACTIONS</span>
+                                            <i class="fa fa-chevron-circle-right drop-icon"></i>
                                         </a>
+                                        <ul class="submenu">
+                                            <li>
+                                                <a href="/transactions/pending/">
+                                                    PENDING
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/transactions/completed/">
+                                                    COMPLETED
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/transactions/">
+                                                    ALL TRANSACTIONS
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
 
                                 </ul>
@@ -204,4 +187,8 @@
             </div>
         </div>
     </div>
+
+    <!-- theme scripts -->
+    <script src="{% static 'js/scripts.js' %}"></script>
+    <script src="{% static 'js/pace.min.js' %}"></script>
 {% endblock %}

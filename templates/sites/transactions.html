@@ -1,0 +1,263 @@
+{% extends "bases/base_homepage.html" %}
+{% load static %}
+
+{% block title %}
+    {% if pending %}
+    Pending
+    {% elif completed %}
+    Completed
+    {% endif %}
+    Transactions
+{% endblock %}
+
+{% block mainpage_content %}
+    <div id="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li><a href="/">Home</a></li>
+                            {% if not pending and not completed %}
+                            <li class="active"><span>Transactions</span></li>
+                            {% elif pending %}
+                            <li><a href="/transactions/">Transactions</a></li>
+                            <li class="active"><span>Pending</span></li>
+                            {% else %}
+                            <li><a href="/transactions/">Transactions</a></li>
+                            <li class="active"><span>Completed</span></li>
+                            {% endif %}
+                        </ol>
+
+                        <div class="clearfix">
+                            <h1 class="pull-left">
+                                    {% if pending %}
+                                    Pending
+                                    {% elif completed %}
+                                    Completed
+                                    {% else %}
+                                    All
+                                    {% endif %}
+                                    Transactions
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-8 col-sm-8">
+                    <div class="main-box clearfix">
+                        <div class="tabs-wrapper profile-tabs">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab-all"
+                                       data-toggle="tab">All</a>
+                                </li>
+                                <li><a href="#tab-paying"
+                                       data-toggle="tab">Paying</a>
+                                </li>
+                                <li><a href="#tab-receiving"
+                                       data-toggle="tab">Receiving</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+
+                                {#             ALL TRANSACTIONS #}
+
+                                <div class="tab-pane active"
+                                     id="tab-all">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th><a href="#"><span>Title</span></a></th>
+                                            <th><a href="#"><span>Time</span></a></th>
+                                            <th><a href="#"><span>Payer</span></a></th>
+                                            <th><a href="#"><span>Receiver</span></a></th>
+                                            <th><a href="#"><span>Group</span></a></th>
+                                            {% if not pending and not completed %}
+                                            <th class="text-center"><span>Status</span></th>
+                                            {% endif %}
+                                            <th class="text-right"><span>Amount</span></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for transaction in transactions %}
+                                                <tr>
+                                                    <td>
+                                                        <a href="/transactions/{{ transaction.id }}">{{ transaction.name }}</a>
+                                                    </td>
+                                                    <td>
+                                                        {{ transaction.created }}
+                                                    </td>
+                                                    <td>
+                                                     <a href="/users/{{ transaction.payee.user.id }}">
+                                                            {{ transaction.payee.user.first_name }}
+                                                            {{ transaction.payee.user.last_name }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/users/{{ transaction.payer.user.id }}">
+                                                            {{ transaction.payer.user.first_name }}
+                                                            {{ transaction.payer.user.last_name }}
+                                                       </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/groups/{{ transaction.group.id }}">
+                                                            {{ transaction.group.group_name }}
+                                                       </a>
+                                                    </td>
+                                                    {% if not pending and not completed %}
+                                                    <td class="text-center">
+                                                        {% if transaction.status == 'C' %}
+                                                            <span class="label label-success">Completed</span>
+                                                        {% else %}
+                                                            <span class="label label-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    {% endif %}
+                                                    <td class="text-right">
+                                                        {% if transaction.payer == my_account %}
+                                                        <div class="positive">
+                                                        {% elif transaction.payee == my_account %}
+                                                        <div class="negative">
+                                                        {% endif %}
+                                                        &euro;{{ transaction.amount }}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br/>
+                                </div>
+
+                                <div class="tab-pane"
+                                     id="tab-paying">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th><a href="#"><span>Title</span></a></th>
+                                            <th><a href="#"><span>Time</span></a></th>
+                                            <th><a href="#"><span>Receiver</span></a></th>
+                                            <th><a href="#"><span>Group</span></a></th>
+                                            {% if not pending and not completed %}
+                                            <th class="text-center"><span>Status</span></th>
+                                            {% endif %}
+                                            <th class="text-right"><span>Amount</span></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for transaction in transactions_owed %}
+                                                <tr>
+                                                    <td>
+                                                        <a href="/transactions/{{ transaction.id }}">{{ transaction.name }}</a>
+                                                    </td>
+                                                    <td>
+                                                        {{ transaction.created }}
+                                                    </td>
+                                                    <td>
+                                                        <a href="/users/{{ transaction.payer.user.id }}">
+                                                            {{ transaction.payer.user.first_name }}
+                                                            {{ transaction.payer.user.last_name }}
+                                                       </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/groups/{{ transaction.group.id }}">
+                                                            {{ transaction.group.group_name }}
+                                                       </a>
+                                                    </td>
+                                                    {% if not pending and not completed %}
+                                                    <td class="text-center">
+                                                        {% if transaction.status == 'C' %}
+                                                            <span class="label label-success">Completed</span>
+                                                        {% else %}
+                                                            <span class="label label-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    {% endif %}
+                                                    <td class="text-right">
+                                                        {% if transaction.payer == my_account %}
+                                                        <div class="positive">
+                                                        {% elif transaction.payee == my_account %}
+                                                        <div class="negative">
+                                                        {% endif %}
+                                                        &euro;{{ transaction.amount }}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br/>
+                                </div>
+
+                                <div class="tab-pane"
+                                     id="tab-receiving">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th><a href="#"><span>Title</span></a></th>
+                                            <th><a href="#"><span>Time</span></a></th>
+                                            <th><a href="#"><span>Payer</span></a></th>
+                                            <th><a href="#"><span>Group</span></a></th>
+                                            {% if not pending and not completed %}
+                                            <th class="text-center"><span>Status</span></th>
+                                            {% endif %}
+                                            <th class="text-right"><span>Amount</span></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for transaction in transactions_due %}
+                                                <tr>
+                                                    <td>
+                                                        <a href="/transactions/{{ transaction.id }}">{{ transaction.name }}</a>
+                                                    </td>
+                                                    <td>
+                                                        {{ transaction.created }}
+                                                    </td>
+                                                    <td>
+                                                        <a href="/users/{{ transaction.payee.user.id }}">
+                                                            {{ transaction.payee.user.first_name }}
+                                                            {{ transaction.payee.user.last_name }}
+                                                       </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/groups/{{ transaction.group.id }}">
+                                                            {{ transaction.group.group_name }}
+                                                       </a>
+                                                    </td>
+                                                    {% if not pending and not completed %}
+                                                    <td class="text-center">
+                                                        {% if transaction.status == 'C' %}
+                                                            <span class="label label-success">Completed</span>
+                                                        {% else %}
+                                                            <span class="label label-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    {% endif %}
+                                                    <td class="text-right">
+                                                        {% if transaction.payer == my_account %}
+                                                        <div class="positive">
+                                                        {% elif transaction.payee == my_account %}
+                                                        <div class="negative">
+                                                        {% endif %}
+                                                        &euro;{{ transaction.amount }}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br/>
+                                </div>
+
+                            </div>
+                        </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

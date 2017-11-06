@@ -33,41 +33,16 @@
                             </header>
 
                             <div class="main-box-body clearfix">
-                                <div class="profile-status">
-                                    <i class="fa fa-circle"></i> Online
-                                </div>
 
                                 <img src="{% static my_account.avatar %}"
                                      alt=""
                                      class="profile-img img-responsive center-block"/>
-
-
-                                <div class="profile-label">
-                                    <span class="label label-success">Active</span>
-                                </div>
-
-                                <div class="profile-stars">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <span>Super User</span>
-                                </div>
 
                                 <div class="profile-since">
                                     Member since:
                                     {{ my_account.user.date_joined.day }}.{{ my_account.user.date_joined.month }}.{{ my_account.user.date_joined.year }}
                                 </div>
 
-                                <div class="profile-details">
-                                    <ul class="fa-ul">
-                                        <li><i class="fa-li fa fa-truck"></i>Orders:
-                                            <span>456</span></li>
-                                        <li><i class="fa-li fa fa-tasks"></i>Tasks
-                                            done: <span>1024</span></li>
-                                    </ul>
-                                </div>
                             </div>
 
                         </div>
@@ -240,14 +215,6 @@
                                                                 {{ friend.first_name }}
                                                                 {{ friend.last_name }}
                                                             </a>
-                                                        </div>
-                                                        <div class="time">
-                                                            <i class="fa fa-clock-o"></i>
-                                                            Last
-                                                            online: {{ friend.last_login }}
-                                                        </div>
-                                                        <div class="type">
-                                                            <span class="label label-success">Active</span>
                                                         </div>
                                                     </div>
                                                 </li>

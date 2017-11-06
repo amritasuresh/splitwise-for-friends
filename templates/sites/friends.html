@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    Users
+    Friends
 {% endblock %}
 
 {% block mainpage_content %}
@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="/">Home</a></li>
                             <li><a href="/users/">Users</a></li>
                             <li class="active"><span>Friends</span></li>
                         </ol>
@@ -45,7 +45,7 @@
                                                 <td>
                                                     <img src="{% static 'img/anonymous_user.png' %}"
                                                          alt=""/>
-                                                    <a href="/user/{{ user.account.user_id }}"
+                                                    <a href="/users/{{ user.account.user_id }}"
                                                        class="user-link">
                                                         {{ user.first_name }} {{ user.last_name }}
                                                     </a>

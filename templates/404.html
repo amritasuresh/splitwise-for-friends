@@ -1,0 +1,34 @@
+{% extends "bases/base_project.html" %}
+{% load static %}
+
+{% block title %}
+    Error 404
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div id="error-box">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="error-box-inner">
+                                <img src="img/error-404-v3.png"
+                                     alt="Have you seen this page?"/>
+                            </div>
+                            <h1>ERROR 404</h1>
+                            <p>
+                                Page not found.<br/>
+                                If you find this page, let us know.
+                            </p>
+                            <p>
+                                Go back to <a href="/">homepage</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    Group
+    {{ usergroup.group_name }}
 {% endblock %}
 
 {#TODO: Fix a problem with dashboard graph#}
@@ -16,28 +16,28 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
-                            <li><a href="/">HOME</a></li>
-                            <li><a href="/groups">YOUR GROUPS</a></li>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/groups">Groups</a></li>
                             <li class="active">
-                                <span>{{usergroup.group_name}}</span></li>
+                                <span>{{ usergroup.group_name }}</span></li>
                         </ol>
 
-                        <div class="clearfix">
+                        <div class="filter-block clearfix">
                             <h1 class="pull-left">{{ usergroup.group_name }}</h1>
 
                             <div class="pull-right top-page-ui">
-                                <a href="/group/{{ usergroup.id }}/adduser"
+                                <a href="/groups/{{ usergroup.id }}/adduser"
                                    class="btn btn-primary pull-right mrg-b-lg">
                                     <i class=" fa fa-plus-circle fa-lg"></i>
-                                    Add new user
+                                    Add member
                                 </a>
                             </div>
 
                             <div class="pull-right top-page-ui">
-                                <a href="/group/{{ usergroup.id }}/addtransaction"
+                                <a href="/groups/{{ usergroup.id }}/addtransaction"
                                    class="btn btn-primary pull-right mrg-b-lg">
-                                    <i class=" fa fa-plus-circle fa-lg"></i>
-                                    Add new expense
+                                    <i class="fa fa-plus-circle fa-lg"></i>
+                                    Add expense
                                 </a>
                             </div>
 
@@ -49,17 +49,11 @@
                     <div class="main-box clearfix">
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
-                                <li class="active">
-                                    <a href="#tab-dashboard"
-                                       data-toggle="tab">
-                                        Dashboard
-                                    </a>
-                                </li>
-                                <li><a href="#tab-expenses"
-                                       data-toggle="tab">Expenses</a>
+                                <li class="active"><a href="#tab-transactions"
+                                       data-toggle="tab">Transactions</a>
                                 </li>
                                 <li><a href="#tab-teammembers"
-                                       data-toggle="tab">Team members</a>
+                                       data-toggle="tab">Members</a>
                                 </li>
                             </ul>
 
@@ -67,155 +61,9 @@
 
                                 {#                  DASHBOARD #}
 
-                                <div class="tab-pane fade in active"
-                                     id="tab-dashboard">
-
-                                    <div class="table-responsive">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-sm-6 col-xs-12">
-                                                <div class="main-box infographic-box">
-                                                    <i class="fa fa-user red-bg"></i>
-                                                    <span class="headline">Users</span>
-                                                    <span class="value">
-											<span class="timer" data-from="120"
-                                                  data-to="2562"
-                                                  data-speed="1000"
-                                                  data-refresh-interval="50">
-												2562
-											</span>
-										</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-xs-12">
-                                                <div class="main-box infographic-box">
-                                                    <i class="fa fa-shopping-cart emerald-bg"></i>
-                                                    <span class="headline">Purchases</span>
-                                                    <span class="value">
-											<span class="timer" data-from="30"
-                                                  data-to="658" data-speed="800"
-                                                  data-refresh-interval="30">
-												658
-											</span>
-										</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-xs-12">
-                                                <div class="main-box infographic-box">
-                                                    <i class="fa fa-money green-bg"></i>
-                                                    <span class="headline">Income</span>
-                                                    <span class="value">
-											&#36;<span class="timer"
-                                                       data-from="83"
-                                                       data-to="8400"
-                                                       data-speed="900"
-                                                       data-refresh-interval="60">
-												8400
-											</span>
-										</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-sm-6 col-xs-12">
-                                                <div class="main-box infographic-box">
-                                                    <i class="fa fa-eye yellow-bg"></i>
-                                                    <span class="headline">Monthly Visits</span>
-                                                    <span class="value">
-											<span class="timer" data-from="539"
-                                                  data-to="12526"
-                                                  data-speed="1100">
-												12526
-											</span>
-										</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-9 col-lg-10">
-                                                <div class="main-box">
-                                                    <div class="row">
-                                                        <div class="col-md-9">
-                                                            <div class="graph-box emerald-bg">
-                                                                <h2>Sales &amp;
-                                                                    Earnings</h2>
-                                                                <div class="graph"
-                                                                     id="graph-line"
-                                                                     style="max-height: 335px;"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="row graph-nice-legend">
-                                                                <div class="graph-legend-row col-md-12 col-sm-4">
-                                                                    <div class="graph-legend-row-inner">
-															<span class="graph-legend-name">
-																Earnings
-															</span>
-                                                                        <span class="graph-legend-value">
-																&dollar;94.382
-															</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="graph-legend-row col-md-12 col-sm-4">
-                                                                    <div class="graph-legend-row-inner">
-															<span class="graph-legend-name">
-																Orders
-															</span>
-                                                                        <span class="graph-legend-value">
-																3.930
-															</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="graph-legend-row col-md-12 col-sm-4">
-                                                                    <div class="graph-legend-row-inner">
-															<span class="graph-legend-name">
-																New Clients
-															</span>
-                                                                        <span class="graph-legend-value">
-																894
-															</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-3 col-lg-2">
-                                                <div class="social-box-wrapper">
-                                                    <div class="social-box col-md-12 col-sm-4 facebook">
-                                                        <i class="fa fa-facebook"></i>
-                                                        <div class="clearfix">
-                                                            <span class="social-count">184k</span>
-                                                            <span class="social-action">likes</span>
-                                                        </div>
-                                                        <span class="social-name">facebook</span>
-                                                    </div>
-                                                    <div class="social-box col-md-12 col-sm-4 twitter">
-                                                        <i class="fa fa-twitter"></i>
-                                                        <div class="clearfix">
-                                                            <span class="social-count">49k</span>
-                                                            <span class="social-action">tweets</span>
-                                                        </div>
-                                                        <span class="social-name">twitter</span>
-                                                    </div>
-                                                    <div class="social-box col-md-12 col-sm-4 google">
-                                                        <i class="fa fa-google-plus"></i>
-                                                        <div class="clearfix">
-                                                            <span class="social-count">204</span>
-                                                            <span class="social-action">circles</span>
-                                                        </div>
-                                                        <span class="social-name">google+</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
                                 {#             TEAM MEMBERS #}
 
-                                <div class="tab-pane clearfix fade"
+                                <div class="tab-pane"
                                      id="tab-teammembers">
                                     <ul class="widget-users row">
 
@@ -227,16 +75,9 @@
                                                 </div>
                                                 <div class="details">
                                                     <div class="name">
-                                                        <a href="/user/{{ user.account.user_id }}">
+                                                        <a href="/users/{{ user.account.user_id }}">
                                                             {{ user.first_name }} {{ user.last_name }}
                                                         </a>
-                                                    </div>
-                                                    <div class="time online">
-                                                        <i class="fa fa-check-circle"></i>
-                                                        Online
-                                                    </div>
-                                                    <div class="type">
-                                                        <span class="label label-success">Active</span>
                                                     </div>
                                                 </div>
                                             </li>
@@ -246,60 +87,63 @@
                                     <br/>
                                 </div>
 
-                                {#             EXPENSES #}
+                                {#             TRANSACTIONS #}
 
-                                <div class="tab-pane clearfix fade"
-                                     id="tab-expenses">
+                                <div class="tab-pane active"
+                                     id="tab-transactions">
                                     <table class="table table-hover">
                                         <thead>
                                         <tr>
-                                            <th>
-                                                <a href="#"><span>Title</span></a>
-                                            </th>
-                                            <th><a href="#" class="desc"><span>Time</span></a>
-                                            </th>
-                                            <th><a href="#" class="asc"><span>Payer</span></a>
-                                            </th>
-                                            <th><a href="#" class="asc"><span>Payee</span></a>
-                                            </th>
-                                            <th class="text-center">
-                                                <span>Status</span></th>
-                                            <th class="text-right">
-                                                <span>Price</span></th>
+                                            <th><a href="#"><span>Title</span></a></th>
+                                            <th><a href="#"><span>Time</span></a></th>
+                                            <th><a href="#"><span>Payer</span></a></th>
+                                            <th><a href="#"><span>Receiver</span></a></th>
+                                            <th class="text-center"><span>Status</span></th>
+                                            <th class="text-right"><span>Amount</span></th>
                                             <th>&nbsp;</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for transaction in transactions %}
-                                            <tr>
-                                                <td>
-                                                    <a href="#">{{ transaction.name }}</a>
-                                                </td>
-                                                <td>
-                                                    {{ transaction.created }}
-                                                </td>
-                                                <td>
-                                                    <a href="/user/{{ transaction.payer.user.id }}">
-                                                        {{ transaction.payer.user.username }}
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <a href="/user/{{ transaction.payee.user.id }}">
-                                                        {{ transaction.payee.user.username }}
-                                                    </a>
-                                                </td>
-                                                <td class="text-center">
-                                                    {% if transaction.status == 1 %}
-                                                        <span class="label label-success">Completed</span>
-                                                    {% else %}
-                                                        <span class="label label-warning">Pending</span>
-                                                    {% endif %}
-                                                </td>
-                                                <td class="text-right">
-                                                    &euro; {{ transaction.amount }}
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
+                                            {% for transaction in transactions %}
+                                                <tr>
+                                                    <td>
+                                                        <a href="/transactions/{{ transaction.id }}">
+                                                            {{ transaction.name }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        {{ transaction.created }}
+                                                    </td>
+                                                    <td>
+                                                     <a href="/users/{{ transaction.payee.user.id }}">
+                                                            {{ transaction.payee.user.first_name }}
+                                                            {{ transaction.payee.user.last_name }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/users/{{ transaction.payer.user.id }}">
+                                                            {{ transaction.payer.user.first_name }}
+                                                            {{ transaction.payer.user.last_name }}
+                                                       </a>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {% if transaction.status == 'C' %}
+                                                            <span class="label label-success">Completed</span>
+                                                        {% else %}
+                                                            <span class="label label-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        {% if transaction.payer == my_account %}
+                                                        <div class="positive">
+                                                        {% elif transaction.payee == my_account %}
+                                                        <div class="negative">
+                                                        {% endif %}
+                                                        &euro;{{ transaction.amount }}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
                                     <br/>

@@ -1,0 +1,149 @@
+{% extends "bases/base_homepage.html" %}
+{% load static %}
+
+{% block title %}
+    Transaction: {{ transaction.name }}
+{% endblock %}
+
+{% block mainpage_content %}
+
+    <div id="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/transactions/">Transactions</a></li>
+                            <li class="active"><span>{{ transaction.name }}</span></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="main-box clearfix">
+                            <header class="main-box-header clearfix">
+                                <h2 class="pull-left" id="transaction-title">{{ transaction.name }}</h2>
+
+                                <div class="filter-block pull-right">
+                                    {% if can_delete and not completed %}
+                                    <a href="/transactions/{{ transaction.id }}/delete" class="btn btn-danger pull-right">
+                                        <i class="fa fa-trash fa-lg"></i> Delete
+                                    </a>
+                                    {% endif %}
+
+                                    {% if can_edit and not completed %}
+                                    <a href="#" class="btn btn-primary pull-right">
+                                        <i class="fa fa-pencil fa-lg"></i> Edit
+                                    </a>
+                                    {% endif %}
+
+                                    {% if can_pay and not completed %}
+                                    <a href="/transactions/{{ transaction.id }}/pay" class="btn btn-success pull-right">
+                                        <i class="fa fa-mail-forward fa-lg"></i> Pay
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </header>
+
+                            <div class="main-box-body clearfix">
+                                <div id="invoice-companies" class="row">
+                                    <div class="col-sm-4 invoice-box">
+                                        <div class="invoice-icon hidden-sm">
+                                            <i class="fa fa-arrow-circle-right"></i> From
+                                        </div>
+                                        <div class="invoice-company">
+                                            <h4>
+                                                <div class="invoice-company-title">
+                                                    Payer
+                                                </div>
+                                            </h4>
+                                            <p>
+                                                {{ transaction.payee.user.first_name }}
+                                                {{ transaction.payee.user.last_name }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 invoice-box">
+                                        <div class="invoice-icon hidden-sm">
+                                            <i class="fa fa-envelope"></i> To
+                                        </div>
+                                        <div class="invoice-company">
+                                            <h4>
+                                                <div class="invoice-company-title">
+                                                    Receiver
+                                                </div>
+                                            </h4>
+                                            <p>
+                                                {{ transaction.payer.user.first_name }}
+                                                {{ transaction.payer.user.last_name }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 invoice-box invoice-box-dates">
+                                        <div class="invoice-dates">
+                                            <div class="invoice-number clearfix">
+                                                {% if completed %}
+                                                <span class="pull-right invoice-complete">COMPLETED</span>
+                                                {% else %}
+                                                <span class="pull-right invoice-incomplete">PENDING</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="invoice-date clearfix">
+                                                <strong>Group:</strong>
+                                                <span class="pull-right">{{ transaction.group.group_name }}</span>
+                                            </div>
+                                            <div class="invoice-date invoice-date clearfix">
+                                                <strong>Date created:</strong>
+                                                <span class="pull-right">
+                                                    {{ date_created }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="invoice-companies" class="clearfix">
+                                    <div class="invoice-company">
+                                            <h4>
+                                                Message
+                                            </h4>
+                                            <p>
+                                                {{ transaction.message }}
+                                            </p>
+                                    </div>
+                                </div>
+
+                                <div class="invoice-box-total clearfix">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-6 col-xs-6 text-right invoice-box-total-label">
+                                            ID#
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-xs-6 text-right invoice-box-total-value">
+                                            {{ transaction.id }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row grand-total">
+                                        <div class="col-sm-6 col-md-6 col-xs-6 text-right invoice-box-total-label">
+                                            Amount
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-xs-6 text-right invoice-box-total-value">
+                                            {{ transaction_amount }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
