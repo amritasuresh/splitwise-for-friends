@@ -33,7 +33,7 @@
                             <span class="headline">YOU'RE DUE</span>
                             <span class="value">
                                 <span class="timer" data-speed="900" data-refresh-interval="60">
-                                {{ amount_due }}
+                                {{ amount_due_string }}
                             </span>
                             </span>
                         </div>
@@ -43,9 +43,13 @@
                         <div class="main-box infographic-box">
                             <i class="fa fa-credit-card red-bg"></i>
                             <span class="headline">YOU OWE</span>
+                            {% if amount_owed == 0 %}
+                            <span class="value">
+                            {% else %}
                             <span class="value negative">
+                            {% endif %}
                                 <span class="timer" data-speed="1100">
-                                    {{ amount_owed }}
+                                    {{ amount_owed_string }}
                                 </span>
                             </span>
                         </div>
@@ -96,7 +100,9 @@
                                             {% for transaction in transactions %}
                                                 <tr>
                                                     <td>
-                                                        <a href="#">{{ transaction.name }}</a>
+                                                        <a href="/transactions/{{ transaction.id }}">
+                                                            {{ transaction.name }}</a>
+                                                        </a>
                                                     </td>
                                                     <td>
                                                         {{ transaction.created }}

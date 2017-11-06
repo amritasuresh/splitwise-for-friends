@@ -22,22 +22,22 @@
                                 <span>{{ usergroup.group_name }}</span></li>
                         </ol>
 
-                        <div class="clearfix">
+                        <div class="filter-block clearfix">
                             <h1 class="pull-left">{{ usergroup.group_name }}</h1>
 
                             <div class="pull-right top-page-ui">
                                 <a href="/groups/{{ usergroup.id }}/adduser"
                                    class="btn btn-primary pull-right mrg-b-lg">
                                     <i class=" fa fa-plus-circle fa-lg"></i>
-                                    Add new member
+                                    Add member
                                 </a>
                             </div>
 
                             <div class="pull-right top-page-ui">
                                 <a href="/groups/{{ usergroup.id }}/addtransaction"
                                    class="btn btn-primary pull-right mrg-b-lg">
-                                    <i class=" fa fa-plus-circle fa-lg"></i>
-                                    Add new expense
+                                    <i class="fa fa-plus-circle fa-lg"></i>
+                                    Add expense
                                 </a>
                             </div>
 
@@ -49,8 +49,8 @@
                     <div class="main-box clearfix">
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab-expenses"
-                                       data-toggle="tab">Expenses</a>
+                                <li class="active"><a href="#tab-transactions"
+                                       data-toggle="tab">Transactions</a>
                                 </li>
                                 <li><a href="#tab-teammembers"
                                        data-toggle="tab">Members</a>
@@ -87,10 +87,10 @@
                                     <br/>
                                 </div>
 
-                                {#             EXPENSES #}
+                                {#             TRANSACTIONS #}
 
                                 <div class="tab-pane active"
-                                     id="tab-expenses">
+                                     id="tab-transactions">
                                     <table class="table table-hover">
                                         <thead>
                                         <tr>
@@ -107,7 +107,9 @@
                                             {% for transaction in transactions %}
                                                 <tr>
                                                     <td>
-                                                        <a href="#">{{ transaction.name }}</a>
+                                                        <a href="/transactions/{{ transaction.id }}">
+                                                            {{ transaction.name }}
+                                                        </a>
                                                     </td>
                                                     <td>
                                                         {{ transaction.created }}
