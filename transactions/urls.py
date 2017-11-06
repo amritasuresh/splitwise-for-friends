@@ -15,4 +15,8 @@ urlpatterns = [
     # individual transactions
     url(r'^transactions/(?P<transaction_id>[0-9A-Fa-f-]+)/$', views.transaction),
 
+    # transaction operations
+    url(r'^transactions/(?P<transaction_id>[0-9A-Fa-f-]+)/pay/$', views.pay),
+url(r'^transactions/(?P<transaction_id>[0-9A-Fa-f-]+)/delete/$', views.delete),
+
 ]

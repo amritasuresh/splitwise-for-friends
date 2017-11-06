@@ -95,3 +95,51 @@ def transaction(request, transaction_id):
                    'can_pay': can_pay,
                    'can_edit': can_edit,
                    'can_delete': can_delete})
+
+
+@login_required(login_url='/login')
+def pay(request, transaction_id):
+    try:
+        t = Transaction.objects.get(id=transaction_id)
+    except Transaction.DoesNotExist:
+        t = None  # TODO invalid transaction id
+
+    can_pay = False
+    my_account = Account.objects.get(user=request.user)
+    if my_account == t.payee:
+            can_pay = True
+
+    if t.status != 'C' and can_pay:
+        t.status = 'C'
+        t.finished = datetime.now()
+
+    t.save()
+
+    return render(request, 'sites/transaction_payment.html',
+                  {'my_account': my_account, 'transaction': t,
+                   'transaction_amount': "€%.2f" % t.amount,
+                   'can_pay': can_pay})
+
+
+@login_required(login_url='/login')
+def delete(request, transaction_id):
+    try:
+        t = Transaction.objects.get(id=transaction_id)
+    except Transaction.DoesNotExist:
+        t = None  # TODO invalid transaction id
+
+    can_delete = False
+    my_account = Account.objects.get(user=request.user)
+    if my_account == t.payee or my_account == t.payer:
+            can_delete = True
+
+    print(can_delete)
+    name = t.name
+    print(name)
+    print(t.status)
+    if t.status != 'C' and can_delete:
+        t.delete()
+
+    return render(request, 'sites/transaction_deletion.html',
+                  {'my_account': my_account, 'transaction_name': name,
+                   'can_delete': can_delete})
