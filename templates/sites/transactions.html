@@ -109,7 +109,7 @@
                                                     </td>
                                                     {% if not pending and not completed %}
                                                     <td class="text-center">
-                                                        {% if transaction.status == 1 %}
+                                                        {% if transaction.status == 'C' %}
                                                             <span class="label label-success">Completed</span>
                                                         {% else %}
                                                             <span class="label label-warning">Pending</span>
@@ -170,7 +170,7 @@
                                                     </td>
                                                     {% if not pending and not completed %}
                                                     <td class="text-center">
-                                                        {% if transaction.status == 1 %}
+                                                        {% if transaction.status == 'C' %}
                                                             <span class="label label-success">Completed</span>
                                                         {% else %}
                                                             <span class="label label-warning">Pending</span>
@@ -231,7 +231,7 @@
                                                     </td>
                                                     {% if not pending and not completed %}
                                                     <td class="text-center">
-                                                        {% if transaction.status == 1 %}
+                                                        {% if transaction.status == 'C' %}
                                                             <span class="label label-success">Completed</span>
                                                         {% else %}
                                                             <span class="label label-warning">Pending</span>

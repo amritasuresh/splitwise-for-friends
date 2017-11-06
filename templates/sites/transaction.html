@@ -29,7 +29,7 @@
 
                                 <div class="filter-block pull-right">
                                     {% if can_delete and not completed %}
-                                    <a href="#" class="btn btn-danger pull-right">
+                                    <a href="/transactions/{{ transaction.id }}/delete" class="btn btn-danger pull-right">
                                         <i class="fa fa-trash fa-lg"></i> Delete
                                     </a>
                                     {% endif %}
@@ -41,7 +41,7 @@
                                     {% endif %}
 
                                     {% if can_pay and not completed %}
-                                    <a href="#" class="btn btn-success pull-right">
+                                    <a href="/transactions/{{ transaction.id }}/pay" class="btn btn-success pull-right">
                                         <i class="fa fa-mail-forward fa-lg"></i> Pay
                                     </a>
                                     {% endif %}
