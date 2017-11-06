@@ -43,7 +43,7 @@
                                         {% for user in users %}
                                             <tr>
                                                 <td>
-                                                    <img src="{% static 'img/anonymous_user.png' %}"
+                                                    <img src="{% static user.account.avatar %}"
                                                          alt=""/>
                                                     <a href="/users/{{ user.account.user_id }}"
                                                        class="user-link">
