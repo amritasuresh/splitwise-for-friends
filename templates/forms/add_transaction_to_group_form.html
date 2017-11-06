@@ -7,7 +7,7 @@
 
 {% block content %}
     <div class="form-horizontal">
-        <form action="/group/{{ usergroup_id }}/addtransaction" method="POST">
+        <form action="/groups/group{{ usergroup_id }}/addtransaction" method="POST">
             {% csrf_token %}
 
             <h2>ADD TRANSACTION TO GROUP</h2>

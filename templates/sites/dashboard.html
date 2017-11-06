@@ -13,8 +13,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
-                            <li><a href="/">HOME</a></li>
-                            <li class="active"><span>DASHBOARD</span></li>
+                            <li><a href="/">Home</a></li>
+                            <li class="active"><span>Dashboard</span></li>
                         </ol>
 
                         <div class="clearfix">
@@ -31,7 +31,11 @@
                         <div class="main-box infographic-box">
                             <i class="fa fa-money green-bg"></i>
                             <span class="headline">YOU'RE DUE</span>
+                            {% if amount_due == 0 %}
                             <span class="value">
+                            {% else %}
+                            <span class="value positive">
+                            {% endif %}
                                 <span class="timer" data-speed="900" data-refresh-interval="60">
                                 {{ amount_due_string }}
                             </span>
@@ -60,9 +64,11 @@
                             <i class="fa fa-euro yellow-bg"></i>
                             <span class="headline">TOTAL BALANCE</span>
                             {% if balance > 0 %}
-                            <span class="value">
-                            {% else %}
+                            <span class="value positive">
+                            {% elif balance < 0 %}
                             <span class="value negative">
+                            {% else %}
+                            <span class="value">
                             {% endif %}
                                 <span class="timer" data-speed="1100">
                                     {{ balance_string }}
@@ -132,7 +138,13 @@
                                                         {% endif %}
                                                     </td>
                                                     <td class="text-right">
-                                                        &euro; {{ transaction.amount }}
+                                                        {% if transaction.payer == my_account %}
+                                                        <div class="positive">
+                                                        {% elif transaction.payee == my_account %}
+                                                        <div class="negative">
+                                                        {% endif %}
+                                                        &euro;{{ transaction.amount }}
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             {% endfor %}
