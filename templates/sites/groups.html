@@ -16,8 +16,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
-                            <li><a href="/">HOME</a></li>
-                            <li class="active"><span>GROUPS</span></li>
+                            <li><a href="/">Home</a></li>
+                            <li class="active"><span>Groups</span></li>
                         </ol>
 
                         <div class="clearfix">
@@ -44,7 +44,7 @@
                                 <div class="main-box-body clearfix">
                                     <div class="project-box-header emerald-bg">
                                         <div class="name">
-                                            <a href="/group/{{ group.id }}">
+                                            <a href="/groups/{{ group.id }}">
                                                 {{ group.group_name }}
                                             </a>
                                         </div>
@@ -55,7 +55,13 @@
                                     <div class="project-box-footer clearfix">
                                         <a href="#">
                                             <span class="value">{{ group.number_of_transactions }}</span>
-                                            <span class="label">Transactions</span>
+                                            <span class="label">
+                                                {% if group.number_of_transactions == 1 %}
+                                                    Transaction
+                                                {% else  %}
+                                                    Transactions
+                                                {% endif %}
+                                            </span>
                                         </a>
                                         <a href="#">
                                             <span class="value">&euro;{{ group.total_money }}</span>
@@ -69,7 +75,13 @@
                                                     ERROR
                                                 {% endif %}
                                             </span>
-                                            <span class="label">Users</span>
+                                            <span class="label">
+                                                {% if group.users.count == 1 %}
+                                                    User
+                                                {% else  %}
+                                                    Users
+                                                {% endif %}
+                                            </span>
                                         </a>
                                     </div>
 

@@ -13,8 +13,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Users</a></li>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/users/">Users</a></li>
                             <li class="active"><span>{{ target_account.user.first_name }} {{ target_account.user.last_name }}</span></li>
                         </ol>
 
@@ -75,7 +75,7 @@
                                                     </div>
                                                     <div class="details">
                                                         <div class="name">
-                                                            <a href="/user/{{friend.account.user_id}}">
+                                                            <a href="/users/{{friend.account.user_id}}">
                                                                 {{ friend.first_name }}
                                                                 {{ friend.last_name }}
                                                             </a>

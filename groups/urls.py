@@ -11,10 +11,10 @@ urlpatterns = [
     url(r'^groups/$', groups),
 
     # single group
-    url(r'^group/(?P<usergroup_id>[0-9A-Fa-f-]+)/$', views.group),
-    url(r'^group/(?P<usergroup_id>[0-9A-Fa-f-]+)/adduser',
+    url(r'^groups/(?P<usergroup_id>[0-9A-Fa-f-]+)/$', views.group),
+    url(r'^groups/(?P<usergroup_id>[0-9A-Fa-f-]+)/adduser',
         views.add_user_to_group_form),
-    url(r'^group/(?P<usergroup_id>[0-9A-Fa-f-]+)/addtransaction',
+    url(r'^groups/(?P<usergroup_id>[0-9A-Fa-f-]+)/addtransaction',
         views.add_transaction_to_group_form),
 
     # forms:
