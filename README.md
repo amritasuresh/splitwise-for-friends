@@ -1,20 +1,18 @@
 # accounting_for_friends
-The software should allow to keep track of money spent between friends, e.g. during a holiday. It should help them to settle their accounts.
+The software allows users to keep track of money spent between friends, e.g. during a holiday, and helps settle their accounts.
 ## Getting Started
-
-Clone the repository to your local system.
 
 ### Prerequisites
 
 You need virtualenv set up on your machine.
-To set it up (You can do it as follows if you have pip 1.3 or higher installed in your system):
+To set it up, run the following command. You will need to have pip 1.3 or higher installed:
 
     pip3 install virtualenv
 
 ### Installing
 
-Clone the repository and go into the folder _/accounting_for_friends_
-Then:
+Clone the repository to your local system and go into the folder _/accounting_for_friends_.
+Then run the following commands:
 
     virtualenv venv
     . venv/bin/activate
@@ -22,11 +20,11 @@ Then:
     
 ### Running it locally
 
-To run it:
+To run the application:
 
         python3 manage.py runserver 8000
         
-The link where the application is deployed is http://accounting-for-friends.herokuapp.com/
+The application is deployed at http://accounting-for-friends.herokuapp.com/
 
 ## Documentation
 
@@ -44,7 +42,7 @@ To run tests, simply write a command:
 
 ## Deployment
 
-This is being deployed using **Travis**.
+The application is being deployed using **Travis**.
 
 ## Authors
 
@@ -56,8 +54,8 @@ amritasuresh
 
 ## Links
 
-* Herokku: https://accounting-for-friends.herokuapp.com
+* Heroku: https://accounting-for-friends.herokuapp.com
 * Trello: https://trello.com/b/OhDgwqto/accounting-for-friends
 * Travis: https://travis-ci.com/
-* WWW Template: https://www.dropbox.com/s/yydsz16oowdjf0n/WB0CX3745.zip?dl=0
-* Course webiste: http://www.lsv.fr/~baelde/gl/index.html
+* WWW template: https://www.dropbox.com/s/yydsz16oowdjf0n/WB0CX3745.zip?dl=0
+* Course website: http://www.lsv.fr/~baelde/gl/index.html

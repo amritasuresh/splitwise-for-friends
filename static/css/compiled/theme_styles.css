@@ -314,6 +314,11 @@ a:hover, a:focus {
   min-height: 50px;
   padding: 10px 20px;
 }
+.main-box .main-box-header #transaction-title {
+  font-size: 3em;
+  font-weight:bold;
+  padding: 40px 20px;
+}
 .main-box .main-box-header.with-border {
   border-bottom: 1px solid #ecf0f1;
 }
@@ -3583,10 +3588,13 @@ input[type="radio"] {
   display: block;
 }
 #invoice-companies .invoice-company {
+  padding-left: 20px;
   float: left;
 }
 #invoice-companies .invoice-company h4 {
   font-size: 1.4em;
+  font-weight: bold;
+  padding-bottom: 20px;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   #invoice-companies .invoice-dates {
@@ -3624,9 +3632,15 @@ input[type="radio"] {
     line-height: 33px;
   }
 }
-#invoice-companies .invoice-dates .invoice-number > span {
-  color: #3498db;
+#invoice-companies .invoice-dates .invoice-number {
+  font-weight: bold;
   font-size: 1.9em;
+}
+#invoice-companies .invoice-dates .invoice-number .invoice-complete {
+  color: #2ECC71;
+}
+#invoice-companies .invoice-dates .invoice-number .invoice-incomplete {
+  color: #F1C40F;
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   #invoice-companies .invoice-dates .invoice-number > span {
@@ -3643,12 +3657,13 @@ input[type="radio"] {
 }
 .invoice-box-total .invoice-box-total-label {
   font-size: 1.125em;
+  font-weight: bold;
 }
 .invoice-box-total .invoice-box-total-value {
   font-size: 1.125em;
 }
 .invoice-box-total .grand-total {
-  font-size: 1.25em;
+  font-size: 1.5em;
   text-transform: uppercase;
   font-weight: bold;
 }

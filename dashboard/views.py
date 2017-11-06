@@ -47,8 +47,9 @@ def dash(request):
     return render(request, 'sites/dashboard.html',
                   {'my_account': my_account, 'n_groups': groups.count(),
                    'n_friends': len(friends),
-                   'amount_due': "€%.2f" % amount_due,
-                   'amount_owed': "€%.2f" % amount_owed,
+                   'amount_due_string': "€%.2f" % amount_due,
+                   'amount_owed': amount_owed,
+                   'amount_owed_string': "€%.2f" % amount_owed,
                    'balance': balance,
                    'balance_string': "€%.2f" % abs(balance),
                    'transactions': transactions})

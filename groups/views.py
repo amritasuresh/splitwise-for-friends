@@ -44,7 +44,6 @@ def groups(request):
 
 @login_required(login_url='/login')
 def group(request, usergroup_id):
-    print(usergroup_id)
     try:
         usergroup = UserGroup.objects.get(id=usergroup_id)
     except UserGroup.DoesNotExist:
