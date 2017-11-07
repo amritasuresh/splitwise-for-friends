@@ -25,6 +25,7 @@
                     <div class="col-lg-12">
                         <div class="main-box no-header clearfix">
                             <div class="main-box-body clearfix">
+                                {%  if resolution_list %}
                                 <div class="table-responsive">
                                     <table class="table user-list table-hover">
                                         <thead>
@@ -62,11 +63,9 @@
                                                     {% if balance < 0 %}
                                                         <form action="/transactions/resolution/{{ friend.account.user_id }}/" method="POST">
                                                         {% csrf_token %}
-                                                        <a href="/transactions/resolution/{{ friend.account.user_id }}/"></a>
                                                             <button type="submit" class="btn btn-success pull-right">
                                                             <i class="fa fa-mail-forward fa-lg"></i> Pay balance
                                                             </button>
-                                                        </a>
                                                         </form>
                                                     {% endif %}
                                                 </td>
@@ -76,6 +75,10 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                {% else %}
+                                <p>Your balances are all settled.</p>
+                                <p>Time to spend more money!</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
