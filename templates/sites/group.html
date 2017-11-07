@@ -135,11 +135,12 @@
                                                     </td>
                                                     <td class="text-right">
                                                         {% if transaction.payer == my_account %}
-                                                        <div class="positive">
+                                                        <div class="positive">&euro;{{ transaction.amount }}
                                                         {% elif transaction.payee == my_account %}
-                                                        <div class="negative">
-                                                        {% endif %}
+                                                        <div class="negative">-&euro;{{ transaction.amount }}
+                                                        {% else %}
                                                         &euro;{{ transaction.amount }}
+                                                        {% endif %}
                                                         </div>
                                                     </td>
                                                 </tr>

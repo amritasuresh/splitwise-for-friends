@@ -3,15 +3,11 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group, User
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.db.models import Q
 from accounts.models import Account
-from groups.forms import CreateGroupForm, AddUserToGroupForm, \
-    AddTransactionToGroupForm
-from groups.models import UserGroup
 from transactions.models import Transaction
-import uuid
+from dashboard.views import get_friends
 
 # Create your views here.
 
@@ -109,15 +105,18 @@ def pay(request, transaction_id):
     if my_account == t.payee:
             can_pay = True
 
-    if t.status != 'C' and can_pay:
+    completed = (t.status == 'C')
+    if not completed and can_pay:
         t.status = 'C'
         t.finished = datetime.now()
-
-    t.save()
+        t.save()
 
     return render(request, 'sites/transaction_payment.html',
                   {'my_account': my_account, 'transaction': t,
                    'transaction_amount': "€%.2f" % t.amount,
+                   'first_name': t.payer.user.first_name,
+                   'last_name': t.payer.user.last_name,
+                   'completed': completed,
                    'can_pay': can_pay})
 
 
@@ -133,13 +132,38 @@ def delete(request, transaction_id):
     if my_account == t.payee or my_account == t.payer:
             can_delete = True
 
-    print(can_delete)
     name = t.name
-    print(name)
-    print(t.status)
     if t.status != 'C' and can_delete:
         t.delete()
 
     return render(request, 'sites/transaction_deletion.html',
                   {'my_account': my_account, 'transaction_name': name,
                    'can_delete': can_delete})
+
+
+@login_required(login_url='/login')
+def resolution(request):
+    my_account = Account.objects.get(user=request.user)
+    friends = get_friends(my_account)
+
+    resolution_list = []
+    for friend in friends:
+        transactions_due = Transaction.objects.filter(Q(payee=friend.account) & Q(payer=my_account))
+        amount_due = 0.0
+        for t in transactions_due:
+            if t.status != 'C':
+                amount_due += float(t.amount)
+
+        transactions_owed = Transaction.objects.filter(Q(payer=friend.account) & Q(payee=my_account))
+        amount_owed = 0.0
+        for t in transactions_owed:
+            if t.status != 'C':
+                amount_owed += float(t.amount)
+
+        balance = amount_due - amount_owed
+        if balance != 0:
+            balance_str = "€%.2f" % abs(balance)
+            resolution_list.append([friend, balance, balance_str])
+
+    return render(request, 'sites/resolution.html',
+                  {'my_account': my_account, 'resolution_list': resolution_list})

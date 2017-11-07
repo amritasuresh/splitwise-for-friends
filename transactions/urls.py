@@ -17,6 +17,9 @@ urlpatterns = [
 
     # transaction operations
     url(r'^transactions/(?P<transaction_id>[0-9A-Fa-f-]+)/pay/$', views.pay),
-url(r'^transactions/(?P<transaction_id>[0-9A-Fa-f-]+)/delete/$', views.delete),
+    url(r'^transactions/(?P<transaction_id>[0-9A-Fa-f-]+)/delete/$', views.delete),
+
+    # transaction resolution
+    url(r'^transactions/resolution', resolution),
 
 ]
