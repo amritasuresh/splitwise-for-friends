@@ -3,10 +3,12 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.db.models import Q
 from accounts.models import Account
 from transactions.models import Transaction
+from transactions.forms import ResolveBalanceForm
 from dashboard.views import get_friends
 
 # Create your views here.
@@ -143,6 +145,7 @@ def delete(request, transaction_id):
 
 @login_required(login_url='/login')
 def resolution(request):
+    print("greetings")
     my_account = Account.objects.get(user=request.user)
     friends = get_friends(my_account)
 
@@ -167,3 +170,34 @@ def resolution(request):
 
     return render(request, 'sites/resolution.html',
                   {'my_account': my_account, 'resolution_list': resolution_list})
+
+
+@login_required(login_url='/login')
+def resolve_balance(request, user_id):
+    print("hellooo")
+    my_account = Account.objects.get(user=request.user)
+    try:
+        friend_account = Account.objects.get(user_id=user_id)
+    except Account.DoesNotExist:
+        friend_account = None
+
+    print(my_account.user.first_name)
+    print(friend_account.user.first_name)
+
+    # Mark all the transactions between my friend and me as completed.
+    print(request.method.upper())
+    if request.method.upper() == "POST":
+        form = ResolveBalanceForm(request.POST)
+        if form.is_valid():
+            print("I'm posting")
+            ts = Transaction.objects.filter(Q(payee=friend_account) & Q(payer=my_account))\
+                       | Transaction.objects.filter(Q(payer=friend_account) & Q(payee=my_account))
+            for t in ts:
+                t.status = 'C'
+                t.save()
+        else:
+            pass
+    else:
+        pass
+
+    return HttpResponseRedirect('/transactions/resolution/')

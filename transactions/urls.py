@@ -8,9 +8,9 @@ urlpatterns = [
     # all transactions
     url(r'^transactions/$', transactions),
     # only pending transactions
-    url(r'^transactions/pending', pending),
+    url(r'^transactions/pending/$', pending),
     # only completed transactions
-    url(r'^transactions/completed', completed),
+    url(r'^transactions/completed/$', completed),
 
     # individual transactions
     url(r'^transactions/(?P<transaction_id>[0-9A-Fa-f-]+)/$', views.transaction),
@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^transactions/(?P<transaction_id>[0-9A-Fa-f-]+)/delete/$', views.delete),
 
     # transaction resolution
-    url(r'^transactions/resolution', resolution),
+    url(r'^transactions/resolution/$', resolution),
+    url(r'^transactions/resolution/(?P<user_id>[0-9]+)/$', resolve_balance)
 
 ]

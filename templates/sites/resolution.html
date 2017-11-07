@@ -60,9 +60,14 @@
                                                 </td>
                                                 <td>
                                                     {% if balance < 0 %}
-                                                        <a href="#" class="btn btn-success pull-right">
+                                                        <form action="/transactions/resolution/{{ friend.account.user_id }}/" method="POST">
+                                                        {% csrf_token %}
+                                                        <a href="/transactions/resolution/{{ friend.account.user_id }}/"></a>
+                                                            <button type="submit" class="btn btn-success pull-right">
                                                             <i class="fa fa-mail-forward fa-lg"></i> Pay balance
+                                                            </button>
                                                         </a>
+                                                        </form>
                                                     {% endif %}
                                                 </td>
                                             </tr>
