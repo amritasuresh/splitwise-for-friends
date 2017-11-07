@@ -9,6 +9,7 @@ from accounts.models import Account
 import dashboard.views
 from .forms import UserRegistrationForm
 
+#View for homepage
 
 def home(request):
     if request.user.is_authenticated():
@@ -16,6 +17,7 @@ def home(request):
     else:
         return HttpResponseRedirect('/login')
 
+#This is the view used for registering new users
 
 def register(request):
     if request.method.upper() == "POST":
@@ -52,11 +54,13 @@ def register(request):
 
     return render(request, 'sites/register.html', {'form': form})
 
+#This is the page where the user is redirected if he/she forgets password
 
 def forgot_password(request):
     # TODO FORGOT PASSWORD PAGE
     return render(request, 'sites/forgotpassword.html')
 
+#This is the view where all users are displayed
 
 @login_required(login_url='/login')
 def users(request):
@@ -65,6 +69,7 @@ def users(request):
     return render(request, 'sites/users.html', {'users': all_users,
                                                 'my_account': my_account})
 
+#Gives the list of friends
 
 def get_friends(account):
     subscribed_groups = account.user.groups.all()
@@ -75,6 +80,7 @@ def get_friends(account):
     friends = list(set(friends))  # remove duplicates
     return friends
 
+#Displays the list of friends
 
 @login_required(login_url='/login')
 def friends(request):
@@ -83,6 +89,7 @@ def friends(request):
     return render(request, 'sites/friends.html', {'users': my_friends,
                                                 'my_account': my_account})
 
+#Profile page displayed after login
 
 @login_required(login_url='/login')
 def profile_page(request):
@@ -91,6 +98,7 @@ def profile_page(request):
     return render(request, 'sites/profilepage.html', {'my_account': my_account,
                                                       'friends': friends})
 
+#User page
 
 @login_required(login_url='/login')
 def user_page(request, user_id):

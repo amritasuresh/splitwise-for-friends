@@ -1,5 +1,6 @@
 from django import forms
 
+#This is the form associated with User Registration
 
 class UserRegistrationForm(forms.Form):
     username = forms.CharField(
