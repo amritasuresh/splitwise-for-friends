@@ -9,17 +9,24 @@ from accounts.models import Account
 import dashboard.views
 from .forms import UserRegistrationForm
 
-#View for homepage
-
 def home(request):
+    """
+    This is the view for the homepage.
+    :param request: HttpRequest object
+    :return: Either the user's dashboard if the user is logged in, or the login page if not.
+    """
     if request.user.is_authenticated():
         return dashboard.views.dash(request)
     else:
         return HttpResponseRedirect('/login')
 
-#This is the view used for registering new users
 
 def register(request):
+    """
+    This is the view used for registering new users.
+    :param request: HttpRequest object
+    :return: The rendered register.html page.
+    """
     if request.method.upper() == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -54,9 +61,13 @@ def register(request):
 
     return render(request, 'sites/register.html', {'form': form})
 
-#This is the page where the user is redirected if he/she forgets password
 
 def forgot_password(request):
+    """
+    This page is where users are redirected if they forget their passwords.
+    :param request: HttpRequest object
+    :return: The rendered forgotpassword.html page.
+    """
     # TODO FORGOT PASSWORD PAGE
     return render(request, 'sites/forgotpassword.html')
 
@@ -64,14 +75,23 @@ def forgot_password(request):
 
 @login_required(login_url='/login')
 def users(request):
+    """
+    This view displays all users of the application.
+    :param request: HttpRequest object
+    :return: The rendered users.html page.
+    """
     all_users = User.objects.all()
     my_account = Account.objects.get(user=request.user)
     return render(request, 'sites/users.html', {'users': all_users,
                                                 'my_account': my_account})
 
-#Gives the list of friends
 
 def get_friends(account):
+    """
+    This function builds a list of the current user's friends.
+    :param account: An instance of the Account model.
+    :return: A list of Accounts that are friends with the provided Account.
+    """
     subscribed_groups = account.user.groups.all()
     friends = []
     for grp in subscribed_groups:
@@ -80,19 +100,27 @@ def get_friends(account):
     friends = list(set(friends))  # remove duplicates
     return friends
 
-#Displays the list of friends
 
 @login_required(login_url='/login')
 def friends(request):
+    """
+    This page displays all of the current user's friends.
+    :param request: HttpRequest object
+    :return: The rendered friends.html page.
+    """
     my_account = Account.objects.get(user=request.user)
     my_friends = get_friends(my_account)
     return render(request, 'sites/friends.html', {'users': my_friends,
                                                 'my_account': my_account})
 
-#Profile page displayed after login
 
 @login_required(login_url='/login')
 def profile_page(request):
+    """
+    This page displays the current user's profile upon logging in.
+    :param request: HttpRequest object
+    :return: The rendered profilepage.html page.
+    """
     my_account = Account.objects.get(user=request.user)
     friends = get_friends(my_account)
     return render(request, 'sites/profilepage.html', {'my_account': my_account,
@@ -102,6 +130,12 @@ def profile_page(request):
 
 @login_required(login_url='/login')
 def user_page(request, user_id):
+    """
+    This page displays the profile of the given user.
+    :param request: HttpRequest object
+    :param user_id: An integer that serves to uniquely distinguish the given user.
+    :return: The rendered user.html page.
+    """
     my_account = Account.objects.get(user=request.user)
     target_account = Account.objects.get(user_id=user_id)
     friends = get_friends(target_account)

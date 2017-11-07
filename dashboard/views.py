@@ -7,6 +7,11 @@ from transactions.models import Transaction
 
 
 def get_friends(account):
+    """
+    This function builds a list of the current user's friends.
+    :param account: An instance of the Account model.
+    :return: A list of Accounts that are friends with the provided Account.
+    """
     subscribed_groups = account.user.groups.all()
     friends = []
     for grp in subscribed_groups:
@@ -18,6 +23,13 @@ def get_friends(account):
 
 @login_required(login_url='/login')
 def dash(request):
+    """
+    This function builds a dashboard that is displayed as the current user's home page.
+    It includes displays of how much money the user owes and is owed, which are combined into a total balance.
+    It also displays the user's 10 most recent transactions.
+    :param request: HttpRequest object
+    :return: The rendered dashboard.html page.
+    """
     my_account = Account.objects.get(user=request.user)
     groups = request.user.groups.all()
 
