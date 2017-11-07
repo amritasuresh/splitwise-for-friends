@@ -13,6 +13,7 @@ from groups.models import UserGroup
 from transactions.models import Transaction
 import uuid
 
+# This view shows the list of subscribed groups for a given user
 
 @login_required(login_url='/login')
 def groups(request):
@@ -41,6 +42,7 @@ def groups(request):
     return render(request, 'sites/groups.html',
                   {'my_account': my_account, 'groups': groups_data})
 
+#This view shows the details pertaining to a given group
 
 @login_required(login_url='/login')
 def group(request, usergroup_id):
@@ -58,6 +60,7 @@ def group(request, usergroup_id):
                   {'my_account': my_account, 'usergroup': usergroup,
                    'users': users, 'transactions': transactions})
 
+#This view creates a new group
 
 @login_required(login_url='/login')
 def create_group_form(request):
@@ -87,6 +90,7 @@ def create_group_form(request):
         return render(request, 'forms/create_group_form.html',
                       {'form': CreateGroupForm()})
 
+#This view adds a user to an existing group
 
 @login_required(login_url='/login')
 def add_user_to_group_form(request, usergroup_id):
@@ -110,6 +114,7 @@ def add_user_to_group_form(request, usergroup_id):
                       {'form': AddUserToGroupForm(),
                        "usergroup_id": usergroup_id})
 
+#This view addds a transaction to an existing group
 
 @login_required(login_url='/login')
 def add_transaction_to_group_form(request, usergroup_id):
