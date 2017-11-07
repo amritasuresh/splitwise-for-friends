@@ -16,17 +16,20 @@
                         <ol class="breadcrumb">
                             <li><a href="/">Home</a></li>
                             <li><a href="/transactions/">Transactions</a></li>
-                            <li><a href="/transactions/"></a>{{ transaction_name }}</li>
+                            <li><a href="/transactions/">{{ transaction_name }}</a></li>
                             <li class="active"><span>Deletion</span></li>
                         </ol>
                     </div>
                 </div>
 
+                <p>
                 {% if can_delete %}
                     You have successfully deleted the transaction "{{ transaction_name }}".
                 {% else %}
                     You are not authorized to perform this action.
                 {% endif %}
+                </p>
+                <p><a href="/transactions/">Return to the list of all transactions.</a></p>
 
             </div>
         </div>

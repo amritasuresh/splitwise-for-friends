@@ -1,0 +1,90 @@
+{% extends "bases/base_homepage.html" %}
+{% load static %}
+
+{% block title %}
+    Resolution
+{% endblock %}
+
+{% block mainpage_content %}
+
+    <div id="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/transactions/">Transactions</a></li>
+                            <li class="active"><span>Resolution</span></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="main-box no-header clearfix">
+                            <div class="main-box-body clearfix">
+                                {%  if resolution_list %}
+                                <div class="table-responsive">
+                                    <table class="table user-list table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th><span>User</span></th>
+                                            <th><span></span></th>
+                                            <th><span></span></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        {% for friend, balance, balance_str in resolution_list %}
+                                            <tr>
+                                                <td>
+                                                    <img src="{% static friend.account.avatar %}"
+                                                         alt=""/>
+                                                    <a href="/users/{{ friend.account.user_id }}"
+                                                       class="user-link">
+                                                        {{ friend.first_name }} {{ friend.last_name }}
+                                                    </a>
+                                                    <span class="user-subhead">{{ friend.username }}</span>
+                                                </td>
+                                                <td>
+                                                    {% if balance > 0 %}
+                                                    <div class="positive">
+                                                        {{ friend.first_name }} owes you {{ balance_str }}
+                                                    {% elif balance < 0 %}
+                                                    <div class="negative">
+                                                        You owe {{ friend.first_name }} {{ balance_str }}
+                                                    {% endif %}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {% if balance < 0 %}
+                                                        <form action="/transactions/resolution/{{ friend.account.user_id }}/" method="POST">
+                                                        {% csrf_token %}
+                                                            <button type="submit" class="btn btn-success pull-right">
+                                                            <i class="fa fa-mail-forward fa-lg"></i> Pay balance
+                                                            </button>
+                                                        </form>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% else %}
+                                <p>Your balances are all settled.</p>
+                                <p>Time to spend more money!</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

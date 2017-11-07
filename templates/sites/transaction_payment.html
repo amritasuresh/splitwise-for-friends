@@ -22,12 +22,14 @@
                     </div>
                 </div>
 
-                {% if can_pay %}
-                    You have successfully paid a total of {{ transaction_amount }}.
+                <p>
+                {% if can_pay and not completed %}
+                    You have successfully paid a total of {{ transaction_amount }} to {{ first_name }} {{ last_name }}.
                 {% else %}
                     You are not authorized to perform this action.
                 {% endif %}
-
+                </p>
+                <p><a href="/transactions/">Return to the list of all transactions.</a></p>
             </div>
         </div>
     </div>

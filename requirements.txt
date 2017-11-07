@@ -2,3 +2,5 @@ django
 gunicorn
 whitenoise
 selenium
+cffi
+WeasyPrint

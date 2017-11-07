@@ -44,13 +44,16 @@ def dash(request):
         payee=my_account) | Transaction.objects.filter(payer=my_account)
     transactions = transactions.order_by('-created')[:10]
 
+    amount_owed_string = "-€%.2f" % abs(amount_owed) if (balance < 0) else "€%.2f" % abs(amount_owed)
+    balance_string = "-€%.2f" % abs(balance) if (balance < 0) else "€%.2f" % abs(balance)
+
     return render(request, 'sites/dashboard.html',
                   {'my_account': my_account, 'n_groups': groups.count(),
                    'n_friends': len(friends),
                    'amount_due': amount_due,
                    'amount_due_string': "€%.2f" % amount_due,
                    'amount_owed': amount_owed,
-                   'amount_owed_string': "€%.2f" % amount_owed,
+                   'amount_owed_string': amount_owed_string,
                    'balance': balance,
-                   'balance_string': "€%.2f" % abs(balance),
+                   'balance_string': balance_string,
                    'transactions': transactions})

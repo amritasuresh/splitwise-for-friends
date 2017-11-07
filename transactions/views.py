@@ -3,15 +3,13 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group, User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.db.models import Q
 from accounts.models import Account
-from groups.forms import CreateGroupForm, AddUserToGroupForm, \
-    AddTransactionToGroupForm
-from groups.models import UserGroup
 from transactions.models import Transaction
-import uuid
+from transactions.forms import ResolveBalanceForm, PayTransactionForm, DeleteTransactionForm
+from dashboard.views import get_friends
 
 # Create your views here.
 
@@ -104,21 +102,18 @@ def pay(request, transaction_id):
     except Transaction.DoesNotExist:
         t = None  # TODO invalid transaction id
 
-    can_pay = False
-    my_account = Account.objects.get(user=request.user)
-    if my_account == t.payee:
-            can_pay = True
+    if request.method.upper() == "POST":
+        form = PayTransactionForm(request.POST)
+        if form.is_valid() and t.status != 'C':
+            t.status = 'C'
+            t.finished = datetime.now()
+            t.save()
+        else:
+            pass
+    else:
+        pass
 
-    if t.status != 'C' and can_pay:
-        t.status = 'C'
-        t.finished = datetime.now()
-
-    t.save()
-
-    return render(request, 'sites/transaction_payment.html',
-                  {'my_account': my_account, 'transaction': t,
-                   'transaction_amount': "€%.2f" % t.amount,
-                   'can_pay': can_pay})
+    return HttpResponseRedirect('/transactions/' + str(transaction_id) + '/')
 
 
 @login_required(login_url='/login')
@@ -128,18 +123,69 @@ def delete(request, transaction_id):
     except Transaction.DoesNotExist:
         t = None  # TODO invalid transaction id
 
-    can_delete = False
+    print(request.method.upper())
+    if request.method.upper() == "POST":
+        form = DeleteTransactionForm(request.POST)
+        print(t.status)
+        if form.is_valid() and t.status != 'C':
+            t.delete()
+        else:
+            pass
+    else:
+        pass
+
+    return HttpResponseRedirect('/transactions/')
+
+
+@login_required(login_url='/login')
+def resolution(request):
+    print("greetings")
     my_account = Account.objects.get(user=request.user)
-    if my_account == t.payee or my_account == t.payer:
-            can_delete = True
+    friends = get_friends(my_account)
 
-    print(can_delete)
-    name = t.name
-    print(name)
-    print(t.status)
-    if t.status != 'C' and can_delete:
-        t.delete()
+    resolution_list = []
+    for friend in friends:
+        transactions_due = Transaction.objects.filter(Q(payee=friend.account) & Q(payer=my_account))
+        amount_due = 0.0
+        for t in transactions_due:
+            if t.status != 'C':
+                amount_due += float(t.amount)
 
-    return render(request, 'sites/transaction_deletion.html',
-                  {'my_account': my_account, 'transaction_name': name,
-                   'can_delete': can_delete})
+        transactions_owed = Transaction.objects.filter(Q(payer=friend.account) & Q(payee=my_account))
+        amount_owed = 0.0
+        for t in transactions_owed:
+            if t.status != 'C':
+                amount_owed += float(t.amount)
+
+        balance = amount_due - amount_owed
+        if balance != 0:
+            balance_str = "€%.2f" % abs(balance)
+            resolution_list.append([friend, balance, balance_str])
+
+    return render(request, 'sites/resolution.html',
+                  {'my_account': my_account, 'resolution_list': resolution_list})
+
+
+@login_required(login_url='/login')
+def resolve_balance(request, user_id):
+    my_account = Account.objects.get(user=request.user)
+    try:
+        friend_account = Account.objects.get(user_id=user_id)
+    except Account.DoesNotExist:
+        friend_account = None
+
+    # Mark all the transactions between my friend and me as completed.
+    if request.method.upper() == "POST":
+        form = ResolveBalanceForm(request.POST)
+        if form.is_valid():
+            ts = Transaction.objects.filter(Q(payee=friend_account) & Q(payer=my_account))\
+                       | Transaction.objects.filter(Q(payer=friend_account) & Q(payee=my_account))
+            for t in ts:
+                t.status = 'C'
+                t.save()
+        else:
+            pass
+    else:
+        pass
+
+    return HttpResponseRedirect('/transactions/resolution/')
