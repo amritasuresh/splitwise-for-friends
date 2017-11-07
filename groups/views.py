@@ -13,10 +13,14 @@ from groups.models import UserGroup
 from transactions.models import Transaction
 import uuid
 
-# This view shows the list of subscribed groups for a given user
 
 @login_required(login_url='/login')
 def groups(request):
+    """
+    This view shows the list of groups that the current user belongs to.
+    :param request: HttpRequest object
+    :return: The rendered groups.html page.
+    """
     my_account = Account.objects.get(user=request.user)
     subscribed_groups = request.user.groups.all()
     groups_data = []
@@ -42,10 +46,15 @@ def groups(request):
     return render(request, 'sites/groups.html',
                   {'my_account': my_account, 'groups': groups_data})
 
-#This view shows the details pertaining to a given group
 
 @login_required(login_url='/login')
 def group(request, usergroup_id):
+    """
+    This view shows the details pertaining to a given group, including transaction history and members.
+    :param request: HttpRequest object
+    :param usergroup_id: The unique UUID of the group
+    :return: The rendered group.html page
+    """
     try:
         usergroup = UserGroup.objects.get(id=usergroup_id)
     except UserGroup.DoesNotExist:
@@ -60,10 +69,14 @@ def group(request, usergroup_id):
                   {'my_account': my_account, 'usergroup': usergroup,
                    'users': users, 'transactions': transactions})
 
-#This view creates a new group
 
 @login_required(login_url='/login')
 def create_group_form(request):
+    """
+    This view creates a form for adding a new group.
+    :param request: HttpRequest object
+    :return: The groups.html page if the group was successfully added, or the create_group_form.html page if not
+    """
     if request.method.upper() == "POST":
         form = CreateGroupForm(request.POST)
         if form.is_valid():
@@ -90,10 +103,15 @@ def create_group_form(request):
         return render(request, 'forms/create_group_form.html',
                       {'form': CreateGroupForm()})
 
-#This view adds a user to an existing group
 
 @login_required(login_url='/login')
 def add_user_to_group_form(request, usergroup_id):
+    """
+    This view adds a user to an existing group.
+    :param request: HttpRequest object
+    :param usergroup_id: The unique UUID of the group
+    :return: The rendered page of the group if successful, and the add_user_to_group_form.html page if not.
+    """
     if request.method.upper() == "POST":
         form = AddUserToGroupForm(request.POST)
         if form.is_valid():
@@ -114,10 +132,15 @@ def add_user_to_group_form(request, usergroup_id):
                       {'form': AddUserToGroupForm(),
                        "usergroup_id": usergroup_id})
 
-#This view addds a transaction to an existing group
 
 @login_required(login_url='/login')
 def add_transaction_to_group_form(request, usergroup_id):
+    """
+    This view adds a transaction to an existing group.
+    :param request: HttpRequest object
+    :param usergroup_id: The unique UUID of the group.
+    :return: The rendered page of the group if successful, and the add_transaction_to_group_form.html page if not.
+    """
     try:
         usergroup = UserGroup.objects.get(id=usergroup_id)
     except UserGroup.DoesNotExist:
