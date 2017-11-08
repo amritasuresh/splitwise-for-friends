@@ -7,6 +7,13 @@ from accounts.models import Account
 
 
 def create_user(username, email, password):
+    """
+    This function creates a new Account object based on the provided information.
+    :param username: The user's username
+    :param email: The user's email address
+    :param password: The user's password
+    :return:
+    """
     user = User.objects.create_user(
         username=username, email=email, password=password)
     Account.objects.create(user=user)
@@ -17,7 +24,14 @@ def create_user(username, email, password):
 # TODO 3. Groups with the same name
 
 class GroupCreatingTestCase(LiveServerTestCase):
+    """
+    This class serves as the home for functions related to testing the creation of groups.
+    """
     def setUp(self):
+        """
+        This function creates a mock user for performing actions.
+        :return:
+        """
         chrome_options = Options()
         chrome_options.add_argument("--headless")
         self.selenium = webdriver.Chrome(chrome_options=chrome_options)
@@ -34,10 +48,20 @@ class GroupCreatingTestCase(LiveServerTestCase):
         super(GroupCreatingTestCase, self).setUp()
 
     def tearDown(self):
+        """
+        This function closes the web browser.
+        :return:
+        """
         self.selenium.quit()
         super(GroupCreatingTestCase, self).tearDown()
 
     def selenium_login(self, username, password):
+        """
+        This function uses Selenium to log in to the application
+        :param username: The user's username
+        :param password: The user's password
+        :return:
+        """
         self.assertEqual(self.selenium.title, 'Login Page')
         self.selenium.get('%s%s' % (self.live_server_url, '/login/'))
         username_input = self.selenium.find_element_by_name("username")
@@ -47,6 +71,11 @@ class GroupCreatingTestCase(LiveServerTestCase):
         self.selenium.find_element_by_name("login").click()
 
     def selenium_create_group(self, group_name):
+        """
+        This function uses Selenium to create a new group.
+        :param group_name: The name of the new group to be created
+        :return:
+        """
         # click create group button
         self.selenium.find_element_by_name("create_group_button").click()
         self.assertEqual(self.selenium.title, 'Create Group form')
@@ -56,6 +85,10 @@ class GroupCreatingTestCase(LiveServerTestCase):
         self.selenium.find_element_by_name("save_button").click()
 
     def test_add_new_group(self):
+        """
+        This function tests that the current user can create a new group.
+        :return:
+        """
         # login
         self.selenium.get(self.live_server_url)
         self.selenium_login(self.mocked_username, self.mocked_password)

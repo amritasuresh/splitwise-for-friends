@@ -16,6 +16,11 @@ from dashboard.views import get_friends
 
 @login_required(login_url='/login')
 def transactions(request):
+    """
+    This function renders a page displaying all transactions that the user is involved in.
+    :param request: HttpRequest object
+    :return: The rendered transactions.html page.
+    """
     my_account = Account.objects.get(user=request.user)
     my_transactions = Transaction.objects.filter(
         payee=my_account) | Transaction.objects.filter(payer=my_account)
@@ -34,6 +39,11 @@ def transactions(request):
 
 @login_required(login_url='/login')
 def pending(request):
+    """
+    This function renders a page displaying only those transactions that are not yet resolved.
+    :param request: HttpRequest object
+    :return: The rendered transactions.html page.
+    """
     my_account = Account.objects.get(user=request.user)
     my_transactions = Transaction.objects.filter(
         payee=my_account) | Transaction.objects.filter(payer=my_account)
@@ -49,8 +59,14 @@ def pending(request):
                    'pending': True,
                    'completed': False})
 
+
 @login_required(login_url='/login')
 def completed(request):
+    """
+    This function renders a page displaying only those transactions that have already been completed.
+    :param request: HttpRequest object
+    :return: The rendered transactions.html page.
+    """
     my_account = Account.objects.get(user=request.user)
     my_transactions = Transaction.objects.filter(
         payee=my_account) | Transaction.objects.filter(payer=my_account)
@@ -69,6 +85,13 @@ def completed(request):
 
 @login_required(login_url='/login')
 def transaction(request, transaction_id):
+    """
+    This function renders a page displaying an individual transaction, and potentially allows the user to pay, edit,
+    or delete the transaction depending on their permissions.
+    :param request: HttpRequest object
+    :param transaction_id: The UUID of the given transaction.
+    :return:
+    """
     try:
         t = Transaction.objects.get(id=transaction_id)
     except Transaction.DoesNotExist:
@@ -97,6 +120,13 @@ def transaction(request, transaction_id):
 
 @login_required(login_url='/login')
 def pay(request, transaction_id):
+    """
+    This function is called when the user attempts to pay an individual transaction. If it is successful, the
+    transaction is set to completed within the database.
+    :param request: HttpRequest object
+    :param transaction_id: The UUID of the given transaction.
+    :return:
+    """
     try:
         t = Transaction.objects.get(id=transaction_id)
     except Transaction.DoesNotExist:
@@ -118,6 +148,13 @@ def pay(request, transaction_id):
 
 @login_required(login_url='/login')
 def delete(request, transaction_id):
+    """
+    This function is called when the user attempts to delete an individual transaction. If it is successful, the
+    transaction is removed from the database.
+    :param request: HttpRequest object
+    :param transaction_id: The UUID of the given transaction.
+    :return:
+    """
     try:
         t = Transaction.objects.get(id=transaction_id)
     except Transaction.DoesNotExist:
@@ -139,7 +176,12 @@ def delete(request, transaction_id):
 
 @login_required(login_url='/login')
 def resolution(request):
-    print("greetings")
+    """
+    This function renders a page displaying all of the potential resolutions for the current user, and allows them
+    to resolve any negative balances that they owe to their friends.
+    :param request: HttpRequest object
+    :return: The rendered resolution.html page.
+    """
     my_account = Account.objects.get(user=request.user)
     friends = get_friends(my_account)
 
@@ -168,6 +210,12 @@ def resolution(request):
 
 @login_required(login_url='/login')
 def resolve_balance(request, user_id):
+    """
+    This function allows the current user to instantly resolve a negative balance that is owed to another user.
+    :param request: HttpRequest object
+    :param user_id: The other user's unique ID.
+    :return: The rendered page of resolutions.
+    """
     my_account = Account.objects.get(user=request.user)
     try:
         friend_account = Account.objects.get(user_id=user_id)

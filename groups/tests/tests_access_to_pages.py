@@ -1,8 +1,7 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
 
 from accounts.models import Account
-from groups.models import UserGroup
 from accounts.views import home
 
 
@@ -58,4 +57,4 @@ class AccessToPagesTest(TestCase):
         for g in groups:
             request = self.factory.get('/groups/' + str(g.id) + '/')
             response = home(request)
-            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.status_cdo)

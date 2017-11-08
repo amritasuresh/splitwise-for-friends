@@ -9,6 +9,7 @@ from accounts.models import Account
 import dashboard.views
 from .forms import UserRegistrationForm
 
+
 def home(request):
     """
     This is the view for the homepage.
@@ -71,7 +72,6 @@ def forgot_password(request):
     # TODO FORGOT PASSWORD PAGE
     return render(request, 'sites/forgotpassword.html')
 
-#This is the view where all users are displayed
 
 @login_required(login_url='/login')
 def users(request):
@@ -126,7 +126,6 @@ def profile_page(request):
     return render(request, 'sites/profilepage.html', {'my_account': my_account,
                                                       'friends': friends})
 
-#User page
 
 @login_required(login_url='/login')
 def user_page(request, user_id):

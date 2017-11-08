@@ -4,12 +4,21 @@ from django import forms
 
 
 class ResolveBalanceForm(forms.Form):
+    """
+    This form is used to resolve outstanding balances between users.
+    """
     pass
 
 
 class PayTransactionForm(forms.Form):
+    """
+    This form is used to pay and complete a transaction.
+    """
     pass
 
 
 class DeleteTransactionForm(forms.Form):
+    """
+    This form is used to delete a transaction.
+    """
     pass
