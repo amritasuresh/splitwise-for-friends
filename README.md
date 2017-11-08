@@ -1,6 +1,14 @@
 # accounting_for_friends
 The software allows users to keep track of money spent between friends, e.g. during a holiday, and helps settle their accounts.
+
+<a href="https://aimeos.org/">
+    <img src="https://user-images.githubusercontent.com/6525798/32540297-91a2a714-c46c-11e7-9d05-ff94ad672cf9.png" alt="Centaurus logo" title="Login to Centaurus" align="right" height="60" />
+</a>
 ## Getting Started
+
+<a href="https://aimeos.org/">
+    <img src="https://user-images.githubusercontent.com/6525798/32540462-0fed4cf0-c46d-11e7-8a9e-d24bfbf0ad68.png" alt="Centaurus dashboard" title="Dashboard" align="right" height="60" />
+</a>
 
 ### Prerequisites
 
@@ -16,7 +24,7 @@ Then run the following commands:
 
     virtualenv venv
     . venv/bin/activate
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
     
 ### Running it locally
 
