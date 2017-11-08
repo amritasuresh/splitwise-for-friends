@@ -27,7 +27,7 @@
                             <div class="pull-right top-page-ui">
                                 <a href="{% url 'create_group_form' %}"
                                    class="btn btn-primary pull-right mrg-b-lg"
-                                    name="create_group_button"
+                                   name="create_group_button"
                                 >
                                     <i class=" fa fa-plus-circle fa-lg"></i>
                                     Create group
@@ -46,12 +46,12 @@
                                 <div class="main-box-body clearfix">
                                     <div class="project-box-header emerald-bg">
                                         <div class="name">
-                                            <a href="/groups/{{ group.id }}">
+                                            <a name="group_access_link"
+                                               href="/groups/{{ group.id }}">
                                                 {{ group.group_name }}
                                             </a>
                                         </div>
                                     </div>
-
 
 
                                     <div class="project-box-footer clearfix">
@@ -60,7 +60,7 @@
                                             <span class="label">
                                                 {% if group.number_of_transactions == 1 %}
                                                     Transaction
-                                                {% else  %}
+                                                {% else %}
                                                     Transactions
                                                 {% endif %}
                                             </span>
@@ -80,7 +80,7 @@
                                             <span class="label">
                                                 {% if group.users.count == 1 %}
                                                     User
-                                                {% else  %}
+                                                {% else %}
                                                     Users
                                                 {% endif %}
                                             </span>
