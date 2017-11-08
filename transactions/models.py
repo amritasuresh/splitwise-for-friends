@@ -8,8 +8,10 @@ from datetime import datetime
 import uuid
 
 
-# The Transaction model represents a transaction between two Accounts in the same UserGroup
 class Transaction(models.Model):
+    """
+    The Transaction model represents a transaction between two Accounts in the same UserGroup.
+    """
     # The name/label of the Transaction
     name = models.CharField(max_length=150)
 
@@ -44,10 +46,22 @@ class Transaction(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='O')
 
     def __str__(self):
+        """
+        This function describes the relationship between payer and payee as a string.
+        :return: A string representing the transaction
+        """
         return '"' + self.name + '": ' + self.payer.user.username + ' pays ' + self.payee.user.username
 
     def is_open(self):
+        """
+        This function returns whether the transaction is currently pending.
+        :return: A Boolean value
+        """
         return self.status is 'O'
 
     def is_closed(self):
+        """
+        This function returns whether the transaction has been completed.
+        :return: A Boolean value
+        """
         return self.status is 'C'
