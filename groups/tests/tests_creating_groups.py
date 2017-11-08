@@ -27,6 +27,7 @@ class GroupCreatingTestCase(LiveServerTestCase):
     """
     This class serves as the home for functions related to testing the creation of groups.
     """
+
     def setUp(self):
         """
         This function creates a mock user for performing actions.
@@ -103,3 +104,23 @@ class GroupCreatingTestCase(LiveServerTestCase):
         # checking if the total_number_of_groups is ok
         current_number_of_groups = self.mocked_user.groups.count()
         self.assertEqual(current_number_of_groups, total_number_of_groups + 1)
+
+    def tests_groups_displaying(self):
+        """
+        This function tests that we can display all groups
+        :return:
+        """
+        # login and go to groups, then create group
+        self.selenium.get(self.live_server_url)
+        self.selenium_login(self.mocked_username, self.mocked_password)
+        self.selenium.get('%s%s' % (self.live_server_url, '/groups'))
+
+        # adding example groups
+        group_names = ["Group1", "Group2", "Group3"]
+        for group_name in group_names:
+            self.selenium_create_group(group_name)
+
+        # complecting group names and checking if they are equal
+        elems = self.selenium.find_elements_by_name("group_access_link")
+        names = [elem.text for elem in elems]
+        self.assertEqual(set(names), set(group_names))
