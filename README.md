@@ -26,6 +26,11 @@ To run the application:
         
 The application is deployed at http://accounting-for-friends.herokuapp.com/
 
+### Running the command line interface
+
+        python3 manage.py shell
+        exec(open('./cli.py').read())
+
 ## Documentation
 
         pydoc -b
