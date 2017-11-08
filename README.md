@@ -36,6 +36,10 @@ The application is deployed at http://accounting-for-friends.herokuapp.com/
 
 ### Running the command line interface
 
+<a href="https://aimeos.org/">
+    <img src="https://user-images.githubusercontent.com/6525798/32540801-16fa8b24-c46e-11e7-98a7-e4a394b558d8.png" alt="Command line interface" title="Home screen" align="right" height="60" />
+</a>
+
         python3 manage.py shell
         exec(open('./cli.py').read())
 
