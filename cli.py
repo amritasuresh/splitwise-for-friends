@@ -59,6 +59,8 @@ def add_transaction():
 
     grp = UserGroup.objects.get(group_name=group)
     users = User.objects.filter(groups__name=grp.group.name)
+    num_of_users = users.count()
+    amount = float(amount) / num_of_users
 
     for user in users:
         if user.id != payeruser.id:
@@ -85,30 +87,44 @@ def view_transactions():
     This function allows the user to view transactions from the database.
     :return:
     """
-    groupname = input("Enter group name")
+    groupname = input("Enter group name\n")
     grp = UserGroup.objects.get(group_name=groupname)
     print(Transaction.objects.filter(group=grp))
 
 
 def view_balance():
     """
-    This function displays the list of all transactions for a given user (the money that the user is owed).
+    This function displays the sum of all transactions for a given user (the money that the user is owed).
     :return:
     """
-    username = input("Enter user name")
+    username = input("Enter user name\n")
     payeruser = User.objects.get(username=username)
     payeracc = Account.objects.get(user_id=payeruser.id)
-    print(Transaction.objects.filter(payer=payeracc))
+    #print(Transaction.objects.filter(payer=payeracc))
+    transactions_due = Transaction.objects.filter(payer=payeracc)
+    amount_owed = 0.0
+    for transaction in transactions_due:
+            if transaction.status != 'C':
+                amount_owed += float(transaction.amount)
+    transactions_pending = Transaction.objects.filter(payee=payeracc)
+    amount_topay = 0.0
+    for transaction in transactions_pending:
+            if transaction.status != 'C':
+                amount_topay += float(transaction.amount)
 
+    amount_due = amount_owed - amount_topay
+    print(username + ' needs to pay: ' + str(amount_topay) + ' and is owed: ' + str(amount_owed))
+    print('Therefore total amount due is: '+ str(amount_due))
+#This adds existing user to group
 
 def add_user_to_group():
     """
     This function adds an existing user to an existing group.
     :return:
     """
-    groupname = input("Enter the group you want to add user to")
-    username = input("Enter user name to be added to the group")
-    grp = UserGroup.objects.get(group_name=groupname)
+    groupname = input("Enter the group you want to add user to\n")
+    username = input("Enter user name to be added to the group\n")
+    grp = UserGroup.objects.get(group_name=groupname).group
     user = User.objects.get(username=username)
     user.groups.add(grp)
 
@@ -118,7 +134,7 @@ def create_new_group():
     This function creates a new group.
     :return:
     """
-    groupname = input("Enter group name")
+    groupname = input("Enter group name\n")
     unique_django_group_id = uuid.uuid4()
 
     while Group.objects.filter(name=unique_django_group_id).exists():
@@ -131,19 +147,26 @@ def create_new_group():
 
 # Basic tool to add the details
 
-act = input("Hello, pick a choice between the following actions: 1. Create new user\n 2. Add transaction\n 3. View transactions\n 4. View balance\n 5. Add user to group\n 6. Create new group\n")
-if act == '1':
-    create()
-elif act == '2':
-    add_transaction()
-elif act == '3':
-    view_transactions()
-elif act == '4':
-    view_balance()
-elif act == '5':
-    add_user_to_group()
-elif act == '6':
-    create_new_group()
+def command_line_inter():
+    act = input("Hello, pick a choice between the following actions: 1. Create new user\n 2. Add transaction\n 3. View transactions\n 4. View balance\n 5. Add user to group\n 6. Create new group\n")
+    if act == '1':
+        create()
+    elif act == '2':
+        add_transaction()
+    elif act == '3':
+        view_transactions()
+    elif act == '4':
+        view_balance()
+    elif act == '5':
+        add_user_to_group()
+    elif act == '6':
+        create_new_group()
+
+command_line_inter()
+flag = input("Do you wish to continue? -1 to quit\n")
+while (flag != '-1'):
+    command_line_inter()
+    flag = input("Do you wish to continue? -1 to quit\n")
 
 
 
