@@ -110,7 +110,7 @@ def transaction(request, transaction_id):
 
     return render(request, 'sites/transaction.html',
                   {'my_account': my_account, 'transaction': t,
-                   'transaction_amount': "€%.2f" % t.amount,
+                   'transaction_amount': "€%.2f" % t.expense.amount,
                    'date_created': t.created.strftime("%d/%m/%Y"),
                    'completed': t.status == 'C',
                    'can_pay': can_pay,
@@ -191,13 +191,13 @@ def resolution(request):
         amount_due = 0.0
         for t in transactions_due:
             if t.status != 'C':
-                amount_due += float(t.amount)
+                amount_due += float(t.expense.amount)
 
         transactions_owed = Transaction.objects.filter(Q(payer=friend.account) & Q(payee=my_account))
         amount_owed = 0.0
         for t in transactions_owed:
             if t.status != 'C':
-                amount_owed += float(t.amount)
+                amount_owed += float(t.expense.amount)
 
         balance = amount_due - amount_owed
         if balance != 0:

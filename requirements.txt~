@@ -4,4 +4,3 @@ whitenoise
 selenium
 cffi
 WeasyPrint
-requests

@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render
 
 from accounts.models import Account
 from transactions.models import Transaction
+import requests
+import json
 
 
 def get_friends(account):
@@ -30,6 +33,11 @@ def dash(request):
     :param request: HttpRequest object
     :return: The rendered dashboard.html page.
     """
+
+    r = requests.get('https://api.fixer.io/latest')
+    rates = json.loads(r.text)
+    print(rates['base'])
+
     my_account = Account.objects.get(user=request.user)
     groups = request.user.groups.all()
 
@@ -43,12 +51,12 @@ def dash(request):
     expenses_due = Transaction.objects.filter(payer=my_account)
     for t in expenses_due:
         if t.status == 'O':
-            amount_due += float(t.amount)
+            amount_due += float(t.expense.amount)
 
     expenses_owed = Transaction.objects.filter(payee=my_account)
     for t in expenses_owed:
         if t.status == 'O':
-            amount_owed += float(t.amount)
+            amount_owed += float(t.expense.amount)
 
     balance = amount_due - amount_owed
 

@@ -11,6 +11,7 @@ from django.contrib.auth.models import Group
 from accounts.models import Account
 from transactions.models import Transaction
 from groups.models import UserGroup
+from expenses.models import Expense
 
 # A basic command line interface that lets you create a user, add a transaction, view transactions, create group
 # This tool does not settle the dues like the web interface, we can add that as a later part of the project.
@@ -66,7 +67,8 @@ def add_transaction():
         if user.id != payeruser.id:
             useracc = User.objects.get(username=user)
             acc = Account.objects.get(user_id=useracc.id)
-            Transaction.objects.create(name=details, payee=acc, payer=payeracc, amount=amount, group=grp)
+            exp = Expense.objects.create(amount=amount, currency='EUR')
+            Transaction.objects.create(name=details, payee=acc, payer=payeracc, expense=exp, group=grp)
 
 
 def create():
@@ -105,12 +107,12 @@ def view_balance():
     amount_owed = 0.0
     for transaction in transactions_due:
             if transaction.status != 'C':
-                amount_owed += float(transaction.amount)
+                amount_owed += float(transaction.expense.amount)
     transactions_pending = Transaction.objects.filter(payee=payeracc)
     amount_topay = 0.0
     for transaction in transactions_pending:
             if transaction.status != 'C':
-                amount_topay += float(transaction.amount)
+                amount_topay += float(transaction.expense.amount)
 
     amount_due = amount_owed - amount_topay
     print(username + ' needs to pay: ' + str(amount_topay) + ' and is owed: ' + str(amount_owed))

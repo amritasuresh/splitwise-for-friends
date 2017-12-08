@@ -118,9 +118,9 @@
                                                     {% endif %}
                                                     <td class="text-right">
                                                         {% if transaction.payer == my_account %}
-                                                        <div class="positive">&euro;{{ transaction.amount }}
+                                                        <div class="positive">&euro;{{ transaction.expense.amount }}
                                                         {% elif transaction.payee == my_account %}
-                                                        <div class="negative">-&euro;{{ transaction.amount }}
+                                                        <div class="negative">-&euro;{{ transaction.expense.amount }}
                                                         {% endif %}
                                                         </div>
                                                     </td>
@@ -178,9 +178,9 @@
                                                     {% endif %}
                                                     <td class="text-right">
                                                         {% if transaction.payer == my_account %}
-                                                        <div class="positive">&euro;{{ transaction.amount }}
+                                                        <div class="positive">&euro;{{ transaction.expense.amount }}
                                                         {% elif transaction.payee == my_account %}
-                                                        <div class="negative">-&euro;{{ transaction.amount }}
+                                                        <div class="negative">-&euro;{{ transaction.expense.amount }}
                                                         {% endif %}
                                                         </div>
                                                     </td>
@@ -238,9 +238,9 @@
                                                     {% endif %}
                                                     <td class="text-right">
                                                         {% if transaction.payer == my_account %}
-                                                        <div class="positive">&euro;{{ transaction.amount }}
+                                                        <div class="positive">&euro;{{ transaction.expense.amount }}
                                                         {% elif transaction.payee == my_account %}
-                                                        <div class="negative">-&euro;{{ transaction.amount }}
+                                                        <div class="negative">-&euro;{{ transaction.expense.amount }}
                                                         {% endif %}
                                                         </div>
                                                     </td>

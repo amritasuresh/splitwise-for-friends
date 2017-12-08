@@ -8,6 +8,26 @@ from datetime import datetime
 import uuid
 
 
+class Expense(models.Model):
+    """
+    The Expense model represents an expense (a monetary amount and the currency of that amount).
+    """
+    # Unique UUID to distinguish Notifications
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    # The amount of money involved in the transaction
+    amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+
+    # The currency of the expense
+    TYPE_CHOICES = (
+        ('USD', 'US DOLLAR'),
+        ('EUR', 'EURO'),
+        ('INR', 'INDIAN RUPEE'),
+        ('PLN', 'POLISH ZLOTY')
+    )
+    currency = models.CharField(max_length=3, choices=TYPE_CHOICES)
+
+
 class Transaction(models.Model):
     """
     The Transaction model represents a transaction between two Accounts in the same UserGroup.
@@ -25,8 +45,8 @@ class Transaction(models.Model):
     payer = models.ForeignKey(Account, related_name='payer', on_delete=models.CASCADE, null=True)
     payee = models.ForeignKey(Account, related_name='payee', on_delete=models.CASCADE, null=True)
 
-    # The amount of money involved in the transaction
-    amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    # The expense in the transaction (contains the amount and currency)
+    expense = models.ForeignKey(Expense, on_delete=models.CASCADE, null=True)
 
     # The UserGroup to which the Transaction belongs
     group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, null=True)

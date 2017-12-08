@@ -28,8 +28,11 @@ class Notification(models.Model):
     # The type of the notification
     TYPE_CHOICES = (
         ('TC', 'TRANSACTION CREATED'),
+        ('TE', 'TRANSACTION EDITED'),
         ('TF', 'TRANSACTION FINISHED'),
         ('GA', 'ADDED TO GROUP'),
+        ('GR', 'REMOVED FROM GROUP'),
+        ('GD', 'GROUP DELETED')
     )
     status = models.CharField(max_length=2, choices=TYPE_CHOICES)
 

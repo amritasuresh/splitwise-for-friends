@@ -10,7 +10,7 @@ from accounts.models import Account
 from groups.forms import CreateGroupForm, AddUserToGroupForm, \
     AddTransactionToGroupForm
 from groups.models import UserGroup
-from transactions.models import Transaction
+from transactions.models import Transaction, Expense
 import uuid
 
 
@@ -31,7 +31,7 @@ def groups(request):
         group_id = grp.usergroup.id
         transactions = Transaction.objects.filter(group_id=grp.usergroup.id)
         number_of_transactions = transactions.count()
-        total_money = sum([transaction.amount for transaction in transactions])
+        total_money = sum([transaction.expense.amount for transaction in transactions])
 
         groups_data.append(
             {
@@ -166,9 +166,10 @@ def add_transaction_to_group_form(request, usergroup_id):
                 if user.id != payer_user.id:
                     user_account = User.objects.get(username=user)
                     account = Account.objects.get(user_id=user_account.id)
+                    exp = Expense.objects.create(amount=amount, currency='EUR')
                     Transaction.objects.create(name=details, payee=account,
                                                payer=payer_account,
-                                               amount=amount, group=grp,
+                                               expense=exp, group=grp,
                                                created=datetime.now())
 
         else:
