@@ -19,3 +19,5 @@ class AddTransactionToGroupForm(forms.Form):
     details = forms.CharField(max_length=80, empty_value=False)
 
 
+class ResolveTransactions(forms.Form):
+    resolutiontype = forms.RadioSelect()
