@@ -16,7 +16,7 @@ def home(request):
     :param request: HttpRequest object
     :return: Either the user's dashboard if the user is logged in, or the login page if not.
     """
-    if request.user.is_authenticated:
+    if request.user.is_authenticated():
         return dashboard.views.dash(request)
     else:
         return HttpResponseRedirect('/login')
