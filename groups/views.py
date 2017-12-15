@@ -9,9 +9,11 @@ from django.shortcuts import render
 from accounts.models import Account
 from groups.forms import CreateGroupForm, AddUserToGroupForm, \
     AddTransactionToGroupForm
+from groups.forms import ResolveTransactions
 from groups.models import UserGroup
 from transactions.models import Transaction
 import uuid
+import operator
 
 
 @login_required(login_url='/login')
@@ -178,3 +180,81 @@ def add_transaction_to_group_form(request, usergroup_id):
     else:
         return render(request, 'forms/add_transaction_to_group_form.html',
                       {'form': AddTransactionToGroupForm(), 'usergroup_id': usergroup_id})
+
+@login_required(login_url='/login')
+def resolve_transactions(request, usergroup_id):
+    try:
+        usergroup = UserGroup.objects.get(id=usergroup_id)
+    except UserGroup.DoesNotExist:
+        usergroup = None  # TODO invalid usergroup_id
+    if request.method.upper() == "POST":
+        form = ResolveTransactions(request.POST)
+        users = User.objects.filter(groups__name=usergroup.group.name)
+        if form.is_valid():
+            user_data = form.data
+            resolution_type = user_data["resolutiontype"]
+            useramount_list = {}
+            for user in users:
+                useramount_list[user.username]=0
+            updateTransactions = Transaction.objects.filter(group_id=usergroup_id).update(status='C')
+            transactions = Transaction.objects.filter(group_id=usergroup_id)
+            for transaction in transactions:
+                useramount_list[transaction.payee.user.username] -= transaction.amount
+                useramount_list[transaction.payer.user.username] += transaction.amount
+                #transaction.status = 1;
+            if resolution_type == "opt_tran":
+                print('You have chosen to optimize overall transactions')
+                sorted_transaction_list = sorted(useramount_list.items(), key=operator.itemgetter(1))
+                optimize_by_transaction(sorted_transaction_list, usergroup)
+
+
+            else:
+                print('You have chosen to optimize per user')
+        else:
+            pass #TODO
+
+        return HttpResponseRedirect('/groups/' + str(usergroup_id))
+    else:
+        return render(request, 'forms/resolve_group_expenses_form.html',
+                      {'form': ResolveTransactions(), 'usergroup_id': usergroup_id})
+
+def optimize_by_transaction(sorted_transaction_list, usergroup):
+    def getKey(item):
+        return item[1]
+    sorted_transaction_list = sorted(sorted_transaction_list, key=getKey)
+    first_key = sorted_transaction_list[0][0]
+    first_value = sorted_transaction_list[0][1]
+    firstTup = (first_key, first_value)
+    first_value = first_value*-1
+    last_key = sorted_transaction_list[sorted_transaction_list.__len__()-1][0]
+    last_value = sorted_transaction_list[sorted_transaction_list.__len__()-1][1]
+    if first_value == 0 and last_value == 0:
+        return
+    lastTup = (last_key, last_value)
+    if first_value > last_value and sorted_transaction_list.__len__()>0:
+        payer = User.objects.get(username=first_key)
+        payee = User.objects.get(username=last_key)
+        Transaction.objects.create(name='resolution', payee=Account.objects.get(user=payee),
+                                       payer=Account.objects.get(user=payer),
+                                       amount=last_value,
+                                       group=usergroup,
+                                       created=datetime.now())
+        sorted_transaction_list.remove(lastTup)
+        sorted_transaction_list.remove(firstTup)
+        newTup = (first_key, last_value-first_value)
+        sorted_transaction_list.append(newTup)
+        optimize_by_transaction(sorted_transaction_list, usergroup)
+    else:
+        payer = User.objects.get(username=first_key)
+        payee = User.objects.get(username=last_key)
+        Transaction.objects.create(name='resolution', payee=Account.objects.get(user=payee),
+                                   payer=Account.objects.get(user=payer),
+                                   amount=first_value,
+                                   group=usergroup,
+                                   created=datetime.now())
+        sorted_transaction_list.remove(firstTup)
+        sorted_transaction_list.remove(lastTup)
+        newTup = (last_key, last_value-first_value)
+        sorted_transaction_list.append(newTup)
+        optimize_by_transaction(sorted_transaction_list, usergroup)
+

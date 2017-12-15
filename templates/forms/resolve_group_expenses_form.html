@@ -1,0 +1,28 @@
+{% extends "bases/base_project.html" %}
+{% load static %}
+
+{% block title %}
+    Resolve expenses in group
+{% endblock %}
+
+{% block content %}
+    <div class="form-horizontal">
+        <form action="/groups/{{ usergroup_id }}/resolve" method="POST">
+            {% csrf_token %}
+
+            <h2>ADD TRANSACTION TO GROUP</h2>
+
+            <div class="form-field">
+                <input type="radio" name="resolutiontype" value="opt_tran"> Optimize overall transactions <br>
+                <input type="radio" name="resolutiontype" value="opt_user"> Optimize transactions per user <br>
+            </div>
+
+            <div class="form-field">
+                <button type="submit" class="btn btn-success col-xs-4"
+                name="save_button">
+                    RESOLVE
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
