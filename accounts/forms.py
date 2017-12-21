@@ -1,5 +1,6 @@
 from django import forms
 
+
 class UserRegistrationForm(forms.Form):
     """
     This is the form for registering a new user in the application.
