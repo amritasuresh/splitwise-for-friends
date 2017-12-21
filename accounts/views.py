@@ -1,13 +1,17 @@
+import string
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
+from django.utils.crypto import random
 
 from accounts.models import Account
 import dashboard.views
 from .forms import UserRegistrationForm
+from django.core.mail import EmailMessage
 
 
 def home(request):
@@ -69,8 +73,24 @@ def forgot_password(request):
     :param request: HttpRequest object
     :return: The rendered forgotpassword.html page.
     """
-    # TODO FORGOT PASSWORD PAGE
-    return render(request, 'sites/forgotpassword.html')
+    if request.method.upper() == "POST":
+        username = request.POST.get("email")
+        password = ''.join(random.choices(string.ascii_uppercase + string.digits, k=20))
+
+        if User.objects.filter(email=username).exists():
+            user = User.objects.get(email=username)
+            user.set_password(password)
+            user.save()
+
+            registration_mail = EmailMessage(
+                'Hello {}\n. Your new password is {}\n'.format(username, password),
+                to=[username])
+
+            registration_mail.send()
+
+        return HttpResponseRedirect('/')
+    else:
+        return render(request, 'sites/forgotpassword.html')
 
 
 @login_required(login_url='/login')
@@ -111,7 +131,7 @@ def friends(request):
     my_account = Account.objects.get(user=request.user)
     my_friends = get_friends(my_account)
     return render(request, 'sites/friends.html', {'users': my_friends,
-                                                'my_account': my_account})
+                                                  'my_account': my_account})
 
 
 @login_required(login_url='/login')
