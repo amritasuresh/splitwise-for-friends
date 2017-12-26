@@ -196,11 +196,15 @@ def resolve_transactions(request, usergroup_id):
             useramount_list = {}
             for user in users:
                 useramount_list[user.username]=0
-            updateTransactions = Transaction.objects.filter(group_id=usergroup_id).update(status='C')
-            transactions = Transaction.objects.filter(group_id=usergroup_id)
+            transactions = Transaction.objects.filter(group_id=usergroup_id, status='O')
             for transaction in transactions:
-                useramount_list[transaction.payee.user.username] -= transaction.amount
-                useramount_list[transaction.payer.user.username] += transaction.amount
+                if transaction.name == 'resolution':
+                    useramount_list[transaction.payer.user.username] -= transaction.amount
+                    useramount_list[transaction.payee.user.username] += transaction.amount
+                else:
+                    useramount_list[transaction.payee.user.username] -= transaction.amount
+                    useramount_list[transaction.payer.user.username] += transaction.amount
+            updateTransactions = Transaction.objects.filter(group_id=usergroup_id).update(status='C')
                 #transaction.status = 1;
             if resolution_type == "opt_tran":
                 print('You have chosen to optimize overall transactions')
