@@ -72,7 +72,8 @@ def group(request, usergroup_id):
                   {'my_account': my_account, 'usergroup': usergroup,
                    'users': users, 'transactions': transactions,
                    'resolve_form': ResolveTransactions(),
-                   'transaction_form': AddTransactionToGroupForm()})
+                   'transaction_form': AddTransactionToGroupForm(),
+                   'user_add_form': AddUserToGroupForm()})
 
 
 @login_required(login_url='/login')

@@ -1,26 +1,25 @@
-{% extends "bases/base_project.html" %}
-{% load static %}
+<div class="modal fade" id="addUserModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/groups/{{ usergroup_id }}/adduser" method="POST">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">ADD USER TO GROUP</h3>
+                </div>
 
-{% block title %}
-    Add user to group form
-{% endblock %}
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <div class="form-field">
+                        <input type="text" class="field-text" placeholder="Username" name="{{ form.username.html_name }}">
+                    </div>
+                </div>
 
-{% block content %}
-    <div class="form-horizontal">
-        <form action="/groups/{{ usergroup_id }}/adduser" method="POST">
-            {% csrf_token %}
-
-            <h2>ADD USER TO GROUP</h2>
-
-            <div class="form-field">
-                <input type="text" class="field-text" placeholder="Username"
-                       name="{{ form.username.html_name }}">
-            </div>
-
-            <div class="form-field">
-                <button type="submit" class="btn btn-success col-xs-4">SAVE
-                </button>
-            </div>
-        </form>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success col-xs-4">
+                        SAVE
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-{% endblock %}
+</div>

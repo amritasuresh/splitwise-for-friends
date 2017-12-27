@@ -11,6 +11,7 @@
 {% block mainpage_content %}
     {% include "forms/resolve_group_expenses_form.html" with form=resolve_form usergroup_id=usergroup.id %}
     {% include "forms/add_transaction_to_group_form.html" with form=transaction_form usergroup_id=usergroup.id %}
+    {% include "forms/add_user_to_group_form.html" with form=user_add_form usergroup_id=usergroup.id %}
 
     <div id="content-wrapper">
         <div class="row">
@@ -29,8 +30,7 @@
                             <h1 class="pull-left">{{ usergroup.group_name }}</h1>
 
                             <div class="pull-right top-page-ui">
-                                <a href="/groups/{{ usergroup.id }}/adduser"
-                                   class="btn btn-primary pull-right mrg-b-lg">
+                                <a data-toggle="modal" href="#addUserModal" class="btn btn-primary pull-right mrg-b-lg">
                                     <i class=" fa fa-plus-circle fa-lg"></i>
                                     Add member
                                 </a>
