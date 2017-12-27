@@ -1,28 +1,26 @@
-{% extends "bases/base_project.html" %}
-{% load static %}
+<div class="modal fade" id="groupAddModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{% url 'create_group_form' %}" method="POST">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">CREATE NEW GROUP</h3>
+                </div>
 
-{% block title %}
-    Create Group form
-{% endblock %}
+                <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="form-field">
+                            <input type="text" class="field-text" placeholder="Group name"
+                                   name="{{ form.group_name.html_name }}">
+                        </div>
+                </div>
 
-{% block content %}
-    <div class="form-horizontal">
-        <form action="{% url 'create_group_form' %}" method="POST">
-            {% csrf_token %}
-
-            <h2>CREATE NEW GROUP</h2>
-
-            <div class="form-field">
-                <input type="text" class="field-text" placeholder="Group name"
-                       name="{{ form.group_name.html_name }}">
-            </div>
-
-            <div class="form-field">
-                <button type="submit" class="btn btn-success col-xs-4"
-                        name="save_button">
-                    SAVE
-                </button>
-            </div>
-        </form>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success col-xs-4" name="save_button" >
+                        SAVE
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-{% endblock %}
+</div>

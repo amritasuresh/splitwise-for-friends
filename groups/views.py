@@ -45,8 +45,10 @@ def groups(request):
             }
         )
 
+    add_group_form = CreateGroupForm()
+
     return render(request, 'sites/groups.html',
-                  {'my_account': my_account, 'groups': groups_data})
+                  {'my_account': my_account, 'groups': groups_data, 'add_group_form': add_group_form})
 
 
 @login_required(login_url='/login')
