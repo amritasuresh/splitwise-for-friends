@@ -71,7 +71,8 @@ def group(request, usergroup_id):
     return render(request, 'sites/group.html',
                   {'my_account': my_account, 'usergroup': usergroup,
                    'users': users, 'transactions': transactions,
-                   'resolve_form': ResolveTransactions()})
+                   'resolve_form': ResolveTransactions(),
+                   'transaction_form': AddTransactionToGroupForm()})
 
 
 @login_required(login_url='/login')
