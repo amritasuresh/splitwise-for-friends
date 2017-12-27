@@ -1,28 +1,26 @@
-{% extends "bases/base_project.html" %}
-{% load static %}
+<div class="modal fade" id="resolveExpensesModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/groups/{{ usergroup_id }}/resolve" method="POST">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">RESOLVE EXPENSES IN GROUP</h3>
+                </div>
 
-{% block title %}
-    Resolve expenses in group
-{% endblock %}
+                <div class="modal-body">
+                    {% csrf_token %}
+                     <div class="form-field">
+                        <input type="radio" name="resolutiontype" value="opt_tran"> Optimize overall transactions <br>
+                        <input type="radio" name="resolutiontype" value="opt_user"> Optimize transactions per user <br>
+                    </div>
+                </div>
 
-{% block content %}
-    <div class="form-horizontal">
-        <form action="/groups/{{ usergroup_id }}/resolve" method="POST">
-            {% csrf_token %}
-
-            <h2>ADD TRANSACTION TO GROUP</h2>
-
-            <div class="form-field">
-                <input type="radio" name="resolutiontype" value="opt_tran"> Optimize overall transactions <br>
-                <input type="radio" name="resolutiontype" value="opt_user"> Optimize transactions per user <br>
-            </div>
-
-            <div class="form-field">
-                <button type="submit" class="btn btn-success col-xs-4"
-                name="save_button">
-                    RESOLVE
-                </button>
-            </div>
-        </form>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success col-xs-4" name="save_button">
+                        RESOLVE
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-{% endblock %}
+</div>

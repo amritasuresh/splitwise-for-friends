@@ -45,10 +45,9 @@ def groups(request):
             }
         )
 
-    add_group_form = CreateGroupForm()
-
     return render(request, 'sites/groups.html',
-                  {'my_account': my_account, 'groups': groups_data, 'add_group_form': add_group_form})
+                  {'my_account': my_account, 'groups': groups_data,
+                   'add_group_form': CreateGroupForm()})
 
 
 @login_required(login_url='/login')
@@ -71,7 +70,8 @@ def group(request, usergroup_id):
 
     return render(request, 'sites/group.html',
                   {'my_account': my_account, 'usergroup': usergroup,
-                   'users': users, 'transactions': transactions})
+                   'users': users, 'transactions': transactions,
+                   'resolve_form': ResolveTransactions()})
 
 
 @login_required(login_url='/login')
@@ -183,6 +183,7 @@ def add_transaction_to_group_form(request, usergroup_id):
         return render(request, 'forms/add_transaction_to_group_form.html',
                       {'form': AddTransactionToGroupForm(), 'usergroup_id': usergroup_id})
 
+
 @login_required(login_url='/login')
 def resolve_transactions(request, usergroup_id):
     try:
@@ -223,6 +224,7 @@ def resolve_transactions(request, usergroup_id):
     else:
         return render(request, 'forms/resolve_group_expenses_form.html',
                       {'form': ResolveTransactions(), 'usergroup_id': usergroup_id})
+
 
 def optimize_by_transaction(sorted_transaction_list, usergroup):
     def getKey(item):
