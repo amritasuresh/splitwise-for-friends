@@ -79,7 +79,6 @@ class GroupCreatingTestCase(LiveServerTestCase):
         """
         # click create group button
         self.selenium.find_element_by_name("create_group_button").click()
-        self.assertEqual(self.selenium.title, 'Create Group form')
         # filling the form and creating a group of the name "Example group"
         group_name_input = self.selenium.find_element_by_name("group_name")
         group_name_input.send_keys(group_name)
