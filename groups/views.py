@@ -244,8 +244,8 @@ def optimize_by_transaction(sorted_transaction_list, usergroup):
         return
     lastTup = (last_key, last_value)
     if first_value > last_value and sorted_transaction_list.__len__()>0:
-        payer = User.objects.get(username=first_key)
-        payee = User.objects.get(username=last_key)
+        payee = User.objects.get(username=first_key)
+        payer = User.objects.get(username=last_key)
         Transaction.objects.create(name='resolution', payee=Account.objects.get(user=payee),
                                        payer=Account.objects.get(user=payer),
                                        amount=last_value,
@@ -257,8 +257,8 @@ def optimize_by_transaction(sorted_transaction_list, usergroup):
         sorted_transaction_list.append(newTup)
         optimize_by_transaction(sorted_transaction_list, usergroup)
     else:
-        payer = User.objects.get(username=first_key)
-        payee = User.objects.get(username=last_key)
+        payee = User.objects.get(username=first_key)
+        payer = User.objects.get(username=last_key)
         Transaction.objects.create(name='resolution', payee=Account.objects.get(user=payee),
                                    payer=Account.objects.get(user=payer),
                                    amount=first_value,
@@ -278,8 +278,8 @@ def optimize_by_user(sorted_transaction_list, usergroup):
         amount = amount + first_value
         last_key = sorted_transaction_list[i+1][0]
         last_value = sorted_transaction_list[i+1][1]
-        payer = User.objects.get(username=first_key)
-        payee = User.objects.get(username=last_key)
+        payee = User.objects.get(username=first_key)
+        payer = User.objects.get(username=last_key)
         if amount<0:
             Transaction.objects.create(name='resolution', payee=Account.objects.get(user=payee),
                                        payer=Account.objects.get(user=payer),
