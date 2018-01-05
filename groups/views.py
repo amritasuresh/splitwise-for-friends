@@ -219,6 +219,8 @@ def resolve_transactions(request, usergroup_id):
 
             else:
                 print('You have chosen to optimize per user')
+                sorted_transaction_list = sorted(useramount_list.items(), key=operator.itemgetter(1))
+                optimize_by_user(sorted_transaction_list, usergroup)
         else:
             pass #TODO
 
@@ -267,4 +269,23 @@ def optimize_by_transaction(sorted_transaction_list, usergroup):
         newTup = (last_key, last_value-first_value)
         sorted_transaction_list.append(newTup)
         optimize_by_transaction(sorted_transaction_list, usergroup)
+
+def optimize_by_user(sorted_transaction_list, usergroup):
+    amount = 0
+    for i in range(sorted_transaction_list.__len__()-1):
+        first_key = sorted_transaction_list[i][0]
+        first_value = sorted_transaction_list[i][1]
+        amount = amount + first_value
+        last_key = sorted_transaction_list[i+1][0]
+        last_value = sorted_transaction_list[i+1][1]
+        payer = User.objects.get(username=first_key)
+        payee = User.objects.get(username=last_key)
+        if amount<0:
+            Transaction.objects.create(name='resolution', payee=Account.objects.get(user=payee),
+                                       payer=Account.objects.get(user=payer),
+                                       amount=amount*-1,
+                                       group=usergroup,
+                                       created=datetime.now())
+
+
 
