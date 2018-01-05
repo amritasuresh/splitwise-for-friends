@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^users/$', users),
     url(r'^users/friends/$', friends),
     # profile pages
-    url(r'^profilepage/$', profile_page),
+    url(r'^profile/$', profile_page),
+    url(r'^settings/$', settings),
     url(r'^users/(?P<user_id>[0-9]+)/$', user_page),
 ]

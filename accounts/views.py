@@ -139,12 +139,23 @@ def profile_page(request):
     """
     This page displays the current user's profile upon logging in.
     :param request: HttpRequest object
-    :return: The rendered profilepage.html page.
+    :return: The rendered profile.html page.
     """
     my_account = Account.objects.get(user=request.user)
     friends = get_friends(my_account)
-    return render(request, 'sites/profilepage.html', {'my_account': my_account,
+    return render(request, 'sites/profile.html', {'my_account': my_account,
                                                       'friends': friends})
+
+
+@login_required(login_url='/login')
+def settings(request):
+    """
+    This page displays the current user's settings upon logging in.
+    :param request: HttpRequest object
+    :return: The rendered profile.html page.
+    """
+    my_account = Account.objects.get(user=request.user)
+    return render(request, 'sites/settings.html', {'my_account': my_account})
 
 
 @login_required(login_url='/login')

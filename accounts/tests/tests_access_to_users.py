@@ -60,7 +60,7 @@ class AccessToUsersTest(TestCase):
         This test checks that the user can access their own profile page.
         :return:
         """
-        request = self.factory.get('/profilepage/')
+        request = self.factory.get('/profile/')
         request.user = self.user
         response = home(request)
         self.assertEqual(response.status_code, 200)

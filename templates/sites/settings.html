@@ -1,0 +1,51 @@
+{% extends "bases/base_homepage.html" %}
+{% load static %}
+
+{% block title %}
+    User Settings
+{% endblock %}
+
+{% block mainpage_content %}
+    <div id="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li><a href="/">HOME</a></li>
+                            <li><a href="/users">USERS</a></li>
+                            <li class="active"><span>SETTINGS</span></li>
+                        </ol>
+
+                        <h1>User settings</h1>
+                    </div>
+                </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="main-box clearfix">
+                            <div class="table-responsive">
+                                <table id="user" class="table" style="clear: both">
+                                    <tbody>
+                                        <tr>
+                                            <td width="35%">Currency</td>
+                                            <td width="65%">
+                                                <select>
+                                                    {% for abbrev, name in my_account.CURRENCY_CHOICES %}
+                                                    <option value="{{ abbrev }}">{{ name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
