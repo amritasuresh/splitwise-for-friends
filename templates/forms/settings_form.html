@@ -12,7 +12,7 @@
                         <div class="form-group row">
                             <label for="firstNameSettings" class="col-sm-2 col-form-label">First name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="field-text" name="first_name"
+                                <input type="text" class="field-text" name="settings_first_name"
                                    value="{{ user.first_name }}" id="firstNameSettings">
                             </div>
                         </div>
@@ -20,7 +20,7 @@
                         <div class="form-group row">
                             <label for="lastNameSettings" class="col-sm-2 col-form-label">Last name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="field-text" name="last_name"
+                                <input type="text" class="field-text" name="settings_last_name"
                                    value="{{ user.last_name }}" id="lastNameSettings">
                             </div>
                         </div>
@@ -28,16 +28,16 @@
                         <div class="form-group row">
                             <label for="emailSettings" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10">
-                                <input type="text" class="field-text" name="email"
+                                <input type="text" class="field-text" name="settings_email"
                                    value="{{ user.email }}" id="emailSettings">
                             </div>
                         </div>
 
-                         <input type="hidden" name="return_page" value="{{ request.path }}">
+                         <input type="hidden" name="settings_return_page" value="{{ request.path }}">
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success col-xs-4" name="save_button" >
+                    <button type="submit" class="btn btn-success col-xs-4" name="settings_save_button" >
                         SAVE
                     </button>
                 </div>

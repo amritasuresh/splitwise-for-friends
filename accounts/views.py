@@ -165,12 +165,12 @@ def user_page(request, user_id):
 
 @login_required(login_url='/login')
 def settings_change(request):
-    return_page = request.POST.get('return_page', '/')
+    return_page = request.POST.get('settings_return_page', '/')
 
     update_data = {
-        'first_name': request.POST.get('first_name'),
-        'last_name': request.POST.get('last_name'),
-        'email': request.POST.get('email'),
+        'first_name': request.POST.get('settings_first_name'),
+        'last_name': request.POST.get('settings_last_name'),
+        'email': request.POST.get('settings_email'),
     }
     my_account = Account.objects.get(user=request.user)
     my_account.user.__dict__.update(update_data)
