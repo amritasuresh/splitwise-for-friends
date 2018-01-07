@@ -14,7 +14,6 @@
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
                             <li><a href="/">HOME</a></li>
-                            <li><a href="/users">USERS</a></li>
                             <li class="active"><span>SETTINGS</span></li>
                         </ol>
 
@@ -24,22 +23,23 @@
 
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="main-box clearfix">
-                            <div class="table-responsive">
-                                <table id="user" class="table" style="clear: both">
-                                    <tbody>
-                                        <tr>
-                                            <td width="35%">Currency</td>
-                                            <td width="65%">
-                                                <select>
-                                                    {% for abbrev, name in my_account.CURRENCY_CHOICES %}
-                                                    <option value="{{ abbrev }}">{{ name }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <form action="/settings/save/" method="POST">
+                                {% csrf_token %}
+                                <div class="table-responsive">
+                                    <table id="settings" class="table" style="clear: both">
+                                        <tbody>
+                                            <tr>
+                                                <td>{{ form }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            <button type="submit" class="btn btn-success col-xs-4" name="save_button">
+                                SAVE
+                            </button>
+                            </form>
+
                         </div>
 
                     </div>

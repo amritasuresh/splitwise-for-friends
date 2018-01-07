@@ -7,8 +7,7 @@ from django.shortcuts import render
 from accounts.models import Account
 from transactions.models import Transaction
 
-import requests
-import json
+import requests, json, decimal
 
 
 def get_friends(account):
@@ -74,9 +73,12 @@ def dash(request):
                 amount *= 1.0 / rate
             amount_owed += float(amount)
 
+    amount_due = float(format(amount_due, '.2f'))
+    amount_owed = float(format(amount_owed, '.2f'))
+
     balance = amount_due - amount_owed
     if(my_account.currency != 'EUR'):
-        rate = rates[currency]
+        rate = rates[my_account.currency]
         balance *= rate
         amount_due *= rate
         amount_owed *= rate
@@ -85,23 +87,36 @@ def dash(request):
         payee=my_account) | Transaction.objects.filter(payer=my_account)
     transactions = transactions.order_by('-created')[:10]
 
-    for transaction in transactions:
-        if(transaction.currency != 'EUR'):
-            rate = rates[transaction.currency]
-            transaction.amount *= 1.0 / rate
+    for t in transactions:
+        if t.currency != my_account.currency:
+            if t.currency != 'EUR':
+                rate = rates[t.currency]
+                t.amount *= 1.0 / rate
             rate = rates[my_account.currency]
-            transaction.amount *= rate
+            t.amount *= decimal.Decimal(rate)
+        t.amount = float(format(t.amount, '.2f'))
 
     symbols = {'EUR': '€', 'USD': '$', 'PLN': ' zł', 'INR': '₹ '}
     symbol = symbols.get(my_account.currency, 'default')
     if(my_account.currency == 'PLN'):
         amount_due_string = ("%.2f " % amount_due) + symbol
         amount_owed_string = (("-%.2f" % abs(amount_owed)) + symbol) if (balance < 0) else ("%.2f" % abs(amount_owed)) + symbol
-        balance_string = (("-%.2f" % abs(balance)) + symbol) if (balance < 0) else ("€%.2f" % abs(balance)) + symbol
+        balance_string = (("-%.2f" % abs(balance)) + symbol) if (balance < 0) else ("%.2f" % abs(balance)) + symbol
     else:
-        amount_due_string = "€%.2f" % amount_due
-        amount_owed_string = "-€%.2f" % abs(amount_owed) if (balance < 0) else "€%.2f" % abs(amount_owed)
-        balance_string = "-€%.2f" % abs(balance) if (balance < 0) else "€%.2f" % abs(balance)
+        amount_due_string = symbol + ("%.2f" % amount_due)
+        amount_owed_string = "-" + symbol + ("%.2f" % abs(amount_owed)) if (balance < 0) else symbol + ("%.2f" % abs(amount_owed))
+        balance_string = "-" + symbol + ("%.2f" % abs(balance)) if (balance < 0) else symbol + ("%.2f" % abs(balance))
+
+    transaction_strings = []
+    for t in transactions:
+        if(my_account.currency == 'PLN'):
+            s = ("%.2f " % t.amount) + symbol
+        else:
+            s = symbol + ("%.2f" % t.amount)
+
+        transaction_strings.append(s)
+
+    list = zip(transactions, transaction_strings)
 
     return render(request, 'sites/dashboard.html',
                   {'my_account': my_account, 'n_groups': groups.count(),
@@ -112,4 +127,4 @@ def dash(request):
                    'amount_owed_string': amount_owed_string,
                    'balance': balance,
                    'balance_string': balance_string,
-                   'transactions': transactions})
+                   'transactions': list})
