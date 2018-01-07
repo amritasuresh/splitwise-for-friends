@@ -67,12 +67,15 @@ def group(request, usergroup_id):
     users = User.objects.filter(groups__name=usergroup.group.name)
 
     transactions = Transaction.objects.filter(group_id=usergroup_id)
+    form = AddTransactionToGroupForm()
+    form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
+    #query = User.objects.filter(groups__name=usergroup.group.name)
 
     return render(request, 'sites/group.html',
                   {'my_account': my_account, 'usergroup': usergroup,
                    'users': users, 'transactions': transactions,
                    'resolve_form': ResolveTransactions(),
-                   'transaction_form': AddTransactionToGroupForm(),
+                   'transaction_form': form,
                    'user_add_form': AddUserToGroupForm()})
 
 
@@ -156,34 +159,34 @@ def add_transaction_to_group_form(request, usergroup_id):
 
     if request.method.upper() == "POST":
         form = AddTransactionToGroupForm(request.POST)
-        if form.is_valid():
-            user_data = form.cleaned_data
-            transaction = user_data["transaction"]
-            payer = user_data["payer"]
-            details = user_data["details"]
+        user_data = form.data
+        transaction = user_data["transaction"]
+        payer = user_data["payer"]
+        details = user_data["details"]
 
-            grp = UserGroup.objects.get(id=usergroup_id)
-            payer_user = User.objects.get(username=payer)
-            payer_account = Account.objects.get(user_id=payer_user.id)
-            num_of_users = users.count()
-            amount = float(transaction) / num_of_users
+        grp = UserGroup.objects.get(id=usergroup_id)
+        payer_user = User.objects.get(id=payer)
+        payer_account = Account.objects.get(user_id=payer_user.id)
+        num_of_users = users.count()
+        amount = float(transaction) / num_of_users
 
-            for user in users:
-                if user.id != payer_user.id:
-                    user_account = User.objects.get(username=user)
-                    account = Account.objects.get(user_id=user_account.id)
-                    Transaction.objects.create(name=details, payee=account,
-                                               payer=payer_account,
-                                               amount=amount, group=grp,
-                                               created=datetime.now())
+        for user in users:
+            if user.id != payer_user.id:
+                user_account = User.objects.get(username=user)
+                account = Account.objects.get(user_id=user_account.id)
+                Transaction.objects.create(name=details, payee=account,
+                                           payer=payer_account,
+                                           amount=amount, group=grp,                                               created=datetime.now())
 
-        else:
-            pass  # TODO
+            else:
+                pass  # TODO
 
         return HttpResponseRedirect('/groups/' + str(usergroup_id))
     else:
+        form = AddTransactionToGroupForm()
+        form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
         return render(request, 'forms/add_transaction_to_group_form.html',
-                      {'form': AddTransactionToGroupForm(), 'usergroup_id': usergroup_id})
+                      {'form': form, 'usergroup_id': usergroup_id})
 
 
 @login_required(login_url='/login')

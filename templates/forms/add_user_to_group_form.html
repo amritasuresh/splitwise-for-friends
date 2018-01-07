@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     {% csrf_token %}
                     <div class="form-field">
-                        <input type="text" class="field-text" placeholder="Username" name="{{ form.username.html_name }}">
+                        {{ form.username }}
                     </div>
                 </div>
 
