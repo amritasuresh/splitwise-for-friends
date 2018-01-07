@@ -1,0 +1,47 @@
+<div class="modal fade" id="settingsModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/settings_change/" method="POST">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">ACCOUNT SETTINGS</h3>
+                </div>
+
+                <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <label for="firstNameSettings" class="col-sm-2 col-form-label">First name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="field-text" name="first_name"
+                                   value="{{ user.first_name }}" id="firstNameSettings">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="lastNameSettings" class="col-sm-2 col-form-label">Last name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="field-text" name="last_name"
+                                   value="{{ user.last_name }}" id="lastNameSettings">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="emailSettings" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="field-text" name="email"
+                                   value="{{ user.email }}" id="emailSettings">
+                            </div>
+                        </div>
+
+                         <input type="hidden" name="return_page" value="{{ request.path }}">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success col-xs-4" name="save_button" >
+                        SAVE
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

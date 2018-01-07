@@ -10,6 +10,8 @@
 {% block content %}
     {{ block.super }}
 
+    {% include "forms/settings_form.html" %}
+
     <div id="theme-wrapper">
         <header class="navbar" id="header-navbar">
             <div class="container">
@@ -61,7 +63,11 @@
                                     <li><a href="/profilepage"><i
                                             class="fa fa-user"></i>Profile</a>
                                     </li>
-                                    <li><a href="#"><i class="fa fa-cog"></i>Settings</a>
+                                    <li>
+                                        <a data-toggle="modal" href="#settingsModal">
+                                            <i class="fa fa-cog"></i>
+                                            Settings
+                                        </a>
                                     </li>
                                     <li><a href="/logout"><i
                                             class="fa fa-power-off"></i>Logout</a>

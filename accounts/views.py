@@ -161,3 +161,19 @@ def user_page(request, user_id):
     return render(request, 'sites/user.html', {'my_account': my_account,
                                                'target_account': target_account,
                                                'friends': friends})
+
+
+@login_required(login_url='/login')
+def settings_change(request):
+    return_page = request.POST.get('return_page', '/')
+
+    update_data = {
+        'first_name': request.POST.get('first_name'),
+        'last_name': request.POST.get('last_name'),
+        'email': request.POST.get('email'),
+    }
+    my_account = Account.objects.get(user=request.user)
+    my_account.user.__dict__.update(update_data)
+    my_account.user.save()
+
+    return HttpResponseRedirect(return_page)
