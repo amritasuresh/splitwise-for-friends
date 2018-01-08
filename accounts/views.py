@@ -180,7 +180,9 @@ def save_settings(request):
             my_account.currency = currency
             my_account.save()
 
-        return HttpResponseRedirect('/settings/')
+        return render(request, 'sites/settings.html', {'my_account': my_account,
+                                                       'form': form,
+                                                       'message': "Your settings have been successfully saved."})
 
     else:
         form = UserSettingsForm()

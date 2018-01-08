@@ -7,7 +7,9 @@ from django.shortcuts import render
 from accounts.models import Account
 from transactions.models import Transaction
 
-import requests, json, decimal
+from currencies.views import get_symbol, get_exchange_rates, convert_amount, amount_as_string
+
+import decimal
 
 
 def get_friends(account):
@@ -44,77 +46,38 @@ def dash(request):
     amount_due = 0.0
     amount_owed = 0.0
 
-    # In order to convert between currencies, we need to get the latest exchange rates.
-    # We use the Fixer API to get the daily exchange rates from the European Central Bank: http://fixer.io/
-    #
+    rates = get_exchange_rates(request)
+
     # If the transactions are not already in the user's chosen currency, we first convert from the transaction's
     # currency into euros, and then from euros into the user's currency.
-    r = requests.get('https://api.fixer.io/latest')
-    text = json.loads(r.text)
-    rates = text["rates"]
-
-    expenses_due = Transaction.objects.filter(payer=my_account)
+    expenses_due = Transaction.objects.filter(payer=my_account, status='O')
     for t in expenses_due:
-        if t.status == 'O':
-            amount = t.amount
-            currency = t.currency
-            if(currency != 'EUR'):
-                rate = rates[currency]
-                amount *= 1.0/rate
-            amount_due += float(amount)
-
-    expenses_owed = Transaction.objects.filter(payee=my_account)
-    for t in expenses_owed:
-        if t.status == 'O':
-            amount = t.amount
-            currency = t.currency
-            if (currency != 'EUR'):
-                rate = rates[currency]
-                amount *= 1.0 / rate
-            amount_owed += float(amount)
-
+        amount = convert_amount(request, t.amount, t.currency, my_account.currency)
+        amount_due += float(amount)
     amount_due = float(format(amount_due, '.2f'))
+
+    expenses_owed = Transaction.objects.filter(payee=my_account, status='O')
+    for t in expenses_owed:
+        amount = convert_amount(request, t.amount, t.currency, my_account.currency)
+        amount_owed += float(amount)
     amount_owed = float(format(amount_owed, '.2f'))
 
     balance = amount_due - amount_owed
-    if(my_account.currency != 'EUR'):
-        rate = rates[my_account.currency]
-        balance *= rate
-        amount_due *= rate
-        amount_owed *= rate
 
-    transactions = Transaction.objects.filter(
-        payee=my_account) | Transaction.objects.filter(payer=my_account)
+    transactions = Transaction.objects.filter( payee=my_account) | Transaction.objects.filter(payer=my_account)
     transactions = transactions.order_by('-created')[:10]
 
     for t in transactions:
-        if t.currency != my_account.currency:
-            if t.currency != 'EUR':
-                rate = rates[t.currency]
-                t.amount *= 1.0 / rate
-            rate = rates[my_account.currency]
-            t.amount *= decimal.Decimal(rate)
-        t.amount = float(format(t.amount, '.2f'))
+        amount = convert_amount(request, t.amount, t.currency, my_account.currency)
+        t.amount = float(format(amount, '.2f'))
 
-    symbols = {'EUR': '€', 'USD': '$', 'PLN': ' zł', 'INR': '₹ '}
-    symbol = symbols.get(my_account.currency, 'default')
-    if(my_account.currency == 'PLN'):
-        amount_due_string = ("%.2f " % amount_due) + symbol
-        amount_owed_string = (("-%.2f" % abs(amount_owed)) + symbol) if (balance < 0) else ("%.2f" % abs(amount_owed)) + symbol
-        balance_string = (("-%.2f" % abs(balance)) + symbol) if (balance < 0) else ("%.2f" % abs(balance)) + symbol
-    else:
-        amount_due_string = symbol + ("%.2f" % amount_due)
-        amount_owed_string = "-" + symbol + ("%.2f" % abs(amount_owed)) if (balance < 0) else symbol + ("%.2f" % abs(amount_owed))
-        balance_string = "-" + symbol + ("%.2f" % abs(balance)) if (balance < 0) else symbol + ("%.2f" % abs(balance))
+    amount_due_string = amount_as_string(request, amount_due, my_account)
+    amount_owed_string = amount_as_string(request, amount_owed, my_account)
+    balance_string = amount_as_string(request, balance, my_account)
 
     transaction_strings = []
     for t in transactions:
-        if(my_account.currency == 'PLN'):
-            s = ("%.2f " % t.amount) + symbol
-        else:
-            s = symbol + ("%.2f" % t.amount)
-
-        transaction_strings.append(s)
+        transaction_strings.append(amount_as_string(request, t.amount, my_account))
 
     list = zip(transactions, transaction_strings)
 

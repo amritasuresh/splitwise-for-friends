@@ -23,21 +23,21 @@
 
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="main-box clearfix">
+                            <div id="settings-message">{{ message }}</div>
                             <form action="/settings/save/" method="POST">
                                 {% csrf_token %}
                                 <div class="table-responsive">
                                     <table id="settings" class="table" style="clear: both">
                                         <tbody>
-                                            <tr>
-                                                <td>{{ form }}</td>
-                                            </tr>
+                                            {{ form }}
                                         </tbody>
                                     </table>
                                 </div>
-
+                            <div id="settings-save">
                             <button type="submit" class="btn btn-success col-xs-4" name="save_button">
                                 SAVE
                             </button>
+                            </div>
                             </form>
 
                         </div>

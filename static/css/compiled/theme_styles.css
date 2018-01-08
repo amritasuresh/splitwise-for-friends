@@ -1483,6 +1483,16 @@ h3 .small {
   background-color: #27ae60;
 }
 
+#settings-save {
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-bottom: 50px;
+}
+
+#settings-message {
+  padding: 10px;
+}
+
 .btn-danger {
   background-color: #e74c3c;
   border-color: #c0392b;
@@ -3246,8 +3256,7 @@ input[type="radio"] {
 }
 
 #login-full-wrapper {
-  background: url(../../img/login-money.jpg) no-repeat center center;
-  background-size: cover;
+  background: url(../../img/login-money.jpg) no-repeat fixed center center;
   width: 100%;
   height: 100%;
   position: absolute;
