@@ -85,7 +85,7 @@ def group(request, usergroup_id):
     custom_transaction.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
     #custom_transaction.fields["payee"].queryset = User.objects.filter(groups__name=usergroup.group.name)
     payee_user = [str(payee_name) for payee_name in User.objects.filter(groups__name=usergroup.group.name)]
-    custom_transaction.fields["payee"].choices=[(payee_name, payee_name) for payee_name in payee_user]
+    custom_transaction.fields["consumers"].choices=[(payee_name, payee_name) for payee_name in payee_user]
     #query = User.objects.filter(groups__name=usergroup.group.name)
 
     for t in transactions:
@@ -186,7 +186,7 @@ def add_transaction_to_group_form(request, usergroup_id):
     users = User.objects.filter(groups__name=usergroup.group.name)
 
     if request.method.upper() == "POST":
-        form = AddTransactionToGroupForm(request.POST)
+        form = AddTransactionToGroupForm(data=request.POST)
         user_data = form.data
         transaction = user_data["transaction"]
         payer = user_data["payer"]
@@ -238,7 +238,7 @@ def add_custom_transaction_to_group_form(request, usergroup_id):
         transaction = user_data["transaction"]
         payer = user_data["payer"]
         details = user_data["details"]
-        payee = form.cleaned_data["payee"]
+        payee = form.cleaned_data["consumers"]
 
         grp = UserGroup.objects.get(id=usergroup_id)
         payer_user = User.objects.get(id=payer)
@@ -262,13 +262,20 @@ def add_custom_transaction_to_group_form(request, usergroup_id):
         form = AddCustomTransactionToGroupForm()
         form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
         payee_user = [str(payee_name) for payee_name in User.objects.filter(groups__name=usergroup.group.name)]
-        form.fields["payee"].choices = [(payee_name, payee_name) for payee_name in payee_user]
+        form.fields["consumers"].choices = [(payee_name, payee_name) for payee_name in payee_user]
         return render(request, 'forms/add_custom_transaction.html',
                       {'form': form, 'usergroup_id': usergroup_id})
 
 
 @login_required(login_url='/login')
 def resolve_transactions(request, usergroup_id):
+    """
+        This view resolves the pending transactions. It is done by two ways, either optimising the number
+        of transactions, or ensuring that every user has to make only at most one transaction.
+        :param request: HttpRequest object
+        :param usergroup_id: The unique UUID of the group.
+        :return: The rendered page of the group if successful, and the resolve_group_expenses_form.html page if not.
+        """
     try:
         usergroup = UserGroup.objects.get(id=usergroup_id)
     except UserGroup.DoesNotExist:
@@ -284,14 +291,11 @@ def resolve_transactions(request, usergroup_id):
                 useramount_list[user.username]=0
             transactions = Transaction.objects.filter(group_id=usergroup_id, status='O')
             for transaction in transactions:
-                if transaction.name == 'resolution':
-                    useramount_list[transaction.payer.user.username] -= transaction.amount
-                    useramount_list[transaction.payee.user.username] += transaction.amount
-                else:
-                    useramount_list[transaction.payee.user.username] -= transaction.amount
-                    useramount_list[transaction.payer.user.username] += transaction.amount
+                #Adds to each user the money they owe/should receive in each transaction
+                useramount_list[transaction.payee.user.username] -= transaction.amount
+                useramount_list[transaction.payer.user.username] += transaction.amount
+                #Marks the transactions as complete now (new transactions for resolutions will be made)
             updateTransactions = Transaction.objects.filter(group_id=usergroup_id).update(status='C')
-                #transaction.status = 1;
             if resolution_type == "opt_tran":
                 print('You have chosen to optimize overall transactions')
                 sorted_transaction_list = sorted(useramount_list.items(), key=operator.itemgetter(1))
@@ -303,6 +307,7 @@ def resolve_transactions(request, usergroup_id):
                 sorted_transaction_list = sorted(useramount_list.items(), key=operator.itemgetter(1))
                 optimize_by_user(sorted_transaction_list, usergroup)
         else:
+            #We do not need to worry about this use case as the form is just two radio buttons.
             pass #TODO
 
         return HttpResponseRedirect('/groups/' + str(usergroup_id))
@@ -312,31 +317,49 @@ def resolve_transactions(request, usergroup_id):
 
 
 def optimize_by_transaction(sorted_transaction_list, usergroup):
+
+    #The key is defined as the amount of money each user owes/is owed.
     def getKey(item):
         return item[1]
+
+    #Sorts the list in ascending order (optimization method).
     sorted_transaction_list = sorted(sorted_transaction_list, key=getKey)
+
+    #Identifies the first user, i.e, the user that owes the most amount of money
     first_key = sorted_transaction_list[0][0]
     first_value = sorted_transaction_list[0][1]
     firstTup = (first_key, first_value)
     first_value = first_value*-1
+
+    #Identifies the last user, i.e, the user that is owed the most amount of money
     last_key = sorted_transaction_list[sorted_transaction_list.__len__()-1][0]
     last_value = sorted_transaction_list[sorted_transaction_list.__len__()-1][1]
+
+    #Checks to see if all transactions are resolved
     if first_value == 0 and last_value == 0:
         return
     lastTup = (last_key, last_value)
+
+    #Case: When the most owed user is owed less than the user who has to pay the most
     if first_value > last_value and sorted_transaction_list.__len__()>0:
         payee = User.objects.get(username=first_key)
         payer = User.objects.get(username=last_key)
+        #Creates a transaction between the most owed and most indebted
         Transaction.objects.create(name='resolution', payee=Account.objects.get(user=payee),
                                        payer=Account.objects.get(user=payer),
                                        amount=last_value,
                                        group=usergroup,
                                        created=datetime.now())
+        #Now that the most owed is not owed any more money, he/she can be removed from the list.
         sorted_transaction_list.remove(lastTup)
         sorted_transaction_list.remove(firstTup)
+        #Update the value of the most in-debt.
         newTup = (first_key, last_value-first_value)
         sorted_transaction_list.append(newTup)
         optimize_by_transaction(sorted_transaction_list, usergroup)
+
+    #Case: When the user who should get most amount of money cannot just be paid by the user who is in
+    #maximum debt.
     else:
         payee = User.objects.get(username=first_key)
         payer = User.objects.get(username=last_key)
@@ -345,18 +368,26 @@ def optimize_by_transaction(sorted_transaction_list, usergroup):
                                    amount=first_value,
                                    group=usergroup,
                                    created=datetime.now())
+        #Remove the user who was in most debt (they have now paid up).
         sorted_transaction_list.remove(firstTup)
         sorted_transaction_list.remove(lastTup)
         newTup = (last_key, last_value-first_value)
         sorted_transaction_list.append(newTup)
+        #Recursively run the code
         optimize_by_transaction(sorted_transaction_list, usergroup)
 
 def optimize_by_user(sorted_transaction_list, usergroup):
+    #The logic for this is similar to having all users stand in a circle, in order of how much they
+    #are owed/owe. Every user who owes money pays to the person immediately to his/her right, and they collect
+    #the money across the circle and when someone is owed money, they take their share and pass the rest of the
+    #money along.
     amount = 0
     for i in range(sorted_transaction_list.__len__()-1):
+        #first user is the one who is going to pay to the person on his/her right
         first_key = sorted_transaction_list[i][0]
         first_value = sorted_transaction_list[i][1]
         amount = amount + first_value
+        #last user collects the value, then takes/add his/her share and passes it along.
         last_key = sorted_transaction_list[i+1][0]
         last_value = sorted_transaction_list[i+1][1]
         payee = User.objects.get(username=first_key)
