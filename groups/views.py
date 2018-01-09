@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from datetime import datetime
+from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
 from django.http import HttpResponseRedirect
@@ -13,7 +14,7 @@ from accounts.models import Account
 from currencies.views import convert_amount, amount_as_string
 
 from groups.forms import CreateGroupForm, AddUserToGroupForm, AddTransactionToGroupForm
-from groups.forms import ResolveTransactions
+from groups.forms import ResolveTransactions, AddCustomTransactionToGroupForm
 from groups.models import UserGroup
 
 from transactions.models import Transaction
@@ -80,6 +81,11 @@ def group(request, usergroup_id):
     transactions = Transaction.objects.filter(group_id=usergroup_id)
     form = AddTransactionToGroupForm()
     form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
+    custom_transaction = AddCustomTransactionToGroupForm()
+    custom_transaction.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
+    #custom_transaction.fields["payee"].queryset = User.objects.filter(groups__name=usergroup.group.name)
+    payee_user = [str(payee_name) for payee_name in User.objects.filter(groups__name=usergroup.group.name)]
+    custom_transaction.fields["payee"].choices=[(payee_name, payee_name) for payee_name in payee_user]
     #query = User.objects.filter(groups__name=usergroup.group.name)
 
     for t in transactions:
@@ -97,6 +103,7 @@ def group(request, usergroup_id):
                    'users': users, 'transactions': list,
                    'resolve_form': ResolveTransactions(),
                    'transaction_form': form,
+                   'custom_transaction_form' : custom_transaction,
                    'user_add_form': AddUserToGroupForm()})
 
 
@@ -207,6 +214,56 @@ def add_transaction_to_group_form(request, usergroup_id):
         form = AddTransactionToGroupForm()
         form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
         return render(request, 'forms/add_transaction_to_group_form.html',
+                      {'form': form, 'usergroup_id': usergroup_id})
+
+@login_required(login_url='/login')
+def add_custom_transaction_to_group_form(request, usergroup_id):
+    """
+    This view adds a custom transaction to an existing group.
+    :param request: HttpRequest object
+    :param usergroup_id: The unique UUID of the group.
+    :return: The rendered page of the group if successful, and the add_custom_transaction.html page if not.
+    """
+    try:
+        usergroup = UserGroup.objects.get(id=usergroup_id)
+    except UserGroup.DoesNotExist:
+        usergroup = None  # TODO invalid usergroup_id
+
+    users = User.objects.filter(groups__name=usergroup.group.name)
+
+    if request.method.upper() == "POST":
+        form = AddCustomTransactionToGroupForm(data=request.POST)
+        val = form.is_valid()
+        user_data = form.data
+        transaction = user_data["transaction"]
+        payer = user_data["payer"]
+        details = user_data["details"]
+        payee = form.cleaned_data["payee"]
+
+        grp = UserGroup.objects.get(id=usergroup_id)
+        payer_user = User.objects.get(id=payer)
+        payer_account = Account.objects.get(user_id=payer_user.id)
+        num_of_users = payee.__len__()
+        amount = float(transaction) / num_of_users
+
+        for payee_s in payee:
+            if payee_s != payer_user.username:
+                user_account = User.objects.get(username=payee_s)
+                account = Account.objects.get(user_id=user_account.id)
+                Transaction.objects.create(name=details, payee=account,
+                                           payer=payer_account,
+                                           amount=amount, group=grp,                                               created=datetime.now())
+
+            else:
+                pass  # TODO
+
+        return HttpResponseRedirect('/groups/' + str(usergroup_id))
+    else:
+        form = AddCustomTransactionToGroupForm()
+        form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
+        payee_user = [str(payee_name) for payee_name in User.objects.filter(groups__name=usergroup.group.name)]
+        form.fields["payee"].choices = [(payee_name, payee_name) for payee_name in payee_user]
+        return render(request, 'forms/add_custom_transaction.html',
                       {'form': form, 'usergroup_id': usergroup_id})
 
 

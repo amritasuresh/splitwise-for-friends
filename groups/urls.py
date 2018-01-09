@@ -16,6 +16,8 @@ urlpatterns = [
         views.add_user_to_group_form),
     url(r'^groups/(?P<usergroup_id>[0-9A-Fa-f-]+)/addtransaction',
         views.add_transaction_to_group_form),
+    url(r'^groups/(?P<usergroup_id>[0-9A-Fa-f-]+)/addcustomtransaction',
+        views.add_custom_transaction_to_group_form),
     url(r'^groups/(?P<usergroup_id>[0-9A-Fa-f-]+)/resolve',
         views.resolve_transactions),
 
