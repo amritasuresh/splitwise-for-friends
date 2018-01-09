@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django import forms
 
 
@@ -31,3 +33,17 @@ class UserRegistrationForm(forms.Form):
         max_length=32,
         widget=forms.PasswordInput()
     )
+
+
+class UserSettingsForm(forms.Form):
+    """
+    This is the form for changing the user's settings.
+    """
+    CURRENCY_CHOICES = (
+        ('EUR', 'Euro'),
+        ('USD', 'US dollar'),
+        ('PLN', 'Polish złoty'),
+        ('INR', 'Indian rupee'),
+    )
+
+    currency = forms.ChoiceField(widget=forms.Select, choices=CURRENCY_CHOICES)

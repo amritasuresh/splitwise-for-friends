@@ -25,8 +25,17 @@ class Transaction(models.Model):
     payer = models.ForeignKey(Account, related_name='payer', on_delete=models.CASCADE, null=True)
     payee = models.ForeignKey(Account, related_name='payee', on_delete=models.CASCADE, null=True)
 
-    # The amount of money involved in the transaction
+    # The amount of money involved in the Transaction
     amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+
+    # The currency in which the Transaction occurs
+    CURRENCY_CHOICES = (
+        ('EUR', 'Euro'),
+        ('USD', 'US dollar'),
+        ('PLN', 'Polish złoty'),
+        ('INR', 'Indian rupee'),
+    )
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='EUR')
 
     # The UserGroup to which the Transaction belongs
     group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, null=True)

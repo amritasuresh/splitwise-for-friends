@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 
 from datetime import datetime
@@ -6,14 +7,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+
 from accounts.models import Account
-from groups.forms import CreateGroupForm, AddUserToGroupForm, \
-    AddTransactionToGroupForm
+
+from currencies.views import convert_amount, amount_as_string
+
+from groups.forms import CreateGroupForm, AddUserToGroupForm, AddTransactionToGroupForm
 from groups.forms import ResolveTransactions
 from groups.models import UserGroup
+
 from transactions.models import Transaction
-import uuid
-import operator
+
+import uuid, operator, decimal
 
 
 @login_required(login_url='/login')
@@ -33,7 +38,13 @@ def groups(request):
         group_id = grp.usergroup.id
         transactions = Transaction.objects.filter(group_id=grp.usergroup.id)
         number_of_transactions = transactions.count()
-        total_money = sum([transaction.amount for transaction in transactions])
+
+        total = 0.0
+        for t in transactions:
+            amount = convert_amount(request, t.amount, t.currency, my_account.currency)
+            total += float(format(amount, '.2f'))
+
+        total_money = amount_as_string(request, total, my_account)
 
         groups_data.append(
             {
@@ -71,9 +82,19 @@ def group(request, usergroup_id):
     form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
     #query = User.objects.filter(groups__name=usergroup.group.name)
 
+    for t in transactions:
+        amount = convert_amount(request, t.amount, t.currency, my_account.currency)
+        t.amount = float(format(amount, '.2f'))
+
+    transaction_strings = []
+    for t in transactions:
+        transaction_strings.append(amount_as_string(request, t.amount, my_account))
+
+    list = zip(transactions, transaction_strings)
+
     return render(request, 'sites/group.html',
                   {'my_account': my_account, 'usergroup': usergroup,
-                   'users': users, 'transactions': transactions,
+                   'users': users, 'transactions': list,
                    'resolve_form': ResolveTransactions(),
                    'transaction_form': form,
                    'user_add_form': AddUserToGroupForm()})

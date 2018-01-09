@@ -10,7 +10,7 @@ from django.utils.crypto import random
 
 from accounts.models import Account
 import dashboard.views
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, UserSettingsForm
 from django.core.mail import EmailMessage
 
 
@@ -139,13 +139,57 @@ def profile_page(request):
     """
     This page displays the current user's profile upon logging in.
     :param request: HttpRequest object
-    :return: The rendered profilepage.html page.
+    :return: The rendered profile.html page.
     """
     my_account = Account.objects.get(user=request.user)
     friends = get_friends(my_account)
-    return render(request, 'sites/profilepage.html', {'my_account': my_account,
+    return render(request, 'sites/profile.html', {'my_account': my_account,
                                                       'friends': friends})
 
+
+@login_required(login_url='/login')
+def settings(request):
+    """
+    This page displays the current user's settings upon logging in.
+    :param request: HttpRequest object
+    :return: The rendered profile.html page.
+    """
+    my_account = Account.objects.get(user=request.user)
+    form = UserSettingsForm()
+    form.fields["currency"].initial = my_account.currency
+
+    return render(request, 'sites/settings.html', {'my_account': my_account,
+                                                   'form': form})
+
+
+@login_required(login_url='/login')
+def save_settings(request):
+    """
+    This view saves the settings that the user has defined.
+    :param request: HttpRequest object
+    :return: The settings.html page
+    """
+    my_account = Account.objects.get(user=request.user)
+
+    if request.method.upper() == "POST":
+        form = UserSettingsForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            currency = data["currency"]
+
+            my_account.currency = currency
+            my_account.save()
+
+        return render(request, 'sites/settings.html', {'my_account': my_account,
+                                                       'form': form,
+                                                       'message': "Your settings have been successfully saved."})
+
+    else:
+        form = UserSettingsForm()
+        form.fields["currency"].initial = my_account.currency
+
+    return render(request, 'sites/settings.html', {'my_account': my_account,
+                                                   'form': form})
 
 @login_required(login_url='/login')
 def user_page(request, user_id):

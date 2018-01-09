@@ -1,9 +1,15 @@
+# -*- coding: utf-8 -*-
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render
 
 from accounts.models import Account
 from transactions.models import Transaction
+
+from currencies.views import get_symbol, get_exchange_rates, convert_amount, amount_as_string
+
+import decimal
 
 
 def get_friends(account):
@@ -40,32 +46,48 @@ def dash(request):
     amount_due = 0.0
     amount_owed = 0.0
 
-    expenses_due = Transaction.objects.filter(payer=my_account)
-    for t in expenses_due:
-        if t.status == 'O':
-            amount_due += float(t.amount)
+    rates = get_exchange_rates(request)
 
-    expenses_owed = Transaction.objects.filter(payee=my_account)
+    # If the transactions are not already in the user's chosen currency, we first convert from the transaction's
+    # currency into euros, and then from euros into the user's currency.
+    expenses_due = Transaction.objects.filter(payer=my_account, status='O')
+    for t in expenses_due:
+        amount = convert_amount(request, t.amount, t.currency, my_account.currency)
+        amount_due += float(amount)
+    amount_due = float(format(amount_due, '.2f'))
+
+    expenses_owed = Transaction.objects.filter(payee=my_account, status='O')
     for t in expenses_owed:
-        if t.status == 'O':
-            amount_owed += float(t.amount)
+        amount = convert_amount(request, t.amount, t.currency, my_account.currency)
+        amount_owed += float(amount)
+    amount_owed = float(format(amount_owed, '.2f'))
 
     balance = amount_due - amount_owed
 
-    transactions = Transaction.objects.filter(
-        payee=my_account) | Transaction.objects.filter(payer=my_account)
+    transactions = Transaction.objects.filter( payee=my_account) | Transaction.objects.filter(payer=my_account)
     transactions = transactions.order_by('-created')[:10]
 
-    amount_owed_string = "-€%.2f" % abs(amount_owed) if (balance < 0) else "€%.2f" % abs(amount_owed)
-    balance_string = "-€%.2f" % abs(balance) if (balance < 0) else "€%.2f" % abs(balance)
+    for t in transactions:
+        amount = convert_amount(request, t.amount, t.currency, my_account.currency)
+        t.amount = float(format(amount, '.2f'))
+
+    amount_due_string = amount_as_string(request, amount_due, my_account)
+    amount_owed_string = amount_as_string(request, amount_owed, my_account)
+    balance_string = amount_as_string(request, balance, my_account)
+
+    transaction_strings = []
+    for t in transactions:
+        transaction_strings.append(amount_as_string(request, t.amount, my_account))
+
+    list = zip(transactions, transaction_strings)
 
     return render(request, 'sites/dashboard.html',
                   {'my_account': my_account, 'n_groups': groups.count(),
                    'n_friends': len(friends),
                    'amount_due': amount_due,
-                   'amount_due_string': "€%.2f" % amount_due,
+                   'amount_due_string': amount_due_string,
                    'amount_owed': amount_owed,
                    'amount_owed_string': amount_owed_string,
                    'balance': balance,
                    'balance_string': balance_string,
-                   'transactions': transactions})
+                   'transactions': list})

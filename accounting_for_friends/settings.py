@@ -108,6 +108,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
