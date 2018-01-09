@@ -32,6 +32,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 INSTALLED_APPS = [
     'accounts',
+    'currencies',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
