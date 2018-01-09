@@ -7,7 +7,7 @@ from django.shortcuts import render
 from accounts.models import Account
 from transactions.models import Transaction
 
-from currencies.views import get_symbol, get_exchange_rates, convert_amount, amount_as_string
+from currencies.views import convert_amount, amount_as_string
 
 import decimal
 
@@ -45,8 +45,6 @@ def dash(request):
 
     amount_due = 0.0
     amount_owed = 0.0
-
-    rates = get_exchange_rates(request)
 
     # If the transactions are not already in the user's chosen currency, we first convert from the transaction's
     # currency into euros, and then from euros into the user's currency.
