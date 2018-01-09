@@ -47,7 +47,7 @@ def get_symbol(request, my_account):
     :return: A string representing the user's currency symbol
     """
     symbols = {'EUR': u'€', 'USD': u'$', 'PLN': u'zł', 'INR': u'₹'}
-    return symbols.get(my_account.currency, 'default').decode('utf8')
+    return symbols.get(my_account.currency, 'default')
 
 
 @login_required(login_url='/login')
@@ -84,9 +84,6 @@ def amount_as_string(request, amount, my_account):
     :param my_account: the user's Account
     :return: a string representing the amount in the given currency.
     """
-    reload(sys)
-    sys.setdefaultencoding('utf8')
-
     symbol = get_symbol(request, my_account)
     if my_account.currency == 'PLN':
         if amount <= -0.01:
