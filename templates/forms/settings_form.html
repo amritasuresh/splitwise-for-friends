@@ -33,6 +33,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Currency</label>
+                            <div class="col-sm-10">
+                                <select name="settings_currency">
+                                    <option value="EUR">Euro</option>
+                                    <option value="USD">US dollar</option>
+                                    <option value="PLN">Polish złoty</option>
+                                    <option value="INR">Indian rupee</option>
+                                </select>
+                            </div>
+                        </div>
+
                          <input type="hidden" name="settings_return_page" value="{{ request.path }}">
                 </div>
 

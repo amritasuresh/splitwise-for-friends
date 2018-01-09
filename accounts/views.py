@@ -148,50 +148,6 @@ def profile_page(request):
 
 
 @login_required(login_url='/login')
-def settings(request):
-    """
-    This page displays the current user's settings upon logging in.
-    :param request: HttpRequest object
-    :return: The rendered profile.html page.
-    """
-    my_account = Account.objects.get(user=request.user)
-    form = UserSettingsForm()
-    form.fields["currency"].initial = my_account.currency
-
-    return render(request, 'sites/settings.html', {'my_account': my_account,
-                                                   'form': form})
-
-
-@login_required(login_url='/login')
-def save_settings(request):
-    """
-    This view saves the settings that the user has defined.
-    :param request: HttpRequest object
-    :return: The settings.html page
-    """
-    my_account = Account.objects.get(user=request.user)
-
-    if request.method.upper() == "POST":
-        form = UserSettingsForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            currency = data["currency"]
-
-            my_account.currency = currency
-            my_account.save()
-
-        return render(request, 'sites/settings.html', {'my_account': my_account,
-                                                       'form': form,
-                                                       'message': "Your settings have been successfully saved."})
-
-    else:
-        form = UserSettingsForm()
-        form.fields["currency"].initial = my_account.currency
-
-    return render(request, 'sites/settings.html', {'my_account': my_account,
-                                                   'form': form})
-
-@login_required(login_url='/login')
 def user_page(request, user_id):
     """
     This page displays the profile of the given user.
@@ -209,15 +165,20 @@ def user_page(request, user_id):
 
 @login_required(login_url='/login')
 def settings_change(request):
+    my_account = Account.objects.get(user=request.user)
+
     return_page = request.POST.get('settings_return_page', '/')
 
     update_data = {
         'first_name': request.POST.get('settings_first_name'),
         'last_name': request.POST.get('settings_last_name'),
         'email': request.POST.get('settings_email'),
+        'currency': request.POST.get('settings_currency'),
     }
-    my_account = Account.objects.get(user=request.user)
     my_account.user.__dict__.update(update_data)
     my_account.user.save()
+
+    my_account.currency = update_data['currency']
+    my_account.save()
 
     return HttpResponseRedirect(return_page)
