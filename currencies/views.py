@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 import time, requests, json, decimal, sys
-
+from importlib import reload
 
 @login_required(login_url='/login')
 def get_exchange_rates(request):
