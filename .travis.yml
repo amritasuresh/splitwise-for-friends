@@ -6,6 +6,8 @@ addons:
   chrome: stable
 python:
 - 3.6.1
+env:
+- DJANGO_VERSION=1.11.6
 install:
 - pip install -r requirements.txt
 - sudo apt-get install chromium-chromedriver
