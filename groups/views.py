@@ -78,6 +78,9 @@ def group(request, usergroup_id):
     users = User.objects.filter(groups__name=usergroup.group.name)
 
     transactions = Transaction.objects.filter(group_id=usergroup_id)
+    form = AddTransactionToGroupForm()
+    form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
+    #query = User.objects.filter(groups__name=usergroup.group.name)
 
     for t in transactions:
         amount = convert_amount(request, t.amount, t.currency, my_account.currency)
@@ -93,7 +96,7 @@ def group(request, usergroup_id):
                   {'my_account': my_account, 'usergroup': usergroup,
                    'users': users, 'transactions': list,
                    'resolve_form': ResolveTransactions(),
-                   'transaction_form': AddTransactionToGroupForm(),
+                   'transaction_form': form,
                    'user_add_form': AddUserToGroupForm()})
 
 
@@ -177,34 +180,34 @@ def add_transaction_to_group_form(request, usergroup_id):
 
     if request.method.upper() == "POST":
         form = AddTransactionToGroupForm(request.POST)
-        if form.is_valid():
-            user_data = form.cleaned_data
-            transaction = user_data["transaction"]
-            payer = user_data["payer"]
-            details = user_data["details"]
+        user_data = form.data
+        transaction = user_data["transaction"]
+        payer = user_data["payer"]
+        details = user_data["details"]
 
-            grp = UserGroup.objects.get(id=usergroup_id)
-            payer_user = User.objects.get(username=payer)
-            payer_account = Account.objects.get(user_id=payer_user.id)
-            num_of_users = users.count()
-            amount = float(transaction) / num_of_users
+        grp = UserGroup.objects.get(id=usergroup_id)
+        payer_user = User.objects.get(id=payer)
+        payer_account = Account.objects.get(user_id=payer_user.id)
+        num_of_users = users.count()
+        amount = float(transaction) / num_of_users
 
-            for user in users:
-                if user.id != payer_user.id:
-                    user_account = User.objects.get(username=user)
-                    account = Account.objects.get(user_id=user_account.id)
-                    Transaction.objects.create(name=details, payee=account,
-                                               payer=payer_account,
-                                               amount=amount, group=grp,
-                                               created=datetime.now())
+        for user in users:
+            if user.id != payer_user.id:
+                user_account = User.objects.get(username=user)
+                account = Account.objects.get(user_id=user_account.id)
+                Transaction.objects.create(name=details, payee=account,
+                                           payer=payer_account,
+                                           amount=amount, group=grp,                                               created=datetime.now())
 
-        else:
-            pass  # TODO
+            else:
+                pass  # TODO
 
         return HttpResponseRedirect('/groups/' + str(usergroup_id))
     else:
+        form = AddTransactionToGroupForm()
+        form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
         return render(request, 'forms/add_transaction_to_group_form.html',
-                      {'form': AddTransactionToGroupForm(), 'usergroup_id': usergroup_id})
+                      {'form': form, 'usergroup_id': usergroup_id})
 
 
 @login_required(login_url='/login')
@@ -240,6 +243,8 @@ def resolve_transactions(request, usergroup_id):
 
             else:
                 print('You have chosen to optimize per user')
+                sorted_transaction_list = sorted(useramount_list.items(), key=operator.itemgetter(1))
+                optimize_by_user(sorted_transaction_list, usergroup)
         else:
             pass #TODO
 
@@ -263,8 +268,8 @@ def optimize_by_transaction(sorted_transaction_list, usergroup):
         return
     lastTup = (last_key, last_value)
     if first_value > last_value and sorted_transaction_list.__len__()>0:
-        payer = User.objects.get(username=first_key)
-        payee = User.objects.get(username=last_key)
+        payee = User.objects.get(username=first_key)
+        payer = User.objects.get(username=last_key)
         Transaction.objects.create(name='resolution', payee=Account.objects.get(user=payee),
                                        payer=Account.objects.get(user=payer),
                                        amount=last_value,
@@ -276,8 +281,8 @@ def optimize_by_transaction(sorted_transaction_list, usergroup):
         sorted_transaction_list.append(newTup)
         optimize_by_transaction(sorted_transaction_list, usergroup)
     else:
-        payer = User.objects.get(username=first_key)
-        payee = User.objects.get(username=last_key)
+        payee = User.objects.get(username=first_key)
+        payer = User.objects.get(username=last_key)
         Transaction.objects.create(name='resolution', payee=Account.objects.get(user=payee),
                                    payer=Account.objects.get(user=payer),
                                    amount=first_value,
@@ -288,4 +293,23 @@ def optimize_by_transaction(sorted_transaction_list, usergroup):
         newTup = (last_key, last_value-first_value)
         sorted_transaction_list.append(newTup)
         optimize_by_transaction(sorted_transaction_list, usergroup)
+
+def optimize_by_user(sorted_transaction_list, usergroup):
+    amount = 0
+    for i in range(sorted_transaction_list.__len__()-1):
+        first_key = sorted_transaction_list[i][0]
+        first_value = sorted_transaction_list[i][1]
+        amount = amount + first_value
+        last_key = sorted_transaction_list[i+1][0]
+        last_value = sorted_transaction_list[i+1][1]
+        payee = User.objects.get(username=first_key)
+        payer = User.objects.get(username=last_key)
+        if amount<0:
+            Transaction.objects.create(name='resolution', payee=Account.objects.get(user=payee),
+                                       payer=Account.objects.get(user=payer),
+                                       amount=amount*-1,
+                                       group=usergroup,
+                                       created=datetime.now())
+
+
 

@@ -23,4 +23,6 @@ urlpatterns = [
     url(r'^settings/$', settings),
     url(r'^settings/save/$', views.save_settings),
     url(r'^users/(?P<user_id>[0-9]+)/$', user_page),
+    # settings change
+    url(r'^settings_change/$', settings_change),
 ]
