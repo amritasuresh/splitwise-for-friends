@@ -22,3 +22,17 @@ class AddTransactionToGroupForm(forms.Form):
 
 class ResolveTransactions(forms.Form):
     resolutiontype = forms.RadioSelect()
+
+class AddCustomTransactionToGroupForm(forms.Form):
+    transaction = forms.CharField(max_length=80, empty_value=False)
+    payee_user = [str(payee_name) for payee_name in User.objects.all()]
+    payee = forms.MultipleChoiceField(choices=([(payee_name, payee_name) for payee_name in payee_user]), widget=forms.CheckboxSelectMultiple(), required=True)
+    #payee = forms.MultipleChoiceField(queryset=User.objects.none(), widget=forms.CheckboxSelectMultiple(), required=True)
+    payer = forms.ModelChoiceField(queryset=User.objects.none(), required=True)
+    #payee = forms.MultipleChoiceField(choices=user_list, widget=forms.CheckboxSelectMultiple())
+    details = forms.CharField(max_length=80, empty_value=False)
+    def clean_recipients(self):
+        data = self.cleaned_data['payee']
+        if data == "select":
+            raise forms.ValidationError("Select account type.")
+        return data
