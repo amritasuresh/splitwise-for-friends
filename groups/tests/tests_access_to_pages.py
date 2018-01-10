@@ -4,6 +4,8 @@ from django.test import TestCase, RequestFactory
 from accounts.models import Account
 from accounts.views import home
 
+from events.models import Event
+
 
 def create_user(username, email, password):
     """
@@ -58,3 +60,16 @@ class AccessToPagesTest(TestCase):
             request = self.factory.get('/groups/' + str(g.id) + '/')
             response = home(request)
             self.assertEqual(response.status_cdo)
+
+    def test_access_to_events(self):
+        """
+        This function tests that the user can access all pages of the events in each of their groups.
+        :return:
+        """
+        groups = self.user.groups.all()
+        for g in groups:
+            events = Event.objects.filter(group_id=g.id)
+            for e in events:
+                request = self.factory.get('/groups/' + str(g.id) + '/events/' + str(e.id) + '/')
+                response = home(request)
+                self.assertEqual(response.status_cdo)

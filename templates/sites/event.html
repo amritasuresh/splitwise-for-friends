@@ -1,0 +1,112 @@
+{% extends "bases/base_homepage.html" %}
+{% load static %}
+
+{% block title %}
+    {{ event.name }}
+{% endblock %}
+
+{% block mainpage_content %}
+    {% include "forms/resolve_group_expenses_form.html" with form=resolve_form usergroup_id=usergroup.id %}
+
+    <div id="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ol class="breadcrumb">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/groups">Groups</a></li>
+                            <li><a href="/groups/{{ usergroup.id }}">{{ usergroup.group_name }}</a></li>
+                            <li class="active">
+                                <span>{{ event.name }}</span></li>
+                        </ol>
+
+                        <div class="filter-block clearfix">
+                            <h1 class="pull-left">{{ event.name }}</h1>
+
+                            <form action="/groups/{{ usergroup.id }}/events/{{ event.id }}/deleteevent/" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger pull-right">
+                                    <i class="fa fa-trash fa-lg"></i> Delete event
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-8 col-sm-8">
+                    <div class="main-box no-header clearfix">
+                        <div class="main-box-body clearfix">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th><a href="#"><span>Title</span></a></th>
+                                            <th><a href="#"><span>Time</span></a></th>
+                                            <th><a href="#"><span>Payer</span></a></th>
+                                            <th><a href="#"><span>Receiver</span></a></th>
+                                            <th class="text-center"><span>Status</span></th>
+                                            <th class="text-right"><span>Amount</span></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for transaction, amount in transactions %}
+                                                <tr>
+                                                    <td>
+                                                        <a href="/transactions/{{ transaction.id }}">
+                                                            {{ transaction.name }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        {{ transaction.created }}
+                                                    </td>
+                                                    <td>
+                                                     <a href="/users/{{ transaction.payee.user.id }}">
+                                                            {{ transaction.payee.user.first_name }}
+                                                            {{ transaction.payee.user.last_name }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/users/{{ transaction.payer.user.id }}">
+                                                            {{ transaction.payer.user.first_name }}
+                                                            {{ transaction.payer.user.last_name }}
+                                                       </a>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {% if transaction.status == 'C' %}
+                                                            <span class="label label-success">Completed</span>
+                                                        {% else %}
+                                                            <span class="label label-warning">Pending</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        {% if transaction.payer == my_account %}
+                                                        <div class="positive">{{ amount }}
+                                                        {% elif transaction.payee == my_account %}
+                                                        <div class="negative">{{ amount }}
+                                                        {% else %}
+                                                        {{ amount }}
+                                                        {% endif %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br/>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+{% endblock %}

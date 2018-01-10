@@ -10,10 +10,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from accounts.models import Account
+from events.models import Event
 
 from currencies.views import convert_amount, amount_as_string
 
-from groups.forms import CreateGroupForm, AddUserToGroupForm, AddTransactionToGroupForm
+from groups.forms import CreateGroupForm, AddUserToGroupForm, AddTransactionToGroupForm, CreateEventForm
 from groups.forms import ResolveTransactions, AddCustomTransactionToGroupForm
 from groups.models import UserGroup
 
@@ -79,6 +80,7 @@ def group(request, usergroup_id):
     users = User.objects.filter(groups__name=usergroup.group.name)
 
     transactions = Transaction.objects.filter(group_id=usergroup_id)
+    events = Event.objects.filter(group_id=usergroup_id)
     form = AddTransactionToGroupForm()
     form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
     custom_transaction = AddCustomTransactionToGroupForm()
@@ -101,11 +103,46 @@ def group(request, usergroup_id):
     return render(request, 'sites/group.html',
                   {'my_account': my_account, 'usergroup': usergroup,
                    'users': users, 'transactions': list,
+                   'events': events,
                    'resolve_form': ResolveTransactions(),
                    'transaction_form': form,
                    'custom_transaction_form' : custom_transaction,
-                   'user_add_form': AddUserToGroupForm()})
+                   'user_add_form': AddUserToGroupForm(),
+                   'create_event_form': CreateEventForm()})
 
+
+@login_required(login_url='/login')
+def event(request, usergroup_id, event_id):
+    """
+    This view shows the details about a particular Event, including the associated transactions.
+    :param request: The HTTP request
+    :param usergroup_id: The unique ID of the group to which the Event belongs
+    :param event_id: The unique ID of the Event
+    :return: The rendered event.html page
+    """
+    try:
+        event = Event.objects.get(id=event_id)
+    except Event.DoesNotExist:
+        event = None  # TODO invalid event
+
+    my_account = Account.objects.get(user=request.user)
+    usergroup = UserGroup.objects.get(id=usergroup_id)
+    transactions = Transaction.objects.filter(event_id=event_id)
+
+    for t in transactions:
+        amount = convert_amount(request, t.amount, t.currency, my_account.currency)
+        t.amount = float(format(amount, '.2f'))
+
+    transaction_strings = []
+    for t in transactions:
+        transaction_strings.append(amount_as_string(request, t.amount, my_account))
+
+    list = zip(transactions, transaction_strings)
+
+    return render(request, 'sites/event.html',
+                  {'my_account': my_account, 'usergroup': usergroup,
+                   'event': event,
+                   'transactions': list})
 
 @login_required(login_url='/login')
 def create_group_form(request):
@@ -191,10 +228,12 @@ def add_transaction_to_group_form(request, usergroup_id):
         transaction = user_data["transaction"]
         payer = user_data["payer"]
         details = user_data["details"]
+        event_id = user_data["event"]
 
         grp = UserGroup.objects.get(id=usergroup_id)
         payer_user = User.objects.get(id=payer)
         payer_account = Account.objects.get(user_id=payer_user.id)
+        event = Event.objects.get(id=event_id)
         num_of_users = users.count()
         amount = float(transaction) / num_of_users
 
@@ -204,7 +243,9 @@ def add_transaction_to_group_form(request, usergroup_id):
                 account = Account.objects.get(user_id=user_account.id)
                 Transaction.objects.create(name=details, payee=account,
                                            payer=payer_account,
-                                           amount=amount, group=grp,                                               created=datetime.now())
+                                           amount=amount, group=grp,
+                                           event=event,
+                                           created=datetime.now())
 
             else:
                 pass  # TODO
@@ -266,6 +307,55 @@ def add_custom_transaction_to_group_form(request, usergroup_id):
         return render(request, 'forms/add_custom_transaction.html',
                       {'form': form, 'usergroup_id': usergroup_id})
 
+
+@login_required(login_url='/login')
+def create_event_form(request, usergroup_id):
+    """
+    This view creates a form for adding a new Event.
+    :param request: HttpRequest object
+    :return: The group.html page if the event was successfully added, or the create_event_form.html page if not
+    """
+    try:
+        usergroup = UserGroup.objects.get(id=usergroup_id)
+    except UserGroup.DoesNotExist:
+        usergroup = None  # TODO invalid usergroup_id
+
+    if request.method.upper() == "POST":
+        form = CreateEventForm(request.POST)
+        if form.is_valid():
+            event_data = form.cleaned_data
+            event_name = event_data["event_name"]
+
+            # we generate unique name for django group by randomization
+            unique_django_event_id = uuid.uuid4()
+
+            while Event.objects.filter(id=unique_django_event_id).exists():
+                unique_django_event_id = uuid.uuid4()
+
+            Event.objects.create(name=event_name, id=unique_django_event_id, group=usergroup)
+
+        else:
+            pass  # TODO
+
+        return HttpResponseRedirect('/groups/' + str(usergroup_id))
+    else:
+        return render(request, 'forms/create_event_form.html',
+                      {'form': CreateEventForm(),
+                       'usergroup_id': usergroup_id})
+
+
+def delete_event(request, usergroup_id, event_id):
+    try:
+        event = Event.objects.get(id=event_id)
+    except Event.DoesNotExist:
+        event = None # TODO invalid event_id
+
+    transactions = Transaction.objects.filter(event_id=event_id)
+    for t in transactions:
+        t.delete()
+    event.delete()
+
+    return HttpResponseRedirect('/groups/' + str(usergroup_id))
 
 @login_required(login_url='/login')
 def resolve_transactions(request, usergroup_id):
