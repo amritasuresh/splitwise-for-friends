@@ -2,41 +2,22 @@
 The software allows users to keep track of money spent between friends, e.g. during a holiday, and helps settle their accounts.
 
 ![image](https://user-images.githubusercontent.com/6525798/32541333-ad4da06a-c46f-11e7-8ac5-d63830fbf154.png)
-## Getting Started
+
+In order to invoice their friends, Accounting for Friends users are organized into groups. Each group contains one or more users.
+
+The members of a group can create a transaction between the members of the group. The user enters the total amount that one person paid, and the software automatically creates transactions between the other members of the group. For example, if one user paid €30 for 3 people to have lunch, the software will create transactions that require the other two users to pay €10 to the first user.
+
+For ease of use, the transactions within a group are also labeled by a single event (e.g. "weekend road trip" or "EDM festival").
+
+Transactions are created in euros, but users can also change the interface to display the transaction amounts in US dollars, Polish złoty, and Indian rupees.
+
+The software also provides a resolution feature, in order to efficiently resolve outstanding transactions between users.
 
 ![image](https://user-images.githubusercontent.com/6525798/32540462-0fed4cf0-c46d-11e7-8a9e-d24bfbf0ad68.png)
 
-### Prerequisites
+## Installation
 
-You need virtualenv set up on your machine.
-To set it up, run the following command. You will need to have pip 1.3 or higher installed:
-
-    pip3 install virtualenv
-
-### Installing
-
-Clone the repository to your local system and go into the folder _/accounting_for_friends_.
-Then run the following commands:
-
-    virtualenv venv
-    . venv/bin/activate
-    pip3 install -r requirements.txt
-    
-### Running it locally
-
-To run the application:
-
-        python3 manage.py runserver 8000
-        
-The application is deployed at http://accounting-for-friends.herokuapp.com/
-
-### Running the command line interface
-
-![image](https://user-images.githubusercontent.com/6525798/32540801-16fa8b24-c46e-11e7-98a7-e4a394b558d8.png)
-
-
-        python3 manage.py shell
-        exec(open('./cli.py').read())
+For detailed installation instructions, see the INSTALL.md file.
 
 ## Documentation
 
