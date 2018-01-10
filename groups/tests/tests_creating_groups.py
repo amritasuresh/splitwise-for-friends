@@ -2,6 +2,7 @@ from django.contrib.auth.models import User, Group
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import Select
 
 from accounts.models import Account
 
@@ -19,7 +20,6 @@ def create_user(username, email, password):
     Account.objects.create(user=user)
 
 
-# TODO 1. Adding users to groups
 # TODO 2. Adding transactions to groups
 # TODO 3. Groups with the same name
 
@@ -123,3 +123,47 @@ class GroupCreatingTestCase(LiveServerTestCase):
         elems = self.selenium.find_elements_by_name("group_access_link")
         names = [elem.text for elem in elems]
         self.assertEqual(set(names), set(group_names))
+
+    def selenium_add_user_to_group(self, username):
+            """
+            This function uses Selenium to add user to group.
+            :return:
+            """
+            #self.selenium.find_element_by_name("add-user-to-group").click()
+            #self.assertEqual(self.selenium.title, 'Add user to group form')
+            # filling the form and creating a user with the name "Example group"
+            #group_name_input = self.selenium.find_element_by_name("username")
+            select_username = Select(self.selenium.find_element_by_name("username"))
+            select_username.select_by_visible_text(username)
+            self.selenium.find_element_by_name("save-button").click()
+
+    def tests_adding_users(self):
+        """
+        This function tests that we can add users to groups
+        :return:
+        """
+        #create mock users
+        create_user(username='testuser', email='test+test@gmail.com', password='password123')
+        create_user(username='testuser2', email='test+test@gmail.com', password='password123')
+        #login and go to groups, then create a group
+        self.selenium.get(self.live_server_url)
+        self.selenium_login(self.mocked_username, self.mocked_password)
+        self.selenium.get('%s%s' % (self.live_server_url, '/groups'))
+        self.selenium_create_group("TestGroup")
+
+        #go into the group and add users
+        self.selenium.find_element_by_name("group_access_link").click()
+        user_names = ["testuser", "testuser2"]
+        for user_name in user_names:
+            self.selenium.find_element_by_name("add-user").click()
+            self.selenium_add_user_to_group(user_name)
+
+        #check if they are successfully added and makes sure the number of members are the same
+        self.selenium.find_element_by_name("group_members").click()
+        elems = self.selenium.find_elements_by_name("group-members")
+        for elem in elems:
+            print(elem)
+        self.assertEqual(set(elems).__len__(), set(user_names).__len__()+1)
+
+
+

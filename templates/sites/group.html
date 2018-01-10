@@ -30,7 +30,7 @@
                         <div class="filter-block clearfix">
                             <h1 class="pull-left">{{ usergroup.group_name }}</h1>
 
-                            <div class="pull-right top-page-ui">
+                            <div class="pull-right top-page-ui" name="add-user">
                                 <a data-toggle="modal" href="#addUserModal" class="btn btn-primary pull-right mrg-b-lg">
                                     <i class=" fa fa-plus-circle fa-lg"></i>
                                     Add member
@@ -69,7 +69,7 @@
                                 <li class="active"><a href="#tab-transactions"
                                        data-toggle="tab">Transactions</a>
                                 </li>
-                                <li><a href="#tab-teammembers"
+                                <li><a href="#tab-teammembers" name="group_members"
                                        data-toggle="tab">Members</a>
                                 </li>
                             </ul>
@@ -91,8 +91,8 @@
                                                          alt=""/>
                                                 </div>
                                                 <div class="details">
-                                                    <div class="name">
-                                                        <a href="/users/{{ user.account.user_id }}">
+                                                    <div class="name" name="groupie">
+                                                        <a href="/users/{{ user.account.user_id }}" class="user-link" name="group-members">
                                                             {{ user.first_name }} {{ user.last_name }}
                                                         </a>
                                                     </div>
