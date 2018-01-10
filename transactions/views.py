@@ -217,10 +217,8 @@ def delete(request, transaction_id):
     except Transaction.DoesNotExist:
         t = None  # TODO invalid transaction id
 
-    print(request.method.upper())
     if request.method.upper() == "POST":
         form = DeleteTransactionForm(request.POST)
-        print(t.status)
         if form.is_valid() and t.status != 'C':
             t.delete()
         else:

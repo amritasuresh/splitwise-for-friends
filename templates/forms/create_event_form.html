@@ -1,0 +1,27 @@
+<div class="modal fade" id="createEventModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/groups/{{ usergroup_id }}/createevent" method="POST">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">ADD EVENT</h3>
+                </div>
+
+                <div class="modal-body">
+                    {% csrf_token %}
+                     <div class="form-field">
+                         <input type="text" class="field-text" placeholder="Event name"
+                               name="{{ form.event_name.html_name }}">
+                     </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success col-xs-4" name="save_button">
+                        SAVE
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

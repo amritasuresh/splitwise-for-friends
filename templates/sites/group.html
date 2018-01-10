@@ -13,6 +13,7 @@
     {% include "forms/add_transaction_to_group_form.html" with form=transaction_form usergroup_id=usergroup.id %}
     {% include "forms/add_custom_transaction.html" with form=custom_transaction_form usergroup_id=usergroup.id %}
     {% include "forms/add_user_to_group_form.html" with form=user_add_form usergroup_id=usergroup.id %}
+    {% include "forms/create_event_form.html" with form=create_event_form usergroup_id=usergroup.id %}
 
     <div id="content-wrapper">
         <div class="row">
@@ -52,6 +53,13 @@
                             </div>
 
                             <div class="pull-right top-page-ui">
+                                <a data-toggle="modal" href="#createEventModal" class="btn btn-primary pull-right mrg-b-lg">
+                                    <i class="fa fa-plus-circle fa-lg"></i>
+                                    Add event
+                                </a>
+                            </div>
+
+                            <div class="pull-right top-page-ui">
                                 <a data-toggle="modal" href="#resolveExpensesModal" class="btn btn-primary pull-right mrg-b-lg">
                                     <i class="fa fa-plus-circle fa-lg"></i>
                                     Resolve
@@ -68,6 +76,9 @@
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#tab-transactions"
                                        data-toggle="tab">Transactions</a>
+                                </li>
+                                <li><a href="#tab-events"
+                                        data-toggle="tab">Events</a>
                                 </li>
                                 <li><a href="#tab-teammembers" name="group_members"
                                        data-toggle="tab">Members</a>
@@ -115,6 +126,7 @@
                                             <th><a href="#"><span>Time</span></a></th>
                                             <th><a href="#"><span>Payer</span></a></th>
                                             <th><a href="#"><span>Receiver</span></a></th>
+                                            <th><a href="#"><span>Event</span></a></th>
                                             <th class="text-center"><span>Status</span></th>
                                             <th class="text-right"><span>Amount</span></th>
                                             <th>&nbsp;</th>
@@ -143,6 +155,11 @@
                                                             {{ transaction.payer.user.last_name }}
                                                        </a>
                                                     </td>
+                                                    <td>
+                                                        <a href="events/{{ transaction.event.id }}">
+                                                            {{ transaction.event.name }}
+                                                       </a>
+                                                    </td>
                                                     <td class="text-center">
                                                         {% if transaction.status == 'C' %}
                                                             <span class="label label-success">Completed</span>
@@ -166,6 +183,37 @@
                                     </table>
                                     <br/>
                                 </div>
+
+                                {#             EVENTS #}
+
+                                <div class="tab-pane"
+                                     id="tab-events">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th><a href="#"><span>Title</span></a></th>
+                                            <th><a href="#"><span>Time</span></a></th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for event in events %}
+                                                <tr>
+                                                    <td>
+                                                        <a href="events/{{ event.id }}">
+                                                            {{ event.name }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        {{ event.created }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br/>
+                                </div>
+
 
                             </div>
                         </div>

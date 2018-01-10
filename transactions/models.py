@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from accounts.models import Account
+from events.models import Event
 from groups.models import UserGroup
 from datetime import datetime
 import uuid
@@ -39,6 +40,9 @@ class Transaction(models.Model):
 
     # The UserGroup to which the Transaction belongs
     group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, null=True)
+
+    # The Event to which the Transaction belongs
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, null=True)
 
     # The date/time that this transaction was created/finished
     created = models.DateTimeField(default=datetime.now)
