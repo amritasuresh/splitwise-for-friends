@@ -5,3 +5,4 @@ selenium
 cffi
 WeasyPrint
 requests
+pdfkit
