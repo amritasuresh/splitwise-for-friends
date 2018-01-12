@@ -45,21 +45,21 @@
                                 </a>
                             </div>
 
-                            <div class="pull-right top-page-ui">
+                            <div class="pull-right top-page-ui" name="add-transaction">
                                 <a data-toggle="modal" href="#addTransactionModal" class="btn btn-primary pull-right mrg-b-lg">
                                     <i class="fa fa-plus-circle fa-lg"></i>
                                     Add expense
                                 </a>
                             </div>
 
-                            <div class="pull-right top-page-ui">
+                            <div class="pull-right top-page-ui" name="add-event">
                                 <a data-toggle="modal" href="#createEventModal" class="btn btn-primary pull-right mrg-b-lg">
                                     <i class="fa fa-plus-circle fa-lg"></i>
                                     Add event
                                 </a>
                             </div>
 
-                            <div class="pull-right top-page-ui">
+                            <div class="pull-right top-page-ui" name="resolve-all">
                                 <a data-toggle="modal" href="#resolveExpensesModal" class="btn btn-primary pull-right mrg-b-lg">
                                     <i class="fa fa-plus-circle fa-lg"></i>
                                     Resolve
@@ -74,10 +74,10 @@
                     <div class="main-box clearfix">
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab-transactions"
+                                <li class="active"><a href="#tab-transactions" name="transaction-list"
                                        data-toggle="tab">Transactions</a>
                                 </li>
-                                <li><a href="#tab-events"
+                                <li><a href="#tab-events" name="events-list"
                                         data-toggle="tab">Events</a>
                                 </li>
                                 <li><a href="#tab-teammembers" name="group_members"
@@ -136,7 +136,7 @@
                                             {% for transaction, amount in transactions %}
                                                 <tr>
                                                     <td>
-                                                        <a href="/transactions/{{ transaction.id }}">
+                                                        <a href="/transactions/{{ transaction.id }}" name="transaction-name">
                                                             {{ transaction.name }}
                                                         </a>
                                                     </td>
@@ -144,13 +144,13 @@
                                                         {{ transaction.created }}
                                                     </td>
                                                     <td>
-                                                     <a href="/users/{{ transaction.payee.user.id }}">
+                                                     <a href="/users/{{ transaction.payee.user.id }}" name="payee-name">
                                                             {{ transaction.payee.user.first_name }}
                                                             {{ transaction.payee.user.last_name }}
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        <a href="/users/{{ transaction.payer.user.id }}">
+                                                        <a href="/users/{{ transaction.payer.user.id }}" name="payer-name">
                                                             {{ transaction.payer.user.first_name }}
                                                             {{ transaction.payer.user.last_name }}
                                                        </a>
@@ -160,18 +160,18 @@
                                                             {{ transaction.event.name }}
                                                        </a>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="text-center" name="status">
                                                         {% if transaction.status == 'C' %}
                                                             <span class="label label-success">Completed</span>
                                                         {% else %}
                                                             <span class="label label-warning">Pending</span>
                                                         {% endif %}
                                                     </td>
-                                                    <td class="text-right">
+                                                    <td class="text-right" name="amount">
                                                         {% if transaction.payer == my_account %}
-                                                        <div class="positive">{{ amount }}
+                                                        <div class="positive" name="due">{{ amount }}
                                                         {% elif transaction.payee == my_account %}
-                                                        <div class="negative">{{ amount }}
+                                                        <div class="negative" name="owed">{{ amount }}
                                                         {% else %}
                                                         {{ amount }}
                                                         {% endif %}
@@ -200,7 +200,7 @@
                                             {% for event in events %}
                                                 <tr>
                                                     <td>
-                                                        <a href="events/{{ event.id }}">
+                                                        <a href="events/{{ event.id }}" name="event_elt">
                                                             {{ event.name }}
                                                         </a>
                                                     </td>
