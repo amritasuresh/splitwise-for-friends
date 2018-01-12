@@ -10,13 +10,13 @@
                 <div class="modal-body">
                     {% csrf_token %}
                      <div class="form-field">
-                        <input type="radio" name="resolutiontype" value="opt_tran"> Optimize overall transactions <br>
-                        <input type="radio" name="resolutiontype" value="opt_user"> Optimize transactions per user <br>
+                        <input type="radio" name="resolutiontype" id="tran" value="opt_tran"> Optimize overall transactions <br>
+                        <input type="radio" name="resolutiontype" id="user" value="opt_user"> Optimize transactions per user <br>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success col-xs-4" name="save_button">
+                    <button type="submit" class="btn btn-success col-xs-4" name="save_button_resolve">
                         RESOLVE
                     </button>
                 </div>
