@@ -83,11 +83,11 @@ def group(request, usergroup_id):
     events = Event.objects.filter(group_id=usergroup_id)
     form = AddTransactionToGroupForm()
     form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
-    custom_transaction = AddCustomTransactionToGroupForm()
-    custom_transaction.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
+    custom_transaction = AddCustomTransactionToGroupForm(user=usergroup.group.name)
+    #custom_transaction.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
     #custom_transaction.fields["payee"].queryset = User.objects.filter(groups__name=usergroup.group.name)
-    payee_user = [str(payee_name) for payee_name in User.objects.filter(groups__name=usergroup.group.name)]
-    custom_transaction.fields["consumers"].choices=[(payee_name, payee_name) for payee_name in payee_user]
+    #payee_user = [str(payee_name) for payee_name in User.objects.filter(groups__name=usergroup.group.name)]
+    #custom_transaction.fields["consumers"].choices=[(payee_name, payee_name) for payee_name in payee_user]
     #query = User.objects.filter(groups__name=usergroup.group.name)
 
     for t in transactions:
@@ -273,7 +273,7 @@ def add_custom_transaction_to_group_form(request, usergroup_id):
     users = User.objects.filter(groups__name=usergroup.group.name)
 
     if request.method.upper() == "POST":
-        form = AddCustomTransactionToGroupForm(data=request.POST)
+        form = AddCustomTransactionToGroupForm(data=request.POST, user=usergroup.group.name)
         val = form.is_valid()
         user_data = form.data
         transaction = user_data["transaction"]
@@ -286,6 +286,12 @@ def add_custom_transaction_to_group_form(request, usergroup_id):
         payer_account = Account.objects.get(user_id=payer_user.id)
         num_of_users = payee.__len__()
         amount = float(transaction) / num_of_users
+        # we generate unique name for django group by randomization
+        unique_django_event_id = uuid.uuid4()
+        while Event.objects.filter(id=unique_django_event_id).exists():
+            unique_django_event_id = uuid.uuid4()
+        Event.objects.create(name=details+"_"+payer, id=unique_django_event_id, group=usergroup)
+        event = Event.objects.get(id=unique_django_event_id)
 
         for payee_s in payee:
             if payee_s != payer_user.username:
@@ -293,17 +299,19 @@ def add_custom_transaction_to_group_form(request, usergroup_id):
                 account = Account.objects.get(user_id=user_account.id)
                 Transaction.objects.create(name=details, payee=account,
                                            payer=payer_account,
-                                           amount=amount, group=grp,                                               created=datetime.now())
+                                           amount=amount, group=grp,
+                                           event=event,
+                                           created=datetime.now())
 
             else:
                 pass  # TODO
 
         return HttpResponseRedirect('/groups/' + str(usergroup_id))
     else:
-        form = AddCustomTransactionToGroupForm()
-        form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
-        payee_user = [str(payee_name) for payee_name in User.objects.filter(groups__name=usergroup.group.name)]
-        form.fields["consumers"].choices = [(payee_name, payee_name) for payee_name in payee_user]
+        form = AddCustomTransactionToGroupForm(user=usergroup.group.name)
+        #form.fields["payer"].queryset = User.objects.filter(groups__name=usergroup.group.name)
+        #payee_user = [str(payee_name) for payee_name in User.objects.filter(groups__name=usergroup.group.name)]
+        #form.fields["consumers"].choices = [(payee_name, payee_name) for payee_name in payee_user]
         return render(request, 'forms/add_custom_transaction.html',
                       {'form': form, 'usergroup_id': usergroup_id})
 

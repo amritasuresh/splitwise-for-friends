@@ -51,6 +51,12 @@ class AddCustomTransactionToGroupForm(forms.Form):
             raise forms.ValidationError("Select account type.")
         return data
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(AddCustomTransactionToGroupForm, self).__init__(*args, **kwargs)
+        payee_user = [str(payee_name) for payee_name in User.objects.filter(groups__name=user)]
+        self.fields["consumers"].choices = [(payee_name, payee_name) for payee_name in payee_user]
+        self.fields["payer"].queryset = User.objects.filter(groups__name=user)
 # This form creates an Event within
 class CreateEventForm(forms.Form):
     event_name = forms.CharField(max_length=80, empty_value=False)
